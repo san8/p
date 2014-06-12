@@ -1,10 +1,9 @@
 @charset "utf-8";
 
-
 /* Standar Styles */
 body{
 	font-size: 14px;	
-	line-height:24px;
+	line-height:14px;
 	background-color: #fff;
 	color: #6e7982;
 	font-family: 'Open Sans', sans-serif;
@@ -18,7 +17,7 @@ a:hover{
 }
 p{
 	font-size: 14px;
-	line-height: 24px;
+	line-height: 14px;
 }
 h1 {font-size:24px;}
 h2 {font-size:22px;}
@@ -34,24 +33,49 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /* Pearl CSS */
+.container {
+    width: 900px;
+    margin: auto;
+}
 .horizontal-bar {
 	float: left;
     width: 33%
 }
 
-ul {
+
+div#links {
+   float: right;
+   margin: 12px 0 12px 0;
+   width: 50%
+} 
+
+ul#menu {
     list-style-type: none;
-    margin: 0 0 30px 0;
-    padding: 20 0 0px 0;
+    margin: 0;
+    padding: 0;
     display: inline;
     font-weight: bold;
     font-size: 16px;
-    margin-right: 5%;
+    margin-right: 8%;
     display: inline-block;
-
-  
 }
 
-ul li {
+ul#menu li {
     display: inline;
+    margin-left: 40px;
+
 }
+
+
+/* for development purpose */
+div {
+    border: 1px solid;
+}
+
+div#nav-bar {
+    height: 50px;
+    box-shadow: 10 10 5 #cccccc;
+}
+/* upto here */
+
+
