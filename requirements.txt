@@ -1,0 +1,4 @@
+Python 2.7.6
+django 1.6.5
+django-registration 1.0
+

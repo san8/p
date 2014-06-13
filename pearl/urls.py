@@ -13,5 +13,9 @@ urlpatterns = patterns('',
     url(r'^base/', 'home.views.base', name = 'base'),
     url(r'^faq/', 'home.views.faq', name = 'faq'),
     url(r'^signup/$', 'home.views.signup', name = 'signup'),
+    url(r'^accounts/$', include('registration.backends.default.urls') ),
     url(r'^$', 'home.views.base', name = 'home'),
 )
+
+ACCOUNT_ACTIVATION_DAYS = 7
+

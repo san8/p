@@ -14,6 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
+    os.path.join(BASE_DIR, 'templates/registration'),
 )
 
 STATICFILES_DIRS = (
@@ -45,7 +46,23 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #'django.contrib.sites',
+    'registration',
+
 )
+
+
+# django-registration - testing
+ACCOUNT_ACTIVATION_DAYS = 7
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = "a"
+EMAIL_HOST_PASSWORD = "a"
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'testing@example.com'
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
