@@ -14,8 +14,7 @@ urlpatterns = patterns('',
     url(r'^faq/', 'home.views.faq', name = 'faq'),
     url(r'^signup/$', 'home.views.signup', name = 'signup'),
     url(r'^accounts/$', include('registration.backends.default.urls') ),
+    url(r'^test/$', 'experiment.views.register', name = 'test'),
     url(r'^$', 'home.views.base', name = 'home'),
 )
-
-ACCOUNT_ACTIVATION_DAYS = 7
 

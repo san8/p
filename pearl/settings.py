@@ -49,19 +49,40 @@ INSTALLED_APPS = (
 
     #'django.contrib.sites',
     'registration',
-
+    'home',
 )
+
+
+# django-passwords
+PASSWORD_MIN_LENGTH = 8
+PASSWORD_COMPLEXITY = { # You can ommit any or all of these for no limit for that particular set
+    "UPPER": 1,       # Uppercase
+    "LOWER": 1,       # Lowercase
+    "DIGITS": 1,      # Digits
+    #"NON ASCII": 1,   # Non Ascii (ord() >= 128)
+    "PUNCTUATION": 1, # Punctuation (string.punctuation)
+}
 
 
 # django-registration - testing
 ACCOUNT_ACTIVATION_DAYS = 7
-
+"""
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
-EMAIL_HOST_USER = "a"
-EMAIL_HOST_PASSWORD = "a"
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'testing@example.com'
+"""
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nandapk0@gmail.com'
+EMAIL_HOST_PASSWORD = 'nandapk1'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 
 MIDDLEWARE_CLASSES = (
