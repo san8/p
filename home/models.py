@@ -10,4 +10,18 @@ class Customers(models.Model):
     phone_no = models.CharField(max_length = 100)
     website = models.URLField(max_length = 100)
 
+"""
+# adding more fields to the django-allauth
+from django.contrib.auth.models import AbstractUser
+
+ 
+class CustomUser(AbstractUser):
+    age = models.PositiveIntegerField(null=True, blank=True)
+    gender = models.CharField(choices=genders, 
+                               default=genders.female, 
+                               max_length=20, blank=True)
+    REQUIRED_FIELDS = ["email"]
+
+
+"""
 

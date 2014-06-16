@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # import forms & models
-from .forms import SignUpForm
+#from .forms import SignUpForm
 from .models import Customers
 
 
@@ -44,3 +44,9 @@ def signup(request):
                     )
             return render(request,
                           'signup_complete.html',)
+
+
+def profile(request):
+    return render(request,
+                 'profile.html',)
+

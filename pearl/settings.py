@@ -14,7 +14,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
-    os.path.join(BASE_DIR, 'templates/registration'),
+    os.path.join(BASE_DIR, 'accounts'),
+    #for django-registration
+    #os.path.join(BASE_DIR, 'templates/registration'),
 )
 
 STATICFILES_DIRS = (
@@ -48,9 +50,22 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     #'django.contrib.sites',
-    'registration',
+
+    #django-registration packaged
+    #'registration',
+
     'home',
+
+    #for django allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'bootstrapform',
 )
+
+SITE_ID = 1
+
 
 
 # django-passwords
@@ -76,7 +91,6 @@ DEFAULT_FROM_EMAIL = 'testing@example.com'
 """
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'nandapk0@gmail.com'
@@ -127,3 +141,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# django-allauth
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    # Required by allauth template tags
+    "django.core.context_processors.request",
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
+)
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+# add extra fields to signup form
+#ACCOUNT_SIGNUP_FORM_CLASS = "pearl.home.forms.SignupForm"
+#AUTH_USER_MODEL = 'users.CustomUser' # Mind the syntax here. It's <app>.<model>

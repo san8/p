@@ -1,8 +1,8 @@
 from django import forms
-from django.forms.extras.widgets import SelectDateWidget
 from passwords.fields import PasswordField
 
 
+"""
 class SignUpForm(forms.Form):
     first_name = forms.CharField(max_length = 100)
     last_name = forms.CharField(max_length = 100)
@@ -14,7 +14,14 @@ class SignUpForm(forms.Form):
     terms_and_conditions = forms.CharField(widget = forms.CheckboxInput)
 
 
-"""
     Captcha
 
 """
+class SignupForm(forms.Form):
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+
+    def save(self, user):
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()

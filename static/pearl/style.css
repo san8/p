@@ -34,7 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Pearl CSS */
 .container {
-    width: 900px;
+    width: 800px;
     margin: auto;
 }
 .horizontal-bar {
@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6 {
 div#links {
    float: right;
    margin: 12px 0 12px 0;
-   width: 50%
+   width: 60%
 } 
 
 ul#menu {
@@ -66,12 +66,12 @@ ul#menu li {
 
 }
 
-
-/* for development purpose */
+  
+/* for development purpose 
 div {
     border: 1px solid;
 }
-
+*/
 div#nav-bar {
     height: 50px;
     box-shadow: 10 10 5 #cccccc;
