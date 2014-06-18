@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # import forms & models
-#from .forms import SignUpForm
+from .forms import SignUpForm
 from .models import Customers
 
 
@@ -33,7 +33,7 @@ def signup(request):
                           'signup.html',
                           { 'form' : form }, )
         else:
-            c = Customers.objects.create(
+            Customers.objects.create(
                     first_name = form.cleaned_data["first_name"],
                     last_name = form.cleaned_data["last_name"],
                     company = form.cleaned_data["company"],

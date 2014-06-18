@@ -15,6 +15,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
     os.path.join(BASE_DIR, 'accounts'),
+    os.path.join(BASE_DIR, 'projects'),
     #for django-registration
     #os.path.join(BASE_DIR, 'templates/registration'),
 )
@@ -22,6 +23,9 @@ TEMPLATE_DIRS = (
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
+MEDIA_URL = 'files/'
 
 
 
@@ -48,23 +52,32 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    #'django.contrib.sites',
-
-    #django-registration packaged
-    #'registration',
-
-    'home',
-
-    #for django allauth
     'django.contrib.sites',
+
+
+    #django packages
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'bootstrapform',
+    'crispy_forms',
+    'south',
+    #'registration',
+    'captcha',
+
+    #apps
+    'home',
+    'projects',
+    #'southtut',
 )
 
 SITE_ID = 1
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+CAPTCHA_LENGTH = 6
+#CAPTCHA_WORDS_DICTIONARY = os.path.join(BASE_DIR, 'static') + 'words'
+
 
 
 
@@ -115,14 +128,24 @@ WSGI_APPLICATION = 'pearl.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pearl',
+        'USER': 'root',
+        'PASSWORD': 'pearl',
+        'HOST': 'localhost',   
+        'PORT': '3306',
+    }
+}
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -161,5 +184,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # add extra fields to signup form
-#ACCOUNT_SIGNUP_FORM_CLASS = "pearl.home.forms.SignupForm"
+#ACCOUNT_SIGNUP_FORM_CLASS = 'home.forms.SignupFormExtra'
 #AUTH_USER_MODEL = 'users.CustomUser' # Mind the syntax here. It's <app>.<model>
+

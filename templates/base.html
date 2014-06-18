@@ -4,35 +4,45 @@
     <head>
         <title>Pearl </title>
 
-        <link rel="stylesheet" type="text/css" href="{% static "pearl/style.css" %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'pearl/css/style.css' %}" />
+        <script src="{% static 'pearl/js/jquery-1.11.1.min.js' %}"></script>
+        <script src="{% static 'pearl/js/jquery.dataTables.min.js' %}"></script>
+
     </head>
 
     <body>
         <div class="container">
             <div id="nav-bar">
                 <div id="logo" class="horizontal-bar"> 
-                    <a href="http://www.leucinerichbio.com"><img src="{% static "pearl/logo.png" %}" alt="logo"/></a> 
+                    <a href="http://www.leucinerichbio.com"><img src="{% static 'pearl/images/logo.png' %}" alt="logo"/></a> 
                 </div>
                 <div id="links" class="horizontal-bar">
                     <ul id="menu">
                         <li><a href="/">Pearl</a></li>
-                        <li><a href="/faq/">FAQ</a></li>
 
                         {% if user.is_authenticated %}
                         <li><a href="/accounts/profile/">My Profile</a></li>
+                        <li><a href="/projects/dashboard">My Projects</a></li>
                         <li><a href="/accounts/logout/">Sign Out</a></li>
                         {% else %}
+                        <li><a href="/faq/">FAQ</a></li>
                         <li><a href="/accounts/signup/">Sign Up</a></li>
                         <li><a href="/accounts/login/">Sign In</a></li>
                         {% endif %}
                     </ul>
                 </div>
             </div>
-
+            <div id="content">
             {% block content %}
             {% endblock %}
+            </div>
      
         </div>
+
+        <script>
+        {% block js %}
+        {% endblock js %}
+        </script>
 
     </body>
 </html>

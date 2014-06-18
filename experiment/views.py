@@ -1,7 +1,6 @@
 from django.shortcuts import render
-
-# Create your views here.
-
-def register(request):
-    return render(request,
-                  'registration/registration_form.html',)
+from forms import MessageForm
+ 
+def exp(request):
+    # This view is missing all form handling logic for simplicity of the example
+    return render(request, 'exp.html', {'form': MessageForm()})

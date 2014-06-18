@@ -9,6 +9,7 @@ class Customers(models.Model):
     password = models.CharField(max_length = 100)
     phone_no = models.CharField(max_length = 100)
     website = models.URLField(max_length = 100)
+    new_field = models.CharField(max_length = 100)
 
 """
 # adding more fields to the django-allauth
