@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^accounts/signin2/', 'accounts.views.signin', name = 'signin2'),
 
     #hard coded signup
-    #url(r'^signup/$', 'home.views.signup', name = 'signup'),
+    url(r'^signup/$', 'home.views.signup', name = 'signup'),
     #url(r'^exp/$', 'experiment.views.exp', name = 'exp' ),
 
     #django-registration package
@@ -36,6 +36,9 @@ urlpatterns = patterns('',
     url(r'^projects/dashboard/$', 'projects.views.dashboard', name = 'dashboard'),
 
     url(r'^captcha/', include('captcha.urls')), 
+
+    url(r'^projects/list/$', 'projects.views.list', name = 'list'),
+
 ) 
 
 #+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

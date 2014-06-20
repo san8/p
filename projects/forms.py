@@ -21,13 +21,24 @@ class NewProjectForm(forms.Form):
     upload_file = forms.FileField(label = 'Upload File')
     FTP_file = forms.URLField(max_length = 50)
     tissues = forms.ChoiceField(
-            choices=[('Tissue A', 'Tissue A'),
-                     ('Tissue B', 'Tissue B')]
-            )
+        choices=[('Tissue A', 'Tissue A'),
+                 ('Tissue B', 'Tissue B')]
+    )
     disease = forms.ChoiceField(
-            choices = [('Disease A', 'Disease A'),
-                       ('Disease B', 'Disease B')]
-            )
+        choices = [('Disease A', 'Disease A'),
+                   ('Disease B', 'Disease B')]
+    )
 
 
+class ContactForm(forms.Form):
+    name = forms.CharField()
+    message = forms.CharField(widget=forms.Textarea)
+
+    def send_mail(self):
+        pass
+
+
+class DocumentForm(forms.Form):
+    status = forms.CharField(max_length=100)
+    docfile = forms.FileField(label='select file')
 

@@ -28,7 +28,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
 MEDIA_URL = 'files/'
 
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -68,6 +67,7 @@ INSTALLED_APPS = (
     #apps
     'home',
     'projects',
+    'accounts',
     #'southtut',
 )
 
@@ -77,8 +77,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 CAPTCHA_LENGTH = 6
 #CAPTCHA_WORDS_DICTIONARY = os.path.join(BASE_DIR, 'static') + 'words'
-
-
 
 
 # django-passwords
