@@ -1,4 +1,5 @@
 from django import forms
+#from django.core.exceptions import ValidationError 
 
 """
 from django.forms import ModelForm
@@ -17,17 +18,28 @@ class NewProjectForm(forms.Form):
 
 class NewProjectForm(forms.Form):
     name = forms.CharField(max_length = 100)
-    description = forms.CharField(max_length = 100)
-    upload_file = forms.FileField(label = 'Upload File')
-    FTP_file = forms.URLField(max_length = 50)
+    description = forms.CharField(max_length = 100, required=False)
+    upload_file = forms.FileField(label = 'Upload File', required=False)
+    FTP_file = forms.URLField(max_length = 50, required=False)
     tissues = forms.ChoiceField(
         choices=[('Tissue A', 'Tissue A'),
                  ('Tissue B', 'Tissue B')]
-    )
+        )
     disease = forms.ChoiceField(
         choices = [('Disease A', 'Disease A'),
                    ('Disease B', 'Disease B')]
-    )
+        )
+
+    """"
+    def clean(self):
+        #Either upload_file or FTP_file is necessary
+        check = [self.cleaned_data['upload_file'],
+                 self.cleaned_data['FTP_file']
+             ]
+        if any(check) and not all(check):
+            return self.cleaned_data
+        raise ValidationError('Upload file or use FTP')
+    """
 
 
 class ContactForm(forms.Form):

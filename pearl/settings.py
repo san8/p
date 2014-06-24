@@ -16,6 +16,7 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
     os.path.join(BASE_DIR, 'accounts'),
     os.path.join(BASE_DIR, 'projects'),
+    os.path.join(BASE_DIR, 'project'),
     #for django-registration
     #os.path.join(BASE_DIR, 'templates/registration'),
 )
@@ -68,6 +69,7 @@ INSTALLED_APPS = (
     'home',
     'projects',
     'accounts',
+    'project',
     #'southtut',
 )
 

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<button type="submit"><a href="/project/new/">Start New Project</a></button>
+
+<div>
+    <table id="projects">
+        <thead>
+            <th> Name </th>
+            <th> Tissue </th>
+            <th> Disease </th>
+            <th> Status </th>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+            <tr>
+                <td> {{ project.name }} </td>
+                <td> {{ project.tissue }} </td>
+                <td> {{ project.disease }} </td>
+                <td> {{ project.status }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+(function(){
+    $('#projects').dataTable();
+    $('div#projects_length').hide();
+})();
+{% endblock js %}

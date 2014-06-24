@@ -8,36 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'NewProject'
-        db.create_table(u'projects_newproject', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('customer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
-            ('upload_file', self.gf('django.db.models.fields.files.FileField')(default='', max_length=100)),
-            ('ftp_file', self.gf('django.db.models.fields.URLField')(default='', max_length=50)),
-            ('tissue', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('disease', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('optional', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('status', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-        ))
-        db.send_create_signal(u'projects', ['NewProject'])
-
-        # Adding model 'Document'
-        db.create_table(u'projects_document', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('status', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('docfile', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
-        ))
-        db.send_create_signal(u'projects', ['Document'])
+        # Adding field 'NewProject.name2'
+        db.add_column(u'projects_newproject', 'name2',
+                      self.gf('django.db.models.fields.CharField')(default=1, max_length=100),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting model 'NewProject'
-        db.delete_table(u'projects_newproject')
-
-        # Deleting model 'Document'
-        db.delete_table(u'projects_document')
+        # Deleting field 'NewProject.name2'
+        db.delete_column(u'projects_newproject', 'name2')
 
 
     models = {
@@ -91,6 +70,7 @@ class Migration(SchemaMigration):
             'ftp_file': ('django.db.models.fields.URLField', [], {'default': "''", 'max_length': '50'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'name2': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'optional': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'}),
             'status': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'}),
             'tissue': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'}),

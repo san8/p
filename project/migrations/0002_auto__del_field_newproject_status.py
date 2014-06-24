@@ -8,36 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'NewProject'
-        db.create_table(u'projects_newproject', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('customer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
-            ('upload_file', self.gf('django.db.models.fields.files.FileField')(default='', max_length=100)),
-            ('ftp_file', self.gf('django.db.models.fields.URLField')(default='', max_length=50)),
-            ('tissue', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('disease', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('optional', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('status', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-        ))
-        db.send_create_signal(u'projects', ['NewProject'])
-
-        # Adding model 'Document'
-        db.create_table(u'projects_document', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('status', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('docfile', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
-        ))
-        db.send_create_signal(u'projects', ['Document'])
+        # Deleting field 'NewProject.status'
+        db.delete_column(u'project_newproject', 'status')
 
 
     def backwards(self, orm):
-        # Deleting model 'NewProject'
-        db.delete_table(u'projects_newproject')
-
-        # Deleting model 'Document'
-        db.delete_table(u'projects_document')
+        # Adding field 'NewProject.status'
+        db.add_column(u'project_newproject', 'status',
+                      self.gf('django.db.models.fields.CharField')(default='', max_length=30),
+                      keep_default=False)
 
 
     models = {
@@ -77,25 +56,20 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'projects.document': {
-            'Meta': {'object_name': 'Document'},
-            'docfile': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'})
-        },
-        u'projects.newproject': {
+        u'project.newproject': {
             'Meta': {'object_name': 'NewProject'},
-            'customer': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
+            'customer': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'original_customer_id'", 'to': u"orm['auth.User']"}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
-            'disease': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'}),
-            'ftp_file': ('django.db.models.fields.URLField', [], {'default': "''", 'max_length': '50'}),
+            'disease': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
+            'fastq_file1': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            'fastq_file2': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            'file_type': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '10'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'optional': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'}),
             'tissue': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'}),
-            'upload_file': ('django.db.models.fields.files.FileField', [], {'default': "''", 'max_length': '100'})
+            'total_fastq_files': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '2'}),
+            'vcf_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'blank': 'True'})
         }
     }
 
-    complete_apps = ['projects']
+    complete_apps = ['project']

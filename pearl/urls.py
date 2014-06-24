@@ -9,13 +9,14 @@ urlpatterns = patterns('',
     # url(r'^$', 'pearl.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^project/', include('project.urls')),
     url(r'^home/', 'home.views.home', name = 'home_page'),
     url(r'^faq/', 'home.views.faq', name = 'faq'),
 
     url(r'^accounts/profile/', 'home.views.profile', name = 'profile'),
     url(r'^accounts/signin2/', 'accounts.views.signin', name = 'signin2'),
+    url(r'^accounts/register/', 'accounts.views.register', name = 'register'),
 
     #hard coded signup
     url(r'^signup/$', 'home.views.signup', name = 'signup'),
@@ -39,6 +40,7 @@ urlpatterns = patterns('',
 
     url(r'^projects/list/$', 'projects.views.list', name = 'list'),
 
+    url(r'^admin/', include(admin.site.urls)),
 ) 
 
 #+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
