@@ -1,11 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <h1>Register with Rango</h1>>
-
         {% if registered %}
         <strong>Thank You for regisrtering with Pearl. Please Check verify your mail.</strong>
-        <a href="/rango/">Return to home page</a><br />
         {% else %}
         <strong>Register here</strong>
         <form id="user_form" method="POST" action="">

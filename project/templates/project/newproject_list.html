@@ -7,18 +7,14 @@
 <div>
     <table id="projects">
         <thead>
-            <th> Name </th>
-            <th> Tissue </th>
-            <th> Disease </th>
+            <th> Name </th>     
             <th> Status </th>
         </thead>
         <tbody>
-            {% for project in projects %}
+            {% for project in object_list %}
             <tr>
-                <td> {{ project.name }} </td>
-                <td> {{ project.tissue }} </td>
-                <td> {{ project.disease }} </td>
-                <td> {{ project.status }} </td>
+                <td><a href="/project/details/{{project.id}}"> {{ project.name }} </a></td>
+                <td> {{ project.status }} </td> 
             </tr>
             {% endfor %}
         </tbody>
