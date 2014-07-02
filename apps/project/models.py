@@ -56,6 +56,10 @@ class NewProject(models.Model):
     def __unicode__(self):
         return self.name 
 
+    def get_uploaded_files(url):
+        pass  
+
+
 
 class ProjectReport(models.Model):
     project = models.ForeignKey(NewProject, related_name='project_as_foreign_key')
