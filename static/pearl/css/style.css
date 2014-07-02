@@ -43,6 +43,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+div#logo {
+    height: 32px;
+    width: 32px;
+}
+
 div#links {
    float: right;
    margin: 12px 0 12px 0;

@@ -12,20 +12,19 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+from os.path import join 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
-    os.path.join(BASE_DIR, 'accounts'),
-    os.path.join(BASE_DIR, 'projects'),
-    os.path.join(BASE_DIR, 'project'),
-    #for django-registration
-    #os.path.join(BASE_DIR, 'templates/registration'),
+    join(BASE_DIR, 'apps/home'),
+    join(BASE_DIR, 'apps/accounts'),
+    join(BASE_DIR, 'apps/project'),
+    join(BASE_DIR, 'templates'),
 )
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    join(BASE_DIR, 'static'),
 )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
+MEDIA_ROOT = join(BASE_DIR, 'files')
 MEDIA_URL = 'files/'
 
 
@@ -54,23 +53,31 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-
-    #django packages
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'bootstrapform',
-    'crispy_forms',
+    # django packages
     'south',
-    #'registration',
-    'captcha',
+    'django_shell_ipynb',
+    'debug_toolbar',
+    'registration',
+
+    # for django-celery 
+    'djcelery', 
+    'kombu.transport.django',
+
+    #'allauth',
+    #'allauth.account',
+    #'allauth.socialaccount',
+    #'bootstrapform',
+    #'crispy_forms',
+    #'captcha',
 
     #apps
-    'home',
-    'projects',
-    'accounts',
-    'project',
-    #'southtut',
+    'apps.home',
+    'apps.accounts',
+    'apps.project',
+
+    'vendor.experiment',
+    'vendor.django_celery_example',
+
 )
 
 SITE_ID = 1
@@ -119,6 +126,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #'apps.project.middleware.CheckLogin',
 )
 
 ROOT_URLCONF = 'pearl.urls'
@@ -146,6 +155,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -187,3 +197,14 @@ AUTHENTICATION_BACKENDS = (
 #ACCOUNT_SIGNUP_FORM_CLASS = 'home.forms.SignupFormExtra'
 #AUTH_USER_MODEL = 'users.CustomUser' # Mind the syntax here. It's <app>.<model>
 
+
+# Settings for django-celery
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = "django://"
+"""
+from vendor import django_celery_example 
+django_celery_example.conf.update(
+            CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
+)
+"""

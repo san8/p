@@ -1,0 +1,51 @@
+{% load staticfiles %}
+{% load url from future %}
+
+<html>
+    <head>
+        <title>Pearl </title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'pearl/css/style.css' %}" />
+        <link rel="shortcut icon" href="{% static 'pearl/images/favicon.png' %}" />
+        <script src="{% static 'pearl/js/jquery-1.11.1.min.js' %}"></script>
+        <script src="{% static 'pearl/js/jquery.dataTables.min.js' %}"></script>
+
+    </head>
+
+    <body>
+        <div class="container">
+            <div id="nav-bar">
+                <div id="logo" class="horizontal-bar"> 
+                    <img height="32px" width="32px" src="{% static 'pearl/images/logo.png' %}" alt="logo"/>
+                </div>
+                <div id="links" class="horizontal-bar">
+                    <ul id="menu">
+                        <li><a href="{% url 'home:home_home' %}">Pearl</a></li>
+
+                        {% if user.is_authenticated %}
+                        <li><a href="/accounts/profile/">My Profile</a></li>
+                        <li><a href="{% url 'project:project_dashboard' %}">My Projects</a></li>
+                        <li><a href="/accounts/logout/">Sign Out</a></li>
+                        {% else %}
+                        <li><a href="{% url 'home:home_faq' %}">FAQ</a></li>
+                        <li><a href="/accounts/register/">Sign Up</a></li>
+                        <li><a href="/accounts/login/">Sign In</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div id="content">
+            {% block content %}
+            {% endblock %}
+            </div>
+     
+        </div>
+
+        <script>
+        {% block js %}
+        {% endblock js %}
+        </script>
+
+    </body>
+</html>
+
