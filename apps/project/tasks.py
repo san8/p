@@ -1,13 +1,19 @@
-from urlparse import urlparse 
-from ftplib import FTP
+import os 
+from os.path import join 
 
+from ftplib import FTP
+from urlparse import urlparse 
 from celery import Celery
+
+from pearl.settings import BASE_DIR
 
 app = Celery('ftp_tasks', backend='amqp', broker='amqp://')
 
 @app.task()
 def get_ftp_files(project_id='', url_list=''):
     try:
+        local_dir = os.path.join(BASE_DIR, 'files/NewProject/', str(project_id)) 
+        os.mkdir(local_dir)
         for url in url_list:
             parsed_url = urlparse(url)
             ftp = FTP(parsed_url.netloc)
@@ -15,11 +21,12 @@ def get_ftp_files(project_id='', url_list=''):
             file_name = parsed_url.path.split('/')[-1:][0]
             path = parsed_url.path[:-len(file_name)]
             ftp.cwd(path)
-            local_file_name = str(project_id) + file_name
-            ftp.retrbinary('RETR ' + file_name, open(local_file_name, 'wb').write)
+            local_file = join(local_dir, file_name)
+            ftp.retrbinary('RETR ' + file_name, open(local_file, 'wb').write)
             ftp.quit()
+            return "Fetched Files Successfully."
     except:
-        print "Unable to fetch files"
+        return "Unable to Fetch Files."
         
 
 @app.task(ignore_result=True)

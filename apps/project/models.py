@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User 
 from django.db import models
+from django.db.models import signals 
 
 
 FILE_TYPE = (
@@ -23,6 +24,9 @@ DISEASE_CHOICES = (
     ('Disease B', 'Disease B'),
 )
 
+
+def project_created(sender, instance, created, **kwargs):
+    print "Post save singal emitted for ", instance 
 
 class NewProject(models.Model):
     customer = models.ForeignKey(User, related_name='original_customer_id')
@@ -65,6 +69,8 @@ class ProjectReport(models.Model):
     def __unicode__(self):
         return self.project.name 
 
+
+signals.post_save.connect(project_created, sender=NewProject)
 
 
 
