@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import m2m_changed 
 
 
 class ProjectReport(models.Model):
@@ -15,6 +16,20 @@ class TestFTP(models.Model):
 
     def __unicode__(self):
         return self.name 
+
+
+class Topping(models.Model):
+    pass
+
+class Pizza(models.Model):
+    toppings = models.ManyToManyField(Topping)
+
+
+def toppings_changed(sender, **kwargs):
+    pass 
+
+m2m_changed.connect(toppings_changed, sender=Pizza.toppings.through)
+
 
 
 
