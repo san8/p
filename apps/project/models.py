@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import signals 
 
+from .tasks import get_ftp_files 
+
 
 FILE_TYPE = (
     ('FASTQ', 'FASTQ'),
@@ -26,7 +28,11 @@ DISEASE_CHOICES = (
 
 
 def project_created(sender, instance, created, **kwargs):
-    print "Post save singal emitted for ", instance 
+    project_id = instance.id
+    url_list = [instance.fastq_file1, instance.fastq_file2]
+    print project_id, url_list 
+    get_ftp_files(project_id, url_list)
+
 
 class NewProject(models.Model):
     customer = models.ForeignKey(User, related_name='original_customer_id')
@@ -71,6 +77,5 @@ class ProjectReport(models.Model):
 
 
 signals.post_save.connect(project_created, sender=NewProject)
-
 
 

@@ -1,22 +1,26 @@
-import os 
+from celery import Celery
+from os import mkdir 
 from os.path import join 
-
 from ftplib import FTP
 from urlparse import urlparse 
-from celery import Celery
 
 from pearl.settings import BASE_DIR
 
+
 app = Celery('ftp_tasks', backend='amqp', broker='amqp://')
 
+
 @app.task()
-def get_ftp_files(project_id='', url_list=''):
+def get_ftp_files(project_id, url_list=''):
     try:
-        local_dir = os.path.join(BASE_DIR, 'files/NewProject/', str(project_id)) 
-        os.mkdir(local_dir)
+        local_dir = join(BASE_DIR, 'files/NewProject/', str(project_id)) 
+        mkdir(local_dir)
+        print 'entering for'
         for url in url_list:
+            print 'in for'
             parsed_url = urlparse(url)
             ftp = FTP(parsed_url.netloc)
+            print 'logged in'
             ftp.login()
             file_name = parsed_url.path.split('/')[-1:][0]
             path = parsed_url.path[:-len(file_name)]
@@ -24,7 +28,8 @@ def get_ftp_files(project_id='', url_list=''):
             local_file = join(local_dir, file_name)
             ftp.retrbinary('RETR ' + file_name, open(local_file, 'wb').write)
             ftp.quit()
-            return "Fetched Files Successfully."
+        print 'out of for '
+        return "Fetched Files Successfully."
     except:
         return "Unable to Fetch Files."
         
@@ -32,6 +37,7 @@ def get_ftp_files(project_id='', url_list=''):
 @app.task(ignore_result=True)
 def print_hello():
     print 'hi there... '
+
 
 @app.task
 def gen_prime(x):
@@ -43,3 +49,5 @@ def gen_prime(x):
             for j in xrange(i*i, x+1, i):
                 multiples.append(j)
     return results
+
+

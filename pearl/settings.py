@@ -1,5 +1,5 @@
 """
-Django settings for pearl project.
+jango settings for pearl project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -77,6 +77,7 @@ INSTALLED_APPS = (
 
     'vendor.experiment',
     'vendor.django_celery_example',
+    'vendor.click_counter', 
 
 )
 

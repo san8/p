@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     #url(r'^projects/list/$', 'projects.views.list', name = 'list'),
 
     url(r'^async/$', 'vendor.django_celery_example.views.test_ftp_download'),
+    url(r'^clicks/', 'vendor.click_counter.views.count'), 
     #url(r'^home/', 'home.views.home', name = 'home_page'),
     #url(r'^faq/', 'home.views.faq', name = 'faq'),
     #url(r'^signup/$', 'home.views.signup', name = 'signup'),
