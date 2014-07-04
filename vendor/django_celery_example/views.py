@@ -1,3 +1,4 @@
+"""
 from django.views.decorators.csrf import csrf_exempt 
 from django.http import HttpResponse 
 
@@ -25,3 +26,7 @@ def test_async(request):
 def test_ftp_download(request):
     out = subprocess.check_output(['wget', 'http://www.avilpage.com/'])
     return HttpResponse(out.text)
+"""
+
+def test_ftp_download(request):
+    pass 

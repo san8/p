@@ -1,5 +1,5 @@
 """
-jango settings for pearl project.
+Django settings for pearl project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -77,7 +77,7 @@ INSTALLED_APPS = (
 
     'vendor.experiment',
     'vendor.django_celery_example',
-    'vendor.click_counter', 
+#    'vendor.click_counter', 
 
 )
 
@@ -209,3 +209,9 @@ django_celery_example.conf.update(
             CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
 )
 """
+
+SESSION_COOKIE_AGE = 5 * 60
+
+
+
+

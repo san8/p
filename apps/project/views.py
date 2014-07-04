@@ -30,6 +30,7 @@ class NewProjectFormView(View):
                 'project/new.html', {'form': form},
                 context_instance = RequestContext(request),)
 
+
 class DashboardView2(ListView):
     model = NewProject 
 
@@ -48,10 +49,12 @@ class ProjectDetailsView(View):
         project_details = NewProject.objects.get(pk=project_id)
         return render_to_response('project/details.html',
                 {'project_details': project_details, 'id' : request.session['_auth_user_id'] }, )
+
 """
 class DashboardView(View):
     def get(self, request):
         projects = NewProject.objects.all()
+
 
 def new(request):
     if request.method == 'POST':

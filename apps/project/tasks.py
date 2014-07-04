@@ -15,12 +15,9 @@ def get_ftp_files(project_id, url_list=''):
     try:
         local_dir = join(BASE_DIR, 'files/NewProject/', str(project_id)) 
         mkdir(local_dir)
-        print 'entering for'
         for url in url_list:
-            print 'in for'
             parsed_url = urlparse(url)
             ftp = FTP(parsed_url.netloc)
-            print 'logged in'
             ftp.login()
             file_name = parsed_url.path.split('/')[-1:][0]
             path = parsed_url.path[:-len(file_name)]
@@ -28,7 +25,6 @@ def get_ftp_files(project_id, url_list=''):
             local_file = join(local_dir, file_name)
             ftp.retrbinary('RETR ' + file_name, open(local_file, 'wb').write)
             ftp.quit()
-        print 'out of for '
         return "Fetched Files Successfully."
     except:
         return "Unable to Fetch Files."

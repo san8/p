@@ -30,8 +30,7 @@ DISEASE_CHOICES = (
 def project_created(sender, instance, created, **kwargs):
     project_id = instance.id
     url_list = [instance.fastq_file1, instance.fastq_file2]
-    print project_id, url_list 
-    get_ftp_files(project_id, url_list)
+    get_ftp_files.apply_async(args=[project_id, url_list,])
 
 
 class NewProject(models.Model):

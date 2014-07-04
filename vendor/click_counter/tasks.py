@@ -1,5 +1,5 @@
 from celery.task import PeriodicTask
-from clickmuncher.messaging import process_clicks
+from .messaging import process_clicks
 from datetime import timedelta
 
 
