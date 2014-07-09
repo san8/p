@@ -3,12 +3,13 @@ from django.contrib.auth.models import User #UserManager
 
 #from captcha.fields import CaptchaField 
 
-class Customers(models.Model):
+class Customer(models.Model):
     user = models.ForeignKey(User, related_name='customer_to_user')
     company = models.CharField(max_length=50, blank=True)
+    timezone = models.CharField(max_length=30)
 
     def __unicode__(self):
-        return self.user.name 
+        return self.user.username 
 
 
 

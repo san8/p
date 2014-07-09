@@ -1,13 +1,13 @@
 from django.conf.urls import url, patterns 
 
-from .views import HomeView, FAQView 
+from .views import HomeView, FAQView
 
 urlpatterns = patterns('',
 
     url(r'^faq/$', FAQView.as_view(), name = 'home_faq'),
-    #url(r'^signup/$', SignupView.as_view(), name = 'signup'),
     url(r'^$', HomeView.as_view(), name = 'home_home'),
     #url(r'^faq/', 'home.views.faq', name = 'faq'),
+    #url(r'^signup/$', SignupView.as_view(), name = 'signup'),
 
     #url(r'^accounts/profile/', 'home.views.profile', name = 'profile'),
     #url(r'^accounts/signin2/', 'accounts.views.signin', name = 'signin2'),

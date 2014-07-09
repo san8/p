@@ -2,7 +2,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response 
 from django.shortcuts import HttpResponseRedirect 
 from django.template import RequestContext 
-from django.views.generic import ListView 
 from django.views.generic.base import View 
 
 from .models import NewProject 
@@ -31,14 +30,10 @@ class NewProjectFormView(View):
                 context_instance = RequestContext(request),)
 
 
-class DashboardView2(ListView):
-    model = NewProject 
-
-
 class DashboardView(View):
     def get(self, request):
         cust_id = request.session['_auth_user_id']
-        myProjects = NewProject.objects.filter(customer=cust_id)
+        myProjects = NewProject.objects.filter(customer=cust_id).order_by('updated_at')
         return render_to_response(
                 'project/dashboard.html', {'projects': myProjects}, 
                 context_instance = RequestContext(request), )
@@ -79,4 +74,8 @@ def new(request):
         {'form': form},
         context_instance = RequestContext(request)
     )
+
+
+class DashboardView2(ListView):
+    model = NewProject 
 """

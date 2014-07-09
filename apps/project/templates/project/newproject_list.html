@@ -9,12 +9,14 @@
         <thead>
             <th> Name </th>     
             <th> Status </th>
+            <th> Updated At </th>
         </thead>
         <tbody>
             {% for project in object_list %}
             <tr>
                 <td><a href="/project/details/{{project.id}}"> {{ project.name }} </a></td>
                 <td> {{ project.status }} </td> 
+                <td> {{ project.updated_at }} </td> 
             </tr>
             {% endfor %}
         </tbody>

@@ -1,8 +1,7 @@
 from django import forms                                
-
 from passwords.fields import PasswordField                                
 from captcha.fields import CaptchaField                                
-                                
+from .models import Customer 
                                 
 class SignUpForm(forms.Form):                                
     first_name = forms.CharField(max_length=100, required=False)
@@ -17,9 +16,15 @@ class SignUpForm(forms.Form):
             label='', widget=forms.CheckboxInput,
             help_text='I agree to Pearl terms and conditions.')             
                                                    
-
 class CustomersForm():
-    pass 
+    pass
+
+
+
+class EditProfileForm():
+    class Meta:
+        model = Customer 
+        fields = ['company',]
 
 
 

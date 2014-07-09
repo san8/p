@@ -7,7 +7,7 @@ from .tasks import get_ftp_files
 
 FILE_TYPE = (
     ('FASTQ', 'FASTQ'),
-    ('VCF', 'VCF')
+    ('VCF', 'VCF'), 
 )
 TOTAL_FASTQ_FILES = (
     ('1', '1'),
@@ -15,22 +15,41 @@ TOTAL_FASTQ_FILES = (
 )
 READ_CHOICES = (
     ('Forward', 'Forward'),
-    ('Backward', 'Backward')
+    ('Backward', 'Backward'), 
 )
 TISSUE_CHOICES = (
     ('Tissue_A', 'TISSUE_A'),
-    ('Tissue_B', 'TISSUE_B')
+    ('Tissue_B', 'TISSUE_B'),
 )
 DISEASE_CHOICES = (
     ('Disease A', 'Disease A'),
     ('Disease B', 'Disease B'),
 )
 
+""" 
+def update_status(id=132, status_code=2):
+    project = NewProject.objects.get(pk=id)
+    project.status = 'Started processing.'
+    project.save()
 
+""" 
 def project_created(sender, instance, created, **kwargs):
-    project_id = instance.id
-    url_list = [instance.fastq_file1, instance.fastq_file2]
-    get_ftp_files.apply_async(args=[project_id, url_list,])
+    if instance.status == 'Started processing.':
+        return 
+    else:
+        project = NewProject.objects.get(id=instance.id)
+        url_list = []
+        if project.fastq_file1:
+            if project.fastq_file2:
+                url_list = [project.fastq_file1, project.fastq_file2]
+            else:
+                url_list = [project.fastq_file1]
+        elif project.vcf_file1:
+            url_list = [project.vcf_file1,]
+        if url_list: 
+            get_ftp_files.apply_async(args=[project.id, url_list,])
+        instance.status = 'Started processing.'
+        instance.save() 
 
 
 class NewProject(models.Model):
@@ -65,6 +84,11 @@ class NewProject(models.Model):
     def __unicode__(self):
         return self.name 
 
+    class Meta:
+        ordering = ['updated_at']
+
+signals.post_save.connect(project_created, sender=NewProject)
+
 
 class ProjectReport(models.Model):
     project = models.ForeignKey(NewProject, related_name='project_as_foreign_key')
@@ -75,6 +99,11 @@ class ProjectReport(models.Model):
         return self.project.name 
 
 
-signals.post_save.connect(project_created, sender=NewProject)
+
+
+
+
+
+
 
 

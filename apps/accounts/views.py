@@ -5,7 +5,24 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, render 
 from django.views.generic.base import View
 
-from .forms import SignUpForm 
+from .forms import SignUpForm, EditProfileForm
+from .models import Customer 
+
+
+class ProfileView(View):
+    def get(self, request):
+        cust_id = request.session['_auth_user_id']
+        return render(request, 'accounts/profile.html', {'customer': Customer.objects.get(id=cust_id), })
+
+
+class EditProfile(View):
+    form_class = EditProfileForm
+
+    def get(self, request):
+        cust_id = request.session['_auth_user_id']
+        customer = Customer.objects.get(id=cust_id)
+        form = EditProfileForm()
+        return render(request, 'accounts/editprofile.html', {'form': form },)
 
 
 class SignUpView(View):

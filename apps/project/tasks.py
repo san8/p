@@ -25,11 +25,11 @@ def get_ftp_files(project_id, url_list=''):
             local_file = join(local_dir, file_name)
             ftp.retrbinary('RETR ' + file_name, open(local_file, 'wb').write)
             ftp.quit()
-        return "Fetched Files Successfully."
+        return 'Successfully fetched the files.'
     except:
-        return "Unable to Fetch Files."
+        return 'Unable to fetch files.'
         
-
+"""
 @app.task(ignore_result=True)
 def print_hello():
     print 'hi there... '
@@ -45,5 +45,4 @@ def gen_prime(x):
             for j in xrange(i*i, x+1, i):
                 multiples.append(j)
     return results
-
-
+"""

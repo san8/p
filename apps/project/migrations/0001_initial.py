@@ -29,10 +29,22 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'project', ['NewProject'])
 
+        # Adding model 'ProjectReport'
+        db.create_table(u'project_projectreport', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(related_name='project_as_foreign_key', to=orm['project.NewProject'])),
+            ('pdf_file', self.gf('django.db.models.fields.CharField')(default='', max_length=100)),
+            ('data', self.gf('django.db.models.fields.CharField')(default='', max_length=20)),
+        ))
+        db.send_create_signal(u'project', ['ProjectReport'])
+
 
     def backwards(self, orm):
         # Deleting model 'NewProject'
         db.delete_table(u'project_newproject')
+
+        # Deleting model 'ProjectReport'
+        db.delete_table(u'project_projectreport')
 
 
     models = {
@@ -73,7 +85,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'project.newproject': {
-            'Meta': {'object_name': 'NewProject'},
+            'Meta': {'ordering': "['updated_at']", 'object_name': 'NewProject'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'customer': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'original_customer_id'", 'to': u"orm['auth.User']"}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
@@ -90,6 +102,13 @@ class Migration(SchemaMigration):
             'total_fastq_files': ('django.db.models.fields.CharField', [], {'default': "'1'", 'max_length': '1'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'vcf_file1': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'})
+        },
+        u'project.projectreport': {
+            'Meta': {'object_name': 'ProjectReport'},
+            'data': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '20'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'pdf_file': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'project_as_foreign_key'", 'to': u"orm['project.NewProject']"})
         }
     }
 

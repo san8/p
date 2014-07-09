@@ -23,7 +23,7 @@
                         <li><a href="{% url 'home:home_home' %}">Pearl</a></li>
 
                         {% if user.is_authenticated %}
-                        <li><a href="/accounts/profile/">My Profile</a></li>
+                        <li><a href="{% url 'account:account_profile' %}">My Profile</a></li>
                         <li><a href="{% url 'project:project_dashboard' %}">My Projects</a></li>
                         <li><a href="/accounts/logout/">Sign Out</a></li>
                         {% else %}

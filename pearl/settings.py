@@ -58,6 +58,7 @@ INSTALLED_APPS = (
     'django_shell_ipynb',
     'debug_toolbar',
     'registration',
+    'easy_timezones', 
 
     # for django-celery 
     'djcelery', 
@@ -129,6 +130,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     #'apps.project.middleware.CheckLogin',
+    'easy_timezones.middleware.EasyTimezoneMiddleware',
 )
 
 ROOT_URLCONF = 'pearl.urls'
@@ -210,8 +212,15 @@ django_celery_example.conf.update(
 )
 """
 
-SESSION_COOKIE_AGE = 5 * 60
+SESSION_COOKIE_AGE = 60 * 60
 
 
+# Logging errors
+#import logging.config
+#logging.config.fileConfig('logging.conf')
+
+
+# easy_timezone 
+GEOIP_DATABASE = 'files/easy_timezone/GeoLiteCity.dat'
 
 

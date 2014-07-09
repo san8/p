@@ -1,9 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import View, TemplateView 
 
-from .forms import SignUpForm
-from .models import Customers
-
 
 class HomeView(View):
     def get(self, request):
@@ -13,12 +10,14 @@ class FAQView(TemplateView):
     template_name = 'home/faq.html'
 
 
+class ProfileView():
+    def get(self, request):
+        return render(request, 'home/profile.html')
+
+
+"""
 class SignupView(View):
     pass 
-
-
-
-# Create your views here.
 
 
 def home(request):
@@ -63,3 +62,4 @@ def profile(request):
     return render(request,
                  'profile.html',)
 
+"""
