@@ -23,13 +23,13 @@
                         <li><a href="{% url 'home:home_home' %}">Pearl</a></li>
 
                         {% if user.is_authenticated %}
-                        <li><a href="{% url 'account:account_profile' %}">My Profile</a></li>
-                        <li><a href="{% url 'project:project_dashboard' %}">My Projects</a></li>
+                        <li><a href="{% url 'project:project_dashboard' %}">Dashboard</a></li>
+                        <li><a href="{% url 'project:project_new' %}">New Project</a></li>
                         <li><a href="/accounts/logout/">Sign Out</a></li>
                         {% else %}
                         <li><a href="{% url 'home:home_faq' %}">FAQ</a></li>
-                        <li><a href="/accounts/register/">Sign Up</a></li>
-                        <li><a href="/accounts/login/">Sign In</a></li>
+                        <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
+                        <li><a href="{% url 'auth_login' %}">Sign In</a></li>
                         {% endif %}
                     </ul>
                 </div>

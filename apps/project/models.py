@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User 
 from django.db import models
-from django.db.models import signals 
 
-from .tasks import get_ftp_files 
+from .tasks import project_created 
 
 
 FILE_TYPE = (
@@ -26,31 +25,6 @@ DISEASE_CHOICES = (
     ('Disease B', 'Disease B'),
 )
 
-""" 
-def update_status(id=132, status_code=2):
-    project = NewProject.objects.get(pk=id)
-    project.status = 'Started processing.'
-    project.save()
-
-""" 
-def project_created(sender, instance, created, **kwargs):
-    if instance.status == 'Started processing.':
-        return 
-    else:
-        project = NewProject.objects.get(id=instance.id)
-        url_list = []
-        if project.fastq_file1:
-            if project.fastq_file2:
-                url_list = [project.fastq_file1, project.fastq_file2]
-            else:
-                url_list = [project.fastq_file1]
-        elif project.vcf_file1:
-            url_list = [project.vcf_file1,]
-        if url_list: 
-            get_ftp_files.apply_async(args=[project.id, url_list,])
-        instance.status = 'Started processing.'
-        instance.save() 
-
 
 class NewProject(models.Model):
     customer = models.ForeignKey(User, related_name='original_customer_id')
@@ -58,12 +32,6 @@ class NewProject(models.Model):
     description = models.CharField(max_length=100, blank=True)
     file_type = models.CharField(max_length=10, default='FASTQ', 
             choices=FILE_TYPE,)
-    """ 
-    vcf_file = models.FileField(
-            upload_to = 'documents/%Y/%m/%d',
-            blank=True 
-        )
-    """ 
     total_fastq_files = models.CharField(max_length=1, default='1',
             choices=TOTAL_FASTQ_FILES,)
     fastq_file1 = models.URLField(max_length=200, blank=True)
@@ -87,7 +55,9 @@ class NewProject(models.Model):
     class Meta:
         ordering = ['updated_at']
 
-signals.post_save.connect(project_created, sender=NewProject)
+    def save(self, *args, **kwargs):
+        super(NewProject, self).save(*args, **kwargs)
+        project_created.apply_async(args=[self.pk,])
 
 
 class ProjectReport(models.Model):
@@ -97,13 +67,5 @@ class ProjectReport(models.Model):
 
     def __unicode__(self):
         return self.project.name 
-
-
-
-
-
-
-
-
 
 

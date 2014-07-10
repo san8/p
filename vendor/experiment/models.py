@@ -1,6 +1,13 @@
 from django.db import models
 from django.db.models.signals import m2m_changed 
 
+from .forms import MessageForm
+
+a = MessageForm() 
+
+class Abcd():
+    pass 
+
 
 class ProjectReport(models.Model):
     name = models.CharField(max_length=10, default='')

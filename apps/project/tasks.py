@@ -7,7 +7,27 @@ from urlparse import urlparse
 from pearl.settings import BASE_DIR
 
 
-app = Celery('ftp_tasks', backend='amqp', broker='amqp://')
+app = Celery('project_tasks', backend='amqp', broker='amqp://')
+
+@app.task()
+def project_created(project_id):
+    from .models import NewProject 
+    project = NewProject.objects.get(id=project_id)
+    if project.status == 'Raw Files Uploaded':
+        url_list = []
+        if project.fastq_file1:
+            if project.fastq_file2:
+                url_list = [project.fastq_file1, project.fastq_file2]
+            else:
+                url_list = [project.fastq_file1]
+        elif project.vcf_file1:
+            url_list = [project.vcf_file1,]
+        if url_list: 
+            get_ftp_files.apply_async(args=[project.id, url_list,]).get() 
+            update_status.apply_async(args=[project.id,])
+        return 'Projected created successfully'
+    else:
+        return 
 
 
 @app.task()
@@ -29,6 +49,16 @@ def get_ftp_files(project_id, url_list=''):
     except:
         return 'Unable to fetch files.'
         
+
+@app.task()
+def update_status(project_id):
+    from .models import NewProject 
+    project = NewProject.objects.get(id=project_id)
+    project.status = 'Started Processing'
+    project.save() 
+    return 'Status updated successfully'
+
+
 """
 @app.task(ignore_result=True)
 def print_hello():

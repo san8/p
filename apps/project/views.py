@@ -24,7 +24,7 @@ class NewProjectFormView(View):
             instance.customer_id = request.session['_auth_user_id']
             #instance.vcf_file = request.FILES['vcf_file']
             instance.save()
-            return HttpResponseRedirect(reverse('home:home_home'))
+            return HttpResponseRedirect(reverse('project:project_dashboard'))
         return render_to_response(
                 'project/new.html', {'form': form},
                 context_instance = RequestContext(request),)
@@ -42,8 +42,9 @@ class DashboardView(View):
 class ProjectDetailsView(View):
     def get(self, request, project_id):
         project_details = NewProject.objects.get(pk=project_id)
-        return render_to_response('project/details.html',
-                {'project_details': project_details, 'id' : request.session['_auth_user_id'] }, )
+        return render_to_response('project/details.html', 
+                                  {'project_details': project_details,}, 
+                                  context_instance = RequestContext(request),)
 
 """
 class DashboardView(View):
