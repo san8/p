@@ -63,7 +63,6 @@ INSTALLED_APPS = (
     'django_shell_ipynb',
     'debug_toolbar',
     'registration',
-    'easy_timezones', 
 
     # for django-celery 
     'djcelery', 
@@ -110,8 +109,6 @@ import djcelery
 djcelery.setup_loader()
 BROKER_URL = "django://"
 
-# easy_timezone 
-GEOIP_DATABASE = 'files/easy_timezone/GeoLiteCity.dat'
 
 # django-registration 
 ACCOUNT_ACTIVATION_DAYS = 3
@@ -124,9 +121,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+
 
     #'apps.project.middleware.CheckLogin',
-    'easy_timezones.middleware.EasyTimezoneMiddleware',
 )
 
 ROOT_URLCONF = 'pearl.urls'
