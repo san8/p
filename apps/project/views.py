@@ -22,6 +22,8 @@ class NewProjectFormView(View):
         if form.is_valid():
             instance = form.save(commit=False)
             instance.customer_id = request.session['_auth_user_id']
+            if instance.total_fastq_files == '':
+                instance.total_fastq_files = 0
             #instance.vcf_file = request.FILES['vcf_file']
             instance.save()
             return HttpResponseRedirect(reverse('project:project_dashboard'))

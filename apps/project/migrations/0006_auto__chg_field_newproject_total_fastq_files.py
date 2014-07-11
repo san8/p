@@ -8,43 +8,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'NewProject'
-        db.create_table(u'project_newproject', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('customer', self.gf('django.db.models.fields.related.ForeignKey')(related_name='original_customer_id', to=orm['auth.User'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
-            ('file_type', self.gf('django.db.models.fields.CharField')(max_length=5)),
-            ('vcf_file1', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('total_fastq_files', self.gf('django.db.models.fields.IntegerField')()),
-            ('fastq_file1', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('fastq_file2', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('paired_end_distance', self.gf('django.db.models.fields.IntegerField')()),
-            ('tissue', self.gf('django.db.models.fields.CharField')(default='', max_length=30)),
-            ('disease', self.gf('django.db.models.fields.CharField')(default='', max_length=100)),
-            ('status', self.gf('django.db.models.fields.CharField')(default='Raw Files Uploaded', max_length=20)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'project', ['NewProject'])
 
-        # Adding model 'ProjectReport'
-        db.create_table(u'project_projectreport', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(related_name='project_as_foreign_key', to=orm['project.NewProject'])),
-            ('pdf_file', self.gf('django.db.models.fields.CharField')(default='', max_length=100)),
-            ('data', self.gf('django.db.models.fields.CharField')(default='', max_length=20)),
-        ))
-        db.send_create_signal(u'project', ['ProjectReport'])
-
+        # Changing field 'NewProject.total_fastq_files'
+        db.alter_column(u'project_newproject', 'total_fastq_files', self.gf('django.db.models.fields.SmallIntegerField')(null=True))
 
     def backwards(self, orm):
-        # Deleting model 'NewProject'
-        db.delete_table(u'project_newproject')
 
-        # Deleting model 'ProjectReport'
-        db.delete_table(u'project_projectreport')
-
+        # Changing field 'NewProject.total_fastq_files'
+        db.alter_column(u'project_newproject', 'total_fastq_files', self.gf('django.db.models.fields.IntegerField')())
 
     models = {
         u'auth.group': {
@@ -91,13 +62,13 @@ class Migration(SchemaMigration):
             'disease': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
             'fastq_file1': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
             'fastq_file2': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
-            'file_type': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
+            'file_type': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'paired_end_distance': ('django.db.models.fields.IntegerField', [], {}),
+            'paired_end_distance': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'status': ('django.db.models.fields.CharField', [], {'default': "'Raw Files Uploaded'", 'max_length': '20'}),
             'tissue': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30'}),
-            'total_fastq_files': ('django.db.models.fields.IntegerField', [], {}),
+            'total_fastq_files': ('django.db.models.fields.SmallIntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'vcf_file1': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'})
         },

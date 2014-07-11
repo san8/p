@@ -1,15 +1,28 @@
 from django.forms import ModelForm 
+from django import forms 
 
 from .models import NewProject 
 
-
+FILE_TYPE_CHOICES = (
+    ('fastq', 'FASTQ'),
+    ('vcf', 'VCF'),
+)
+NUMBER_OF_FASTQ = (
+    ('1', '1'),
+    ('2', '2')
+)
 class NewProjectForm(ModelForm):
+    file_type = forms.ChoiceField(choices=FILE_TYPE_CHOICES,
+                                  widget=forms.RadioSelect,)
+    total_fastq_files = forms.ChoiceField(choices=NUMBER_OF_FASTQ,
+                                          widget=forms.RadioSelect,
+                                          required=False, )
     class Meta:
         model = NewProject
         fields = ['name', 'description', 'file_type',
-                  'total_fastq_files', 'fastq_file1', 'file1_read', 
-                  'fastq_file2', 'file2_read', 'vcf_file1',
-                  'tissue', 'disease']
+                  'total_fastq_files', 'fastq_file1', 
+                  'fastq_file2', 'paired_end_distance', 
+                  'vcf_file1', 'tissue', 'disease']
 
         def __unicode__(self):
             return self.name
