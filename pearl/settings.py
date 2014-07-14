@@ -78,12 +78,12 @@ INSTALLED_APPS = (
     'apps.accounts',
     'apps.project',
 
-    'vendor.experiment',
-    'vendor.django_celery_example',
+    #'vendor.experiment',
+    #'vendor.django_celery_example',
 )
 
 #login session expiry
-SESSION_COOKIE_AGE = 60 * 60
+SESSION_COOKIE_AGE = 10 * 60
 
 SITE_ID = 1
 
