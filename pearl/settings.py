@@ -59,10 +59,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 
     # django packages
-    'south',
-    'django_shell_ipynb',
-    'debug_toolbar',
     'registration',
+    'south',
+    'debug_toolbar',
+    'django_shell_ipynb',
+    'guardian',
 
     # for django-celery 
     'djcelery', 
@@ -157,5 +158,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+# django-guardian
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # default
+    'guardian.backends.ObjectPermissionBackend',
+)
+ANONYMOUS_USER_ID = -1
 
 

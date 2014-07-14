@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse 
-from django.shortcuts import render_to_response 
+from django.shortcuts import render
 from django.shortcuts import HttpResponseRedirect 
-from django.template import RequestContext 
 from django.views.generic.base import View 
 
 from .models import NewProject 
@@ -13,9 +12,7 @@ class NewProjectFormView(View):
 
     def get(self, request):
         form = NewProjectForm()
-        return render_to_response(
-                'project/new.html', {'form': form},
-                context_instance = RequestContext(request),)
+        return render(request, 'project/new.html', {'form': form},)
    
     def post(self, request):
         form = self.form_class(request.POST)
@@ -27,26 +24,20 @@ class NewProjectFormView(View):
             #instance.vcf_file = request.FILES['vcf_file']
             instance.save()
             return HttpResponseRedirect(reverse('project:project_dashboard'))
-        return render_to_response(
-                'project/new.html', {'form': form},
-                context_instance = RequestContext(request),)
+        return render(request, 'project/new.html', {'form': form},)
 
 
 class DashboardView(View):
     def get(self, request):
         cust_id = request.session['_auth_user_id']
         myProjects = NewProject.objects.filter(customer=cust_id).order_by('updated_at')
-        return render_to_response(
-                'project/dashboard.html', {'projects': myProjects}, 
-                context_instance = RequestContext(request), )
+        return render(request, 'project/dashboard.html', {'projects': myProjects},)
 
 
 class ProjectDetailsView(View):
     def get(self, request, project_id):
         project_details = NewProject.objects.get(pk=project_id)
-        return render_to_response('project/details.html', 
-                                  {'project_details': project_details,}, 
-                                  context_instance = RequestContext(request),)
+        return render(request, 'project/details.html', {'project_details': project_details,},)
 
 """
 class DashboardView(View):

@@ -1,8 +1,6 @@
-from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.template import RequestContext
-from django.shortcuts import render_to_response, render 
+from django.shortcuts import render 
 from django.views.generic.base import View
 
 from .forms import SignUpForm, EditProfileForm

@@ -47,10 +47,6 @@ class UserProfileForm(ModelForm):
         return self.name 
 
 
-class SignUp(User):
-    pass 
-
-
 class CustomUser(User):
     company = models.CharField(max_length=100)
 
