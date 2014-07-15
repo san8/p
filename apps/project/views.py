@@ -2,8 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import HttpResponseRedirect 
 from django.views.generic.base import View 
-
-from guardian.decorators import permission_required
+from django.http import HttpResponseNotFound 
 
 from .models import NewProject 
 from .forms import NewProjectForm 
@@ -39,7 +38,12 @@ class DashboardView(View):
 class ProjectDetailsView(View):
     def get(self, request, project_id):
         project_details = NewProject.objects.get(pk=project_id)
-        return render(request, 'project/details.html', {'project_details': project_details,},)
+        if project_details.customer_id == request.user.id:
+            return render(request, 'project/details.html', {'project_details': project_details,},)
+        else:
+            return HttpResponseNotFound('<h1>Page not found</h1>')
+
+
 
 """
 class DashboardView(View):

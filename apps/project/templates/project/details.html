@@ -3,7 +3,7 @@
 {% load guardian_tags %}
 
 {% block content %}
-{% if 'view_project' in perms.project %}
+
     <h2>{{ project_details.name }}</h2>
     <p>{{ project_details.description }}</p>
     <div>
@@ -26,9 +26,6 @@
             <p> VCF File: {{ project_details.vcf_file1 }}</p>
         {% endif %}
     </div>
-{% else %}
-    <h5>You dont have permission to view this project.</h5> 
-{% endif %}
 
 {% endblock content %}
 
