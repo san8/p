@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponseRedirect 
 from django.views.generic.base import View 
 
+from guardian.decorators import permission_required
+
 from .models import NewProject 
 from .forms import NewProjectForm 
 

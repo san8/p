@@ -1,39 +1,37 @@
 {% extends 'home/base.html' %}
 {% load staticfiles %}
+{% load guardian_tags %}
 
 {% block content %}
-<h2>{{ project_details.name }}</h2>
-<p>{{ project_details.description }}</p>
-<div>
-    <h5>Status: {{ project_details.status }}</h5>
-    <a href="{% static  'reports/a.pdf' %}"><h5>Report</h5></a>
-    <h5> Files Uploaded </h5>
-    {% if project_details.fastq_file1 %}
-        <p>
-            FASTQ File1: {{ project_details.fastq_file1 }}
-            Read: {{ project_details.file1_read }}
-        </p>
-    {% endif %}
-    {% if project_details.fastq_file2 %}
-        <p>
-            FASTQ File2: {{ project_details.fastq_file2 }}
-            Read: {{ project_details.file2_read }}
-        </p>
-    {% endif %}
-    {% if project_details.vcf_file1 %}
-        <p> VCF File: {{ project_details.vcf_file1 }}</p>
-    {% endif %}
+{% if 'view_project' in perms.project %}
+    <h2>{{ project_details.name }}</h2>
+    <p>{{ project_details.description }}</p>
+    <div>
+        <h5>Status: {{ project_details.status }}</h5>
+        <a href="{% static  'reports/a.pdf' %}"><h5>Report</h5></a>
+        <h5> Files Uploaded </h5>
+        {% if project_details.fastq_file1 %}
+            <p>
+                FASTQ File1: {{ project_details.fastq_file1 }}
+                Read: {{ project_details.file1_read }}
+            </p>
+        {% endif %}
+        {% if project_details.fastq_file2 %}
+            <p>
+                FASTQ File2: {{ project_details.fastq_file2 }}
+                Read: {{ project_details.file2_read }}
+            </p>
+        {% endif %}
+        {% if project_details.vcf_file1 %}
+            <p> VCF File: {{ project_details.vcf_file1 }}</p>
+        {% endif %}
+    </div>
+{% else %}
+    <h5>You dont have permission to view this project.</h5> 
+{% endif %}
 
-    <br />
-    <p> User ID:{{ id  }}. </p> 
-    {% if user.is_authenticated %}
-        {{ 'use is logged' }}
-    {% else %}
-        {{ 'user is logged out' }}
-    {% endif %}
-
-</div>
 {% endblock content %}
 
 {% block js %}
 {% endblock js %}
+

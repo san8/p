@@ -34,10 +34,13 @@ class NewProject(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.name 
+        return "{} : {}".format(self.customer.username, self.name)
 
     class Meta:
         ordering = ['updated_at']
+        permissions = (
+            ('view_report', 'view_report'),
+        )
 
     def save(self, *args, **kwargs):
         super(NewProject, self).save(*args, **kwargs)
