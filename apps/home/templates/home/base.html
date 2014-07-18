@@ -3,7 +3,10 @@
 
 <html>
     <head>
-        <title>Pearl </title>
+        <title>
+            {% block title %}
+            {% endblock title %}
+        </title>       
 
         <link rel="stylesheet" type="text/css" href="{% static 'pearl/css/style.css' %}" />
         <link rel="shortcut icon" href="{% static 'pearl/images/favicon.png' %}" />
@@ -25,7 +28,7 @@
                         {% if user.is_authenticated %}
                         <li><a href="{% url 'project:project_dashboard' %}">Dashboard</a></li>
                         <li><a href="{% url 'project:project_new' %}">New Project</a></li>
-                        <li> {{ user.username }}</li>
+                        <li><a href="{% url 'account:account_profile' %}">Hi, {{ user.username | capfirst }}</a></li>
                         <li><a href="/accounts/logout/">Sign Out</a></li>
                         {% else %}
                         <li><a href="{% url 'home:home_faq' %}">FAQ</a></li>

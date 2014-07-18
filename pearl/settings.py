@@ -62,8 +62,9 @@ INSTALLED_APPS = (
     'registration',
     'south',
     'debug_toolbar',
-    'django_shell_ipynb',
-    'guardian',
+    'captcha',
+    #'django_shell_ipynb',
+    #'guardian',
 
     # for django-celery 
     'djcelery', 
@@ -71,12 +72,12 @@ INSTALLED_APPS = (
 
     #'bootstrapform',
     #'crispy_forms',
-    #'captcha',
 
     #apps
     'apps.home',
     'apps.accounts',
     'apps.project',
+    'apps.processing',
 
     #'vendor.experiment',
     #'vendor.django_celery_example',
@@ -109,6 +110,7 @@ PASSWORD_COMPLEXITY = {
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = "django://"
+CELERY_IMPORTS = ('apps.processing.tasks',)
 
 
 # django-registration 

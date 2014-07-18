@@ -14,7 +14,6 @@ class CustomerForm(RegistrationForm):
     captcha = CaptchaField()
 
 
-
 class SignUpForm(forms.Form):                                
     first_name = forms.CharField(max_length=100, required=False)
     last_name = forms.CharField(max_length=100, required=False)
@@ -28,6 +27,7 @@ class SignUpForm(forms.Form):
             label='', widget=forms.CheckboxInput,
             help_text='I agree to Pearl terms and conditions.')             
                                                    
+
 class EditProfileForm():
     class Meta:
         model = Customer 

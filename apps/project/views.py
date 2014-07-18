@@ -30,10 +30,10 @@ class NewProjectFormView(View):
 
 class DashboardView(View):
     def get(self, request):
-        cust_id = request.session['_auth_user_id']
+        #cust_id = request.session['_auth_user_id']
+        cust_id = request.user.id 
         myProjects = NewProject.objects.filter(customer=cust_id).order_by('updated_at')
-        return render(request, 'project/dashboard.html', {'projects': myProjects},)
-
+        return render(request, 'project/dashboard.html', {'projects': myProjects,},)
 
 class ProjectDetailsView(View):
     def get(self, request, project_id):

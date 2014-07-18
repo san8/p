@@ -10,9 +10,8 @@ class FAQView(TemplateView):
     template_name = 'home/faq.html'
 
 
-class ProfileView():
-    def get(self, request):
-        return render(request, 'home/profile.html')
+class ProfileView(TemplateView):
+    template_name = 'home/profile.html'
 
 
 """

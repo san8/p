@@ -29,7 +29,8 @@ class NewProject(models.Model):
             choices=TISSUE_CHOICES,)
     disease = models.CharField(max_length=100, default='',
             choices=DISEASE_CHOICES,)
-    status = models.CharField(max_length=20, default='Raw Files Uploaded',)
+    status = models.IntegerField(default=0)
+    status_description = models.CharField(max_length=20, default='Uploading Raw Files.',)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
