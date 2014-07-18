@@ -59,17 +59,15 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 
     # django packages
-    'registration',
     'south',
+    'registration',
     'debug_toolbar',
     'captcha',
-    #'django_shell_ipynb',
-    #'guardian',
-
-    # for django-celery 
     'djcelery', 
     'kombu.transport.django',
-
+    #'django_shell_ipynb',
+    #'django-nose',
+    #'guardian',
     #'bootstrapform',
     #'crispy_forms',
 
@@ -78,7 +76,6 @@ INSTALLED_APPS = (
     'apps.accounts',
     'apps.project',
     'apps.processing',
-
     #'vendor.experiment',
     #'vendor.django_celery_example',
 )
@@ -169,4 +166,6 @@ AUTHENTICATION_BACKENDS = (
 )
 ANONYMOUS_USER_ID = -1
 
+# django-nose
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
