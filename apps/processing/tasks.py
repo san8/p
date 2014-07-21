@@ -60,6 +60,21 @@ def do_quality_control(project_id):
         return "Project status NOT ONE. do_quality_control"
 
 
+@app.task()
+def generate_vcf(project_id):
+    pass
+
+
+@app.task()
+def vcf_qc(project_id):
+    pass
+
+
+@app.task()
+def generate_final_report(project_id):
+    pass 
+
+
 """
 @app.task(name='apps.project.tasks.do_qc')
 def do_qasdfuality_control(project_id):

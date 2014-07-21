@@ -19,3 +19,12 @@ class AccountsViewsTestCase(TestCase):
         self.assertTrue(login)
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 200)
+
+    def test_profile(self):
+        response = self.client.get(reverse('account:account_profile'))
+        self.assertEqual(response.status_code, 302)
+        login =  self.client.login(username='chillaranand', password='123456')
+        self.assertTrue(login)
+        response = self.client.get(reverse('account:account_profile'))
+        self.assertEqual(response.status_code, 200)
+
