@@ -11,6 +11,10 @@ NUMBER_OF_FASTQ = (
     ('1', '1'),
     ('2', '2')
 )
+PROCESSING_CHOICES = (
+    ('1', 'Yes'),
+    ('0', 'No'),
+)
 class NewProjectForm(ModelForm):
     file_type = forms.ChoiceField(choices=FILE_TYPE_CHOICES,
                                   widget=forms.RadioSelect,)
@@ -27,4 +31,11 @@ class NewProjectForm(ModelForm):
         def __unicode__(self):
             return self.name
 
+class StartProcessingForm(forms.Form):
+    start_pocessing = forms.TypedChoiceField(choices=PROCESSING_CHOICES,
+                widget=forms.RadioSelect, coerce=int,)
+
+    class Meta:
+        model = NewProject 
+        fields = ['start_processing']
 

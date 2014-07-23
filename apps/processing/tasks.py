@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from subprocess import call 
 from celery import Celery 
 
-from pearl.settings import BASE_DIR 
+from pearl.settings import BASE_DIR, NEW_PROJECT_DIR, REPORT_DIR 
 
 
 app = Celery('project_tasks', backend='amqp', broker='amqp://')
@@ -15,14 +15,15 @@ def do_processing(project_id):
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
     if project.status == 1:
-        do_quality_control.apply_async(args=[project_id,]) 
-        """
-        chain = do_quality_control.s(project_id,) 
-        chain() 
-        """
-        return 'Successfully completed do_processing'
+        if project.file_type == 'fastq':
+            check_fastq_quality.apply_async(args=[project_id,]) 
+        elif project.file_type == 'vcf':
+            check_vcf_quality.apply_async(args=[project_id,])
+        print 'Successfully completed do_processing'
+        return 0
     else:
-        return 'Project status is NOT ONE'
+        print('Project status is NOT ONE')
+        return 1
 
 
 @contextmanager
@@ -36,28 +37,31 @@ def cd(path):
 
 
 @app.task()
-def do_quality_control(project_id):
-    # unzip file, do qc
+def check_fastq_quality(project_id):
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
     if project.status == 1:
-        local_dir = join(BASE_DIR, 'files/NewProject/', str(project_id)) 
+        local_dir = join(BASE_DIR, NEW_PROJECT_DIR, str(project_id)) 
         with cd(local_dir):
+            # unzip files
             files = [f for f in listdir(local_dir) if isfile(join(local_dir, f))]
             for zip_file in files:
                 print zip_file 
                 call(["7z","e", zip_file])
+            # run fastqc 
             files = [f for f in listdir(getcwd()) if isfile(join(local_dir, f))]
-            report_dir = join(BASE_DIR, "files/Report/", str(project_id))
+            report_dir = join(BASE_DIR, REPORT_DIR, str(project_id))
             mkdir(report_dir)
             for local_file in files:
                 if  splitext(local_file)[1] == '.fastq':
                     call(["fastqc", local_file, "-o", report_dir, "-q"])
         project.status = 2
         project.save()
-        return 'Successfully complted QC.'
+        print 'Successfully complted QC.'
+        return 0
     else:
-        return "Project status NOT ONE. do_quality_control"
+        print "Project status NOT ONE. do_quality_control"
+        return 1
 
 
 @app.task()
@@ -66,7 +70,8 @@ def generate_vcf(project_id):
 
 
 @app.task()
-def vcf_qc(project_id):
+def check_vcf_quality(project_id):
+    print('checking vcf quality')
     pass
 
 

@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
 
 from registration.backends.default.views import RegistrationView 
 
@@ -21,7 +22,7 @@ urlpatterns = patterns('',
     #url(r'^accounts/signin2/', 'accounts.views.signin', name = 'signin2'),
     #url(r'^accounts/register/', 'apps.accounts.views.register', name = 'register'),
 
-    url(r'^project/', include('apps.project.urls', namespace='project')), 
+    url(r'^project/', (include('apps.project.urls', namespace='project'))), 
     #url(r'^projects/$', include('projects.urls')),
     #url(r'^projects/new/$', 'projects.views.new', name = 'new_project'),
     #url(r'^projects/dashboard/$', 'projects.views.dashboard', name = 'dashboard'),
@@ -41,4 +42,9 @@ urlpatterns = patterns('',
 
 ) 
 
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT })
+)
 #+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

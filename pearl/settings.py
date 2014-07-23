@@ -25,8 +25,10 @@ STATICFILES_DIRS = (
     join(BASE_DIR, 'static'),
 )
 
-MEDIA_ROOT = join(BASE_DIR, 'files')
-MEDIA_URL = 'files/'
+MEDIA_ROOT = join(BASE_DIR, 'media')
+MEDIA_URL = 'media/'
+NEW_PROJECT_DIR = join(MEDIA_URL, 'NewProject/')
+REPORT_DIR = join(MEDIA_URL, 'Report/')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -66,8 +68,8 @@ INSTALLED_APPS = (
     'djcelery', 
     'kombu.transport.django',
     'django_jenkins',
+    'django_shell_ipynb',
     #'django-nose',
-    #'django_shell_ipynb',
     #'guardian',
     #'bootstrapform',
     #'crispy_forms',
@@ -108,6 +110,7 @@ PASSWORD_COMPLEXITY = {
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = "django://"
+BROKER_BACKEND = 'memory'
 CELERY_IMPORTS = ('apps.processing.tasks',)
 
 
@@ -168,5 +171,7 @@ AUTHENTICATION_BACKENDS = (
 ANONYMOUS_USER_ID = -1
 
 # django-nose
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+#TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+# djceley testrunner
+TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 

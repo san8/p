@@ -9,7 +9,7 @@
         "is_active": true, 
         "is_superuser": true, 
         "is_staff": true, 
-        "last_login": "2014-07-15T09:25:05Z", 
+        "last_login": "2014-07-21T10:43:06Z", 
         "groups": [], 
         "user_permissions": [], 
         "password": "pbkdf2_sha256$12000$3POLjGqzR5SC$io7wXg1P8J2vCRZfaEpG44fwQqpBOOpdylsA3UPXdYQ=", 
@@ -891,31 +891,12 @@
         "is_active": true, 
         "is_superuser": false, 
         "is_staff": false, 
-        "last_login": "2014-07-18T05:33:02Z", 
+        "last_login": "2014-07-22T05:38:48Z", 
         "groups": [], 
         "user_permissions": [], 
         "password": "pbkdf2_sha256$12000$DdBtIErl2GAQ$DR3mNvWK0z1qwDUxygUE55fbhJBwxOn23EDJWI15pzA=", 
         "email": "anand21nasdfanda@gmail.com", 
         "date_joined": "2014-07-18T04:35:05Z"
     }
-},
-{
-    "pk": 65, 
-    "model": "auth.user", 
-    "fields": {
-        "username": "test", 
-        "first_name": "", 
-        "last_name": "", 
-        "is_active": true, 
-        "is_superuser": false, 
-        "is_staff": false, 
-        "last_login": "2014-07-18T05:33:02Z", 
-        "groups": [], 
-        "user_permissions": [], 
-        "password": "test", 
-        "email": "anand21asdfnasdfanda@gmail.com", 
-        "date_joined": "2014-07-18T04:35:05Z"
-    }
 }
-
 ]
