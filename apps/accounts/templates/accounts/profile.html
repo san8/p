@@ -2,8 +2,25 @@
 
 {% block content %}
     <h3>Welcome, {{ user | title }}</h3>
-    <div>
-    </div>
+    {% if user_timezone %}
+        Your time zone is <b> {{ user_timezone }} </b>
+        <p>Change your time zone:</p>
+    {% else %}
+        <p>You have not set your time zone.</p>
+        <p>Please Set your time zone</p> 
+    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="timezone">Timezone</label>
+        <select name="timezone">
+            {% for tz in timezones %}
+                <option value="{{ tz }}" {% if tz == TIME_ZONE %} selected="selected" {% endif %}>
+                    {{ tz }}
+                </option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Set" />
+    </form>
 {% endblock content %}
 
 

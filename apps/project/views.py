@@ -6,6 +6,7 @@ from django.shortcuts import HttpResponseRedirect
 from django.views.generic.base import View 
 from django.http import HttpResponseNotFound, HttpResponse 
 
+from apps.accounts.models import Customer 
 from .models import NewProject 
 from .models import STATUS_OPTIONS 
 from .models import DO_PROCESSING 
@@ -24,10 +25,9 @@ class NewProjectFormView(View):
    
     def post(self, request):
         form = self.form_class(request.POST)
-        customer_id = request.user.id 
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.customer_id = customer_id 
+            instance.customer_id = request.user.id 
             #instance.customer_id = request.session['_auth_user_id']
             #if instance.total_fastq_files == '':
             #    instance.total_fastq_files = 0
@@ -40,11 +40,13 @@ class NewProjectFormView(View):
 class DashboardView(View):
     def get(self, request):
         #cust_id = request.session['_auth_user_id']
-        cust_id = request.user.id 
-        myProjects = NewProject.objects.filter(customer=cust_id)
+        customer_id = request.user.id 
+        customer = Customer.objects.get(user_id=customer_id)
+        myProjects = NewProject.objects.filter(customer=customer_id)
         return render(request, 'project/dashboard.html', 
                 {'projects': myProjects,
-                 'status_options': STATUS_OPTIONS},)
+                 'status_options': STATUS_OPTIONS,
+                 'user_timezone': customer.timezone,},)
 
 class ProjectDetailsView(View):
     def get(self, request, project_id):

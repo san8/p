@@ -1,6 +1,8 @@
+import pytz
+
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.shortcuts import render 
+from django.shortcuts import render, redirect  
 from django.views.generic.base import View, TemplateView 
 
 from .forms import SignUpForm, EditProfileForm
@@ -12,10 +14,32 @@ class ProfileView(View):
         cust_id = request.session['_auth_user_id']
         return render(request, 'accounts/profile.html', {'customer': Customer.objects.get(id=cust_id), })
 
-"""
+
+def set_timezone(request):
+    if request.method == "POST":
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect("/")
+    else:
+        return render(request, 'accounts/set_timezone.html', {'timezones': pytz.common_timezones})
 
 class ProfileView(TemplateView):
     template_name = 'accounts/profile.html'
+
+"""
+
+class ProfileView(View):
+    def get(self, request):
+        customer_id = request.user.id 
+        user = Customer.objects.get(user_id=customer_id)
+        return render(request, 'accounts/profile.html', 
+                {'timezones': pytz.common_timezones, 'user_timezone': user.timezone,},)
+    def post(self, request):
+        customer_id = request.user.id 
+        instance = Customer.objects.get(user_id=customer_id)
+        instance.timezone = request.POST['timezone']
+        instance.save()
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect(reverse("account:account_profile"))
 
 
 class EditProfile(View):

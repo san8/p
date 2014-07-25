@@ -22,7 +22,11 @@
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td>{% load tz %}{{ project.updated_at | timezone:"Asia/Kolkata" }}</td> 
+                <td>{% load tz %}
+                    {% timezone user_timezone %}
+                        {{ project.updated_at }}
+                    {% endtimezone %}
+                </td> 
             </tr>
             {% endfor %}
         </tbody>
