@@ -24,7 +24,7 @@ def project_created(project_id):
 
 
 @app.task()
-def get_ftp_files(project_id, ):
+def get_ftp_files(project_id,):
     from .models import NewProject 
     project = NewProject.objects.get(id=project_id)
     url_list = project.url_list() 

@@ -12,6 +12,8 @@
         <link rel="shortcut icon" href="{% static 'pearl/images/favicon.png' %}" />
         <script src="{% static 'pearl/js/jquery-1.11.1.min.js' %}"></script>
         <script src="{% static 'pearl/js/jquery.dataTables.min.js' %}"></script>
+        {% block static_files %}
+        {% endblock static_files %}
 
     </head>
 
@@ -40,7 +42,7 @@
             </div>
             <div id="content">
             {% block content %}
-            {% endblock %}
+            {% endblock content %}
             </div>
      
         </div>

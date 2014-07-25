@@ -7,18 +7,19 @@
 {% block content %} 
     <div id="content">
         <h3>Quality Control Report(s).</h3>
-        {{ project_id }}
         {% for link in links  %}
-        <p><a href="{% url 'project:project_qcdetails' 12 'asdf'  %}">
-            {% url 'project:project_qcdetails' 12 'asdf'  %}
-        </a></p>
+        <p><a href="{{ link }}"> {{ link }} </p>
         {% endfor %}
 
         <h3>Processing</h3>
-        <form method="POST" action="">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit</button>
-        </form>
+        {% if project.start_processing %}
+            <p>Your files were queued for processing.</p>
+        {% else %}
+            <form method="POST" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+        {% endif %}
     </div>
 {% endblock content %}

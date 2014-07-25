@@ -1,12 +1,18 @@
+import json 
+
 from django.core.urlresolvers import reverse 
 from django.shortcuts import render
 from django.shortcuts import HttpResponseRedirect 
 from django.views.generic.base import View 
-from django.http import HttpResponseNotFound 
+from django.http import HttpResponseNotFound, HttpResponse 
 
 from .models import NewProject 
 from .models import STATUS_OPTIONS 
+from .models import DO_PROCESSING 
 from .forms import NewProjectForm, StartProcessingForm 
+from .functions import DATA
+
+from pearl.settings import REPORT_DIR 
 
 
 class NewProjectFormView(View):
@@ -18,11 +24,13 @@ class NewProjectFormView(View):
    
     def post(self, request):
         form = self.form_class(request.POST)
+        customer_id = request.user.id 
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.customer_id = request.session['_auth_user_id']
-            if instance.total_fastq_files == '':
-                instance.total_fastq_files = 0
+            instance.customer_id = customer_id 
+            #instance.customer_id = request.session['_auth_user_id']
+            #if instance.total_fastq_files == '':
+            #    instance.total_fastq_files = 0
             #instance.vcf_file = request.FILES['vcf_file']
             instance.save()
             return HttpResponseRedirect(reverse('project:project_dashboard'))
@@ -53,9 +61,12 @@ class QcReportView(View):
         form = StartProcessingForm() 
         project = NewProject.objects.get(pk=project_id)
         links = project.qc_report_links()
+#        links = ["/media/Report/187/sample1_fastqc/fastqc_report.html", 
+#        "/media/Report/187/sample2_fastqc/fastqc_report.html"]
         if project.customer_id == request.user.id:
             return render(request, 'project/qc_report.html', 
-                    {'project_id': project_id, 'links': links, 'form': form,},)
+                    {'project': project, 'links': links, 'form': form,
+                        'REPORT_DIR': REPORT_DIR,},)
         else:
             return HttpResponseNotFound('<h1>Page Not Found.</h1>')
 
@@ -64,7 +75,8 @@ class QcReportView(View):
         project = NewProject.objects.get(pk=project_id)
         links = project.qc_report_links()
         if form.is_valid():
-            project.start_pocessing = form.cleaned_data['start_pocessing']
+            project.start_processing = form.cleaned_data['start_processing']
+            project.status = DO_PROCESSING 
             project.save() 
             return HttpResponseRedirect(reverse('project:project_dashboard'))
         return render(request, 'project/qc_report.html',
@@ -77,6 +89,14 @@ class QcDetailsView(View):
         pass 
 
 
+def json_data(request):
+    data = []
+    field = request.GET.get('field', '')
+    query = request.GET.get('query', '')
+    for q in DATA[field]:
+        if query.lower() in q.lower():
+            data.append(q)
+    return HttpResponse(json.dumps(data), content_type="application/json")
 """
 class DashboardView(View):
     def get(self, request):

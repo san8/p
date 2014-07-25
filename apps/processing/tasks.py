@@ -16,7 +16,9 @@ def do_processing(project_id):
     project = NewProject.objects.get(id=project_id)
     if project.status == 1:
         if project.file_type == 'fastq':
-            check_fastq_quality.apply_async(args=[project_id,]) 
+            chain = check_fastq_quality.s(project_id)
+            chain()
+            #check_fastq_quality.apply_async(args=[project_id,]).get() 
         elif project.file_type == 'vcf':
             check_vcf_quality.apply_async(args=[project_id,])
         print 'Successfully completed do_processing'

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 from .views import NewProjectFormView, DashboardView
 from .views import ProjectDetailsView, QcReportView 
+from .views import json_data 
 
 
 urlpatterns = patterns('',
@@ -10,4 +11,5 @@ urlpatterns = patterns('',
         url(r'^dashboard/$', login_required(DashboardView.as_view()), name='project_dashboard'),
         url(r'^qcreport/(\d+)/$', login_required(QcReportView.as_view()), name='project_qcreport'),
         url(r'^qcdetails/(\d+)/(?P<dir_name>.+)/$', login_required(ProjectDetailsView.as_view()), name='project_qcdetails'),
+        url(r'^data/json/', json_data, name="json_data"),
 )

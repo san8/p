@@ -32,7 +32,7 @@ class NewProjectForm(ModelForm):
             return self.name
 
 class StartProcessingForm(forms.Form):
-    start_pocessing = forms.TypedChoiceField(choices=PROCESSING_CHOICES,
+    start_processing = forms.TypedChoiceField(choices=PROCESSING_CHOICES,
                 widget=forms.RadioSelect, coerce=int,)
 
     class Meta:
