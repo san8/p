@@ -1,5 +1,3 @@
-import json 
-
 from django.core.urlresolvers import reverse 
 from django.shortcuts import HttpResponseRedirect, render 
 from django.views.generic.base import View 
@@ -10,7 +8,6 @@ from .models import NewProject
 from .models import STATUS_OPTIONS 
 from .models import DO_PROCESSING 
 from .forms import NewProjectForm, StartProcessingForm 
-from .functions import DATA
 
 from pearl.settings import REPORT_DIR 
 
@@ -47,14 +44,6 @@ class DashboardView(View):
                  'status_options': STATUS_OPTIONS,
                  'user_timezone': customer.timezone,},)
 
-class ProjectDetailsView(View):
-    def get(self, request, project_id):
-        project_details = NewProject.objects.get(pk=project_id)
-        if project_details.customer_id == request.user.id:
-            return render(request, 'project/details.html', {'project_details': project_details,},)
-        else:
-            return HttpResponseNotFound('<h1>Page not found.</h1>')
-
 
 class QcReportView(View):
     form = StartProcessingForm
@@ -90,6 +79,7 @@ class QcDetailsView(View):
         pass 
 
 
+"""
 def json_data(request):
     data = []
     field = request.GET.get('field', '')
@@ -98,7 +88,8 @@ def json_data(request):
         if query.lower() in q.lower():
             data.append(q)
     return HttpResponse(json.dumps(data), content_type="application/json")
-"""
+
+
 class DashboardView(View):
     def get(self, request):
         projects = NewProject.objects.all()
@@ -132,3 +123,13 @@ def new(request):
 class DashboardView2(ListView):
     model = NewProject 
 """
+
+''' 
+class ProjectDetailsView(View):
+    def get(self, request, project_id):
+        project_details = NewProject.objects.get(pk=project_id)
+        if project_details.customer_id == request.user.id:
+            return render(request, 'project/details.html', {'project_details': project_details,},)
+        else:
+            return HttpResponseNotFound('<h1>Page not found.</h1>')
+''' 

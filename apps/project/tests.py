@@ -9,19 +9,30 @@ from .models import NewProject
 
 class ProjectViewsTestCase(TestCase):
 
-    fixtures = ['auth_user.json', 'accounts.json']
+    fixtures = ['auth_user.json', 'accounts.json', 'project.json']
 
     def setUp(self):
         print self._testMethodName
-        # print self.id 
-
-    def test_dashboard_view(self):
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 302)
         login = self.client.login(username='testpearl', password='123456')
         self.assertTrue(login)
+        # print self.id 
+
+    def test_dashboard_view(self):
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 200)
+
+    def test_newproject_view(self):
+        response = self.client.get(reverse('project:project_new'))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse('project:project_new'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_qcreport_view(self):
+        response = self.client.get(reverse('project:project_qcreport', args={55}))
+        self.assertEqual(response.status_code, 200)
+
 
 
 """
