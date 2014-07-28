@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 class AccountsViewsTestCase(TestCase):
     fixtures = ['test_user_login.json']
 
-
     def test_register(self):
         response = self.client.get(reverse('registration_register'))
         self.assertEqual(response.status_code, 200)

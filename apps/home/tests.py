@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 
-class HomeViewTestCase(TestCase):
+class HomeViewsTestCase(TestCase):
     def test_home(self):
         resp = self.client.get('/home/')
         self.assertEqual(resp.status_code, 200)

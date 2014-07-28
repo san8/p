@@ -129,6 +129,7 @@ MIDDLEWARE_CLASSES = (
 
     #'apps.project.middleware.CheckLogin',
     'apps.accounts.middleware.TimezoneMiddleware',
+#    'apps.accounts.middleware.EnforceLoginMiddleware',
 )
 
 ROOT_URLCONF = 'pearl.urls'
@@ -174,4 +175,18 @@ ANONYMOUS_USER_ID = -1
 #TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 # djceley testrunner
 TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+
+# public urls for enfore login middle ware
+PUBLIC_URLS = (
+    r'/',
+    r'/home/',
+    r'/home/faq/',
+    r'/accounts/register/',
+    r'/accounts/login/',
+)
+SERVE_STATIC_TO_PUBLIC = True 
+
+
+#LOGIN_URL = 'accounts/login'
+#LOGIN_REDIRECT_URL = 'accounts/dashboard'
 

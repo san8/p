@@ -5,18 +5,18 @@ from django.contrib.auth import authenticate
 from django.test.utils import override_settings 
 
 from .models import NewProject 
-from .tasks import get_ftp_files 
+#from .tasks import get_ftp_files 
 
 class ProjectViewsTestCase(TestCase):
     def test_dashboard(self):
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 302)
-        self.user = User.objects.create(username='testuser', password='12345',
+        self.user = User.objects.create(username='chillaranand', password='123456',
                 is_active=True, is_staff=True, is_superuser=True) 
-        self.user.set_password('hello') 
+        self.user.set_password('123456') 
         self.user.save() 
-        self.user = authenticate(username='testuser', password='hello') 
-        login = self.client.login(username='testuser', password='hello') 
+        self.user = authenticate(username='chillaranand', password='123456') 
+        login = self.client.login(username='chillaranand', password='123456') 
         self.assertTrue(login)
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 200)
