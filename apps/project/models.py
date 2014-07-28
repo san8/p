@@ -19,6 +19,7 @@ LAST = -1
 UPLOADING_FILES = 0
 QUALITY_CONTROL = 1
 START_PROCESSING = 2
+STOP_PROCESSING = -2
 DO_PROCESSING = 3
 FINAL_REPORT = 4
 
@@ -27,6 +28,7 @@ STATUS_OPTIONS = (
     (UPLOADING_FILES, 'Uploading Files.'),
     (QUALITY_CONTROL, 'Checking Quality.'),
     (START_PROCESSING, 'Review Quality.'),
+    (STOP_PROCESSING, 'Project terminated at QC.'),
     (DO_PROCESSING, 'Processing the file.'),
     (FINAL_REPORT, 'Report Generated.')
 )

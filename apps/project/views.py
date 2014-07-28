@@ -1,8 +1,7 @@
 import json 
 
 from django.core.urlresolvers import reverse 
-from django.shortcuts import render
-from django.shortcuts import HttpResponseRedirect 
+from django.shortcuts import HttpResponseRedirect, render 
 from django.views.generic.base import View 
 from django.http import HttpResponseNotFound, HttpResponse 
 

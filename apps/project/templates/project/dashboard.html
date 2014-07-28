@@ -22,10 +22,15 @@
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td>{% load tz %}
-                    {% timezone user_timezone %}
+                <td>
+                    {% if user_timezone %}
+                        {% load tz %}
+                        {% timezone user_timezone %}
+                            {{ project.updated_at }}
+                        {% endtimezone %}
+                    {% else %}
                         {{ project.updated_at }}
-                    {% endtimezone %}
+                    {% endif %}
                 </td> 
             </tr>
             {% endfor %}

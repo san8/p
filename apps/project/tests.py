@@ -1,37 +1,42 @@
 from django.test import TestCase
-from django.core.urlresolvers import reverse 
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate 
 from django.test.utils import override_settings 
+from django.core.urlresolvers import reverse 
+#from django.contrib.auth.models import User
+#from django.contrib.auth import authenticate 
 
 from .models import NewProject 
 #from .tasks import get_ftp_files 
 
 class ProjectViewsTestCase(TestCase):
-    def test_dashboard(self):
+
+    fixtures = ['auth_user.json', 'accounts.json']
+
+    def setUp(self):
+        print self._testMethodName
+        # print self.id 
+
+    def test_dashboard_view(self):
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 302)
-        self.user = User.objects.create(username='chillaranand', password='123456',
-                is_active=True, is_staff=True, is_superuser=True) 
-        self.user.set_password('123456') 
-        self.user.save() 
-        self.user = authenticate(username='chillaranand', password='123456') 
-        login = self.client.login(username='chillaranand', password='123456') 
+        login = self.client.login(username='testpearl', password='123456')
         self.assertTrue(login)
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 200)
 
 
+"""
 class CeleryTasksTestCase(TestCase):
 
     def test_get_ftp_files(self):
         pass 
-"""
         result = get_ftp_files.apply_async(args=[158,])
         self.assertEquals(result.get(), 0)
         self.assertTrue(result.successfull())
 
 """
+
+
+'''  
 class ProjectModelTestCase(TestCase):
     fixtures = ['test_user_login.json']
     @override_settings(CELERY_EAGER_PROPAGATES_EXCEPTIONS=True,
@@ -53,4 +58,19 @@ class ProjectModelTestCase(TestCase):
         n = self.create_newproject()
         self.assertTrue(isinstance(n, NewProject))
         self.assertEqual(n.__str__(), n.name)
+'''
+''' 
+    def test_dashboard(self):
+        response = self.client.get(reverse('project:project_dashboard'))
+        self.assertEqual(response.status_code, 302)
+        self.user = User.objects.create(username='chillaranand2', password='123456',
+                is_active=True, is_staff=True, is_superuser=True) 
+        self.user.set_password('123456') 
+        self.user.save() 
+        self.user = authenticate(username='chillaranand2', password='123456') 
+        login = self.client.login(username='chillaranand2', password='123456') 
+        self.assertTrue(login)
+        response = self.client.get(reverse('project:project_dashboard'))
+        self.assertEqual(response.status_code, 200)
+''' 
 

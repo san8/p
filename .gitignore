@@ -5,3 +5,7 @@ files/NewProject/
 files/Report/
 apps/project/migrations/
 media/
+Untitled0.ipynb
+Untitled1.ipynb
+.ipynb_checkpoints/
+.coverage

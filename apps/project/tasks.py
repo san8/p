@@ -23,9 +23,14 @@ def project_created(project_id):
         do_qc.apply_async(args=[project_id,])
         print "Started QC. Status = 1"
     elif project.status == 3:
-        from apps.processing.tasks import do_processing 
-        do_processing.apply_async(args=[project_id,])
-        print "Started Processing. Status = 3"
+        if project.start_processing:
+            from apps.processing.tasks import do_processing 
+            do_processing.apply_async(args=[project_id,])
+            print "Started Processing. Status = 3"
+        else:
+            project.status = -2
+            project.save() 
+            print "Terminated at QC."
     else:
         print project.status 
     return 1

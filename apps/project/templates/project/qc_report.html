@@ -11,15 +11,17 @@
         <p><a href="{{ link }}"> {{ link }}  </a></p>
         {% endfor %}
 
-        <h3>Processing</h3>
-        {% if project.start_processing %}
-            <p>Your files were queued for processing.</p>
-        {% else %}
-            <form method="POST" action="">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Submit</button>
-            </form>
+        {% if project.status >= 2 %}
+            <h3>Processing</h3>
+            {% if project.start_processing %}
+                <p>Your files were queued for processing.</p>
+            {% else %}
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Submit</button>
+                </form>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock content %}

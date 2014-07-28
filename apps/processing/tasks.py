@@ -50,7 +50,6 @@ def do_qc(project_id):
         return -1
 
 
-"""
 @app.task()
 def do_processing(project_id):
     from apps.project.models import NewProject 
@@ -77,6 +76,7 @@ def generate_final_report(project_id):
     pass 
 
 
+"""
 @app.task(name='apps.project.tasks.do_qc')
 def do_qasdfuality_control(project_id):
     pass 
