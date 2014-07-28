@@ -190,3 +190,7 @@ SERVE_STATIC_TO_PUBLIC = True
 #LOGIN_URL = 'accounts/login'
 #LOGIN_REDIRECT_URL = 'accounts/dashboard'
 
+#celery - depricated pickle
+#CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
+

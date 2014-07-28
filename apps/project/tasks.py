@@ -16,11 +16,19 @@ def project_created(project_id):
     project = NewProject.objects.get(id=project_id)
     if project.status == 0:
         get_ftp_files.apply_async(args=[project_id,])
-        print 'Successfully created project.'
+        print "Started FTP. Status = 0"
         return 0
+    elif project.status == 1:
+        from apps.processing.tasks import do_qc 
+        do_qc.apply_async(args=[project_id,])
+        print "Started QC. Status = 1"
+    elif project.status == 3:
+        from apps.processing.tasks import do_processing 
+        do_processing.apply_async(args=[project_id,])
+        print "Started Processing. Status = 3"
     else:
-        print 'Status is NOT ZERO'
-        return 1
+        print project.status 
+    return 1
 
 
 @app.task()
@@ -43,8 +51,6 @@ def get_ftp_files(project_id,):
             ftp.quit()
         project.status = 1
         project.save() 
-        from apps.processing.tasks import do_processing 
-        do_processing.apply_async(args=[project_id,])
         print 'Successfully fetched the files.'
         return 0
     except:
