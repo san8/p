@@ -1,13 +1,13 @@
 import pytz
 
-from django.http import HttpResponseRedirect
+#from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect  
 from django.views.generic.base import View 
 #from django.views.generic.base import TemplateView 
 
 
-from .forms import SignUpForm, EditProfileForm
+#from .forms import SignUpForm, EditProfileForm
 from .models import Customer 
 
 

@@ -1,11 +1,12 @@
 from django.test import TestCase
-from django.test.utils import override_settings 
+#from django.test.utils import override_settings 
 from django.core.urlresolvers import reverse 
 #from django.contrib.auth.models import User
 #from django.contrib.auth import authenticate 
 
-from .models import NewProject 
+#from .models import NewProject 
 #from .tasks import get_ftp_files 
+from .forms import NewProjectForm 
 
 class ProjectViewsTestCase(TestCase):
 
@@ -32,6 +33,37 @@ class ProjectViewsTestCase(TestCase):
     def test_qcreport_view(self):
         response = self.client.get(reverse('project:project_qcreport', args={55}))
         self.assertEqual(response.status_code, 200)
+
+
+class ProjectFormsTestCase(TestCase):
+
+    fixtures = ['auth_user.json', 'accounts.json', 'project.json']
+
+    def setUp(self):
+        print self._testMethodName
+        response = self.client.get(reverse('auth_login'))
+        self.assertEqual(response.status_code, 200)
+        login = self.client.login(username='testpearl', password='123456')
+        self.assertTrue(login)
+
+    def test_NewProjectForm(self):
+        form_data = { 'customer_id': 65, 'name': 'test project',
+            'description': 'asdf asdfjlas dflas dflas df',
+            'file_type' : 'fastq', 'total_fastq_files' : 2,
+            'fastq_file1' : 'ftp://localhost/fastq_files/sample1.fastq.gz', }
+        form = NewProjectForm(data=form_data)
+        self.assertEqual(form.is_valid(), True)
+
+    def test_NewProjectForm2(self):
+        form_data = { 'customer_id': 65, 
+            'description': 'asdf asdfjlas dflas dflas df',
+            'file_type' : 'fastq', 'total_fastq_files' : 2,
+            'fastq_file1' : 'ftp://localhost/fastq_files/sample1.fastq.gz', }
+        form = NewProjectForm(data=form_data)
+        self.assertEqual(form.is_valid(), False)
+
+
+
 
 
 
