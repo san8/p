@@ -1,9 +1,8 @@
 from django.contrib import admin
 
-from .models import NewProject, ProjectReport 
+from .models import NewProject
 
 
 admin.site.register(NewProject)
-admin.site.register(ProjectReport)
 
 

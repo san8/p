@@ -55,7 +55,6 @@ class NewProject(models.Model):
 
     def __unicode__(self):
         return self.name
-        #return "{} : {}".format(self.customer.username, self.name)
 
     class Meta:
         ordering = ['updated_at']
@@ -82,7 +81,7 @@ class NewProject(models.Model):
         url_list = [self.fastq_file1, self.fastq_file2, self.vcf_file1]
         return filter(None, url_list)
 
-
+"""
 class ProjectReport(models.Model):
     project = models.ForeignKey(NewProject, related_name='project_as_foreign_key')
     pdf_file = models.CharField(max_length=100, default='')
@@ -92,3 +91,4 @@ class ProjectReport(models.Model):
         return self.project.name 
 
 
+"""
