@@ -7,37 +7,48 @@ class ProjectViewsTestCase(TestCase):
     fixtures = ['auth_user.json', 'accounts.json', 'project.json']
 
     def setUp(self):
-        print self._testMethodName
-        response = self.client.get(reverse('project:project_dashboard'))
-        self.assertEqual(response.status_code, 302)
+        #print self._testMethodName
+        response = self.client.get(reverse('auth_login'))
+        self.assertEqual(response.status_code, 200)
         login = self.client.login(username='testpearl', password='123456')
         self.assertTrue(login)
-        # print self.id 
+
+    def test_newproject_view_get(self):
+        response = self.client.get(reverse('project:project_new'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_newproject_view_post_valid_entry(self):
+        data = {'name': 'test project',
+                'description': 'test description',
+                'file_type': 'fastq', 
+                'total_fastq_files': 2,
+                'fastq_file1': 'ftp://localhost/fastq_files/sample1.fastq.gz',}
+        response = self.client.post(reverse('project:project_new'), data ) 
+        self.assertEqual(response.status_code, 302)
+
+    def test_newproject_view_post_invalid_entry(self):
+        data = {'description': 'test description', }
+        response = self.client.post(reverse('project:project_new'), data ) 
+        self.assertEqual(response.status_code, 200)
 
     def test_dashboard_view(self):
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 200)
 
-    def test_newproject_view(self):
-        response = self.client.get(reverse('project:project_new'))
+    def test_qcreport_view_get(self):
+       response = self.client.get(reverse('project:project_qcreport', args={55}))
+       self.assertEqual(response.status_code, 200)
+
+    def test_qcreport_view_post_invalid_entry(self):
+        data = {'start_processing': True }
+        response = self.client.post(reverse('project:project_qcreport', args={55}), data)
         self.assertEqual(response.status_code, 200)
-        response = self.client.post(reverse('project:project_new'))
+
+    def test_qcreport_view_post_valid_entry(self):
+        data = {'trash_field': 'trash_options',}
+        response = self.client.post(reverse('project:project_qcreport', args={55}), data)
         self.assertEqual(response.status_code, 200)
 
-    def test_qcreport_view(self):
-        response = self.client.get(reverse('project:project_qcreport', args={55}))
-        self.assertEqual(response.status_code, 200)
-
-
-
-
-#    def test_NewProjectForm2(self):
-#        form_data = { 'customer_id': 65, 
-#            'description': 'asdf asdfjlas dflas dflas df',
-#            'file_type' : 'fastq', 'total_fastq_files' : 2,
-#            'fastq_file1' : 'ftp://localhost/fastq_files/sample1.fastq.gz', }
-#        form = NewProjectForm(data=form_data)
-#        self.assertEqual(form.is_valid(), False)
 
 
 """

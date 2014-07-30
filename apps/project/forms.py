@@ -28,12 +28,11 @@ class NewProjectForm(ModelForm):
                   'fastq_file2', 'paired_end_distance', 
                   'vcf_file1', 'tissue', 'disease']
 
-        def __unicode__(self):
-            return self.name
 
 class StartProcessingForm(forms.Form):
+
     start_processing = forms.TypedChoiceField(choices=PROCESSING_CHOICES,
-                widget=forms.RadioSelect, coerce=int,)
+                widget=forms.RadioSelect, coerce=int, required=True,)
 
     class Meta:
         model = NewProject 

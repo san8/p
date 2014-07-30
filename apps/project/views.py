@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse 
 from django.shortcuts import HttpResponseRedirect, render 
 from django.views.generic.base import View 
-from django.http import HttpResponseNotFound, HttpResponse 
+from django.http import HttpResponseNotFound
 
 from apps.accounts.models import Customer 
 from .models import NewProject 
@@ -24,10 +24,6 @@ class NewProjectFormView(View):
         if form.is_valid():
             instance = form.save(commit=False)
             instance.customer_id = request.user.id 
-            #instance.customer_id = request.session['_auth_user_id']
-            #if instance.total_fastq_files == '':
-            #    instance.total_fastq_files = 0
-            #instance.vcf_file = request.FILES['vcf_file']
             instance.save()
             return HttpResponseRedirect(reverse('project:project_dashboard'))
         return render(request, 'project/new.html', {'form': form},)
@@ -49,16 +45,12 @@ class QcReportView(View):
     form = StartProcessingForm
     def get(self, request, project_id):
         form = StartProcessingForm() 
-        project = NewProject.objects.get(pk=project_id)
+        customer_id = request.user.id 
+        project = NewProject.objects.get(pk=project_id, customer_id=customer_id)
         links = project.qc_report_links()
-#        links = ["/media/Report/187/sample1_fastqc/fastqc_report.html", 
-#        "/media/Report/187/sample2_fastqc/fastqc_report.html"]
-        if project.customer_id == request.user.id:
-            return render(request, 'project/qc_report.html', 
-                    {'project': project, 'links': links, 'form': form,
-                        'REPORT_DIR': REPORT_DIR,},)
-        else:
-            return HttpResponseNotFound('<h1>Page Not Found.</h1>')
+        return render(request, 'project/qc_report.html', 
+                {'project': project, 'links': links, 'form': form,
+                    'REPORT_DIR': REPORT_DIR,},)
 
     def post(self, request, project_id):
         form = self.form(request.POST)
@@ -73,13 +65,13 @@ class QcReportView(View):
                 {'project_id': project_id, 'links': links, 'form': form,})
 
 
+"""
 class QcDetailsView(View):
     def get(self):
     #def get(self, project_id, report_dir):
         pass 
 
 
-"""
 def json_data(request):
     data = []
     field = request.GET.get('field', '')
