@@ -21,9 +21,6 @@ TEMPLATE_DIRS = (
     join(BASE_DIR, 'templates'),
 )
 
-STATICFILES_DIRS = (
-    join(BASE_DIR, 'static'),
-)
 
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
@@ -32,7 +29,9 @@ REPORT_DIR = join(MEDIA_ROOT, 'Report/')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
+STATIC_ROOT = join(BASE_DIR, 'collect_static')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (join(BASE_DIR, 'static'),)
 
 
 # Quick-start development settings - unsuitable for production
@@ -71,8 +70,9 @@ INSTALLED_APPS = (
     'django_shell_ipynb',
     #'django-nose',
     #'guardian',
-    #'bootstrapform',
-    #'crispy_forms',
+    'bootstrapform',
+    'crispy_forms',
+    'bootstrap3',
 
     #apps
     'apps.home',

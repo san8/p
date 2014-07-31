@@ -1,4 +1,9 @@
 {% extends 'home/base.html' %}
+{% load staticfiles %}
+
+{% block static_files %}
+    <script src="{% static 'pearl/js/jquery.dataTables.min.js' %}"></script>
+{% endblock static_files %}
 
 {% block content %}
 

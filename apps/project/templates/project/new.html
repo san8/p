@@ -1,29 +1,29 @@
 {% extends 'home/base.html' %}
 {% load staticfiles %}
+{% load bootstrap %}
+{% load bootstrap3 %}
 
 {% block static_files %}
-    <script src="{% static 'pearl/js/jquery-ui.min.js' %}"></script> 
     <link rel="stylesheet" href="{% static 'pearl/css/jquery-ui.min.css' %}" />
+    <script src="{% static 'pearl/js/jquery-ui.min.js' %}"></script> 
 {% endblock static_files %}
 
 {% block content %}
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
-        <p>
             <div id="{{ field.name }}">
                 {{ field.errors }}
-                {{ field.label_tag }} 
-                {{ field }}
+                {{ field | bootstrap }}
             </div>
-        </p>
         {% endfor %} 
-        <p><input type="submit" value="Submit" /></p>
+        {% buttons submit='Start Project' %}{% endbuttons %}
     </form>
 {% endblock content %}
 
 {% block js %}
 
+$('.form-group').css('width', 250);
 var tissues = [
     {"label": "taaaa 1"},
     {"label": "tbbbb 2"},
@@ -56,6 +56,7 @@ var diseases = [
                     if (value == 1){
                         $('div#fastq_file1').show();
                         $('div#fastq_file2').hide();
+                        $('div#paired_end_distance').hide();
                     } else if (value == 2){
                         $('div#fastq_file1').show();
                         $('div#fastq_file2').show();
@@ -98,3 +99,4 @@ var diseases = [
 
 })(); 
 {% endblock %}
+

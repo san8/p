@@ -1,8 +1,10 @@
 @charset "utf-8";
 
 /* Standar Styles */
-body{
-	font-size: 14px;	
+body {
+
+	padding-top: 70px;
+	font-size: 16px;	
 	line-height:14px;
 	background-color: #fff;
 	color: #6e7982;
@@ -37,50 +39,18 @@ h1, h2, h3, h4, h5, h6 {
     width: 800px;
     margin: auto;
 }
-.horizontal-bar {
-	float: left;
-    width: 33%
+div#content {
+    width: 800px;
+    margin: auto;
+    font-size: 14px;	
 }
 
-
-div#logo {
-    height: 32px;
-    width: 32px;
-}
-
-div#links {
-   float: right;
-   margin: 12px 0 12px 0;
-   width: 90%
-} 
-
-ul#menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: inline;
-    font-weight: bold;
-    font-size: 16px;
-    margin-right: 8%;
-    display: inline-block;
-}
-
-ul#menu li {
-    display: inline;
-    margin-left: 40px;
-
-}
-
-  
-/* for development purpose 
+/* for development */
+/*
 div {
     border: 1px solid;
 }
 */
-div#nav-bar {
-    height: 50px;
-    box-shadow: 10 10 5 #cccccc;
-}
-/* upto here */
+
 
 
