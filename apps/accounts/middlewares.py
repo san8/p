@@ -1,13 +1,11 @@
+'''
 import pytz
-import re
 
-from django.http import HttpResponseRedirect
-from pearl import settings 
 from django.utils import timezone
 
 
 class TimezoneMiddleware(object):
-    def proecess_request(self, request):
+    def process_request(self, request):
         tzname = request.session.get('django_timezone')
         if tzname:
             timezone.activate(pytz.timezone(tzname))
@@ -56,3 +54,4 @@ class EnforceLoginMiddleware(object):
 
 
 
+'''

@@ -127,9 +127,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
 
+#    'apps.accounts.middlewares.TimezoneMiddleware',
     #'apps.project.middleware.CheckLogin',
-    'apps.accounts.middleware.TimezoneMiddleware',
-#    'apps.accounts.middleware.EnforceLoginMiddleware',
+    #'apps.accounts.middleware.EnforceLoginMiddleware',
 )
 
 ROOT_URLCONF = 'pearl.urls'
