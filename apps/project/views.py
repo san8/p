@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse 
 from django.shortcuts import HttpResponseRedirect, render 
 from django.views.generic.base import View 
-from django.http import HttpResponseNotFound
 
 from apps.accounts.models import Customer 
 from .models import NewProject 
@@ -31,7 +30,6 @@ class NewProjectFormView(View):
 
 class DashboardView(View):
     def get(self, request):
-        #cust_id = request.session['_auth_user_id']
         customer_id = request.user.id 
         customer = Customer.objects.get(user_id=customer_id)
         myProjects = NewProject.objects.filter(customer=customer_id)

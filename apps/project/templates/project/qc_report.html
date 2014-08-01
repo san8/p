@@ -1,4 +1,6 @@
 {% extends 'home/base.html' %}
+{% load bootstrap3 %}
+{% load bootstrap %}
 
 {% block title %}
     Review Quality 
@@ -8,7 +10,7 @@
     <div id="content">
         <h3>Quality Control Report(s).</h3>
         {% for link in links  %}
-        <p><a href="{{ link }}"> {{ link }}  </a></p>
+            <p><a href="{{ link }}"> {{ link }}  </a></p>
         {% endfor %}
 
         {% if project.status >= 2 %}
@@ -18,10 +20,16 @@
             {% else %}
                 <form method="POST" action="">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">Submit</button>
+                    {{ form | bootstrap }}
+                    {% buttons submit='Submit' %}{% endbuttons %}
                 </form>
             {% endif %}
         {% endif %}
     </div>
 {% endblock content %}
+
+{% block js %}
+(function(){
+    $('.radio').css('display', 'inline-block');
+})();
+{% endblock js %}

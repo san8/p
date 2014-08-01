@@ -1,10 +1,10 @@
 {% extends 'home/base.html' %}
+{% load bootstrap3 %}
 
 {% block content %}
     <h3>Welcome, {{ user | title }}</h3>
     {% if user_timezone %}
-        Your time zone is <b> {{ user_timezone }} </b>
-        <p>Change your time zone:</p>
+        Your time zone is <span class="text-primary"> {{ user_timezone }} </span>
     {% else %}
         <p>You have not set your time zone.</p>
         <p>Please Set your time zone</p> 
@@ -12,15 +12,21 @@
     <form action="" method="POST">
         {% csrf_token %}
         <label for="timezone">Timezone</label>
-        <select name="timezone">
+        <select name="timezone" class="form-control">
             {% for tz in timezones %}
-                <option value="{{ tz }}" {% if tz == TIME_ZONE %} selected="selected" {% endif %}>
+                <option value="{{ tz }}" {% if tz == TIME_ZONE %} selected="selected" {% endif %} class="form-control">
                     {{ tz }}
                 </option>
             {% endfor %}
         </select>
-        <input type="submit" value="Set" />
+        <p></p>
+        {% buttons submit='Update Preferences' %}{% endbuttons %}
     </form>
+
 {% endblock content %}
 
-
+{% block js %}
+(function(){
+    $('.form-control').css('width', '250px');
+})();
+{% endblock js %}

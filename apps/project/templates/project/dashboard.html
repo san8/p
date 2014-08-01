@@ -1,18 +1,11 @@
 {% extends 'home/base.html' %}
 {% load staticfiles %}
 
-{% block static_files %}
-    <script src="{% static 'pearl/js/jquery.dataTables.min.js' %}"></script>
-{% endblock static_files %}
-
 {% block content %}
-
-<button type="submit"><a href="/project/new/">Start New Project</a></button>
-
 <div>
-    <table id="projects">
+    <table id="projects" class="table table-bordered table-curved table-hover">
         <thead>
-            <th> Name </th>     
+            <th> Project Name </th>     
             <th> Status </th>
             <th> Updated At </th> 
         </thead>
@@ -45,35 +38,3 @@
 
 {% endblock content %}
 
-{% block js %}
-(function(){
-    $('#projects').dataTable();
-    $('div#projects_length').hide();
-})();
-
-// java script 
-(function ($) {
-$.fn.localTimeFromUTC = function (format) {
-
-return this.each(function () {
-
-// get time offset from browser
-var currentDate = new Date();
-var offset = -(currentDate.getTimezoneOffset() / 60);
-
-// get provided date
-var tagText = $(this).html();
-var givenDate = new Date(tagText);
-
-// apply offset
-var hours = givenDate.getHours();
-hours += offset;
-givenDate.setHours(hours);
-
-// format the date
-var localDateString = $.format.date(givenDate, format);
-$(this).html(localDateString);
-});
-};
-})(jQuery);
-{% endblock js %}

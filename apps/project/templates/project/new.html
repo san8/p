@@ -12,7 +12,7 @@
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
-            <div id="{{ field.name }}">
+            <div id="{{ field.name }}" class="form-group">
                 {{ field.errors }}
                 {{ field | bootstrap }}
             </div>
@@ -21,9 +21,22 @@
     </form>
 {% endblock content %}
 
+{% block css %}
+.radio {
+    display: inline-block;  
+}
+
+#total_fastq_files,
+#fastq_file1,
+#fastq_file2,
+#paired_end_distance,
+#vcf_file1 {
+    display: none; 
+}
+{% endblock css %}
+
 {% block js %}
 
-$('.form-group').css('width', 250);
 var tissues = [
     {"label": "taaaa 1"},
     {"label": "tbbbb 2"},
@@ -41,35 +54,31 @@ var diseases = [
 ];
 
 (function(){
-    $('div#total_fastq_files').hide();
-    $('div#fastq_file1').hide();
-    $('div#fastq_file2').hide();
-    $('div#paired_end_distance').hide();
-    $('div#vcf_file1').hide();
-    $("input:radio").click(function() {
+    $('input:radio').click(function() {
         var value = $(this).val();
         if (value == 'fastq'){
             $('div#total_fastq_files').show();
             $('div#vcf_file1').hide();
-            $("input:radio").click(function() {
-                var value = $(this).val();
-                    if (value == 1){
-                        $('div#fastq_file1').show();
-                        $('div#fastq_file2').hide();
-                        $('div#paired_end_distance').hide();
-                    } else if (value == 2){
-                        $('div#fastq_file1').show();
-                        $('div#fastq_file2').show();
-                        $('div#paired_end_distance').show();
-                    }
-            });
         } else if (value == 'vcf'){
             $('div#total_fastq_files').hide();
             $('div#vcf_file1').show();
         }
-        
     });
 
+    $("input:radio").click(function() {
+        var value = $(this).val();
+            if (value == 1){
+                $('div#fastq_file1').show();
+                $('div#fastq_file2').hide();
+                $('div#paired_end_distance').hide();
+            } else if (value == 2){
+                $('div#fastq_file1').show();
+                $('div#fastq_file2').show();
+                $('div#paired_end_distance').show();
+            }
+    });
+
+/*
     $('input#id_tissue').autocomplete({
         source: tissues 
     })
@@ -77,7 +86,6 @@ var diseases = [
         source: diseases 
     })
 
-/*
     $('input#id_tissue').click(function(){
         console.log('tissue');
         console.log($(this).val());
@@ -93,7 +101,6 @@ var diseases = [
     var inFocus = false
     $('input#tissues').focus(function(){
         inFocus = true 
-        console.log('asdf')
     });
 */
 
