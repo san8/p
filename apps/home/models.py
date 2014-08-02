@@ -1,3 +1,4 @@
+"""
 from django.db import models
 
 from django.contrib.auth.models import User 
@@ -19,7 +20,6 @@ class Profile(models.Model):
     time_zone = models.CharField(max_length=50, blank=True)
 
 
-"""
 # adding more fields to the django-allauth
 from django.contrib.auth.models import AbstractUser
 

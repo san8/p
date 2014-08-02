@@ -1,3 +1,9 @@
+from django.test import TestCase 
+
+class DummyTest(TestCase):
+    def test_dummytest(self):
+        pass 
+
 '''
 from django.test import TestCase 
 from mock import Mock 

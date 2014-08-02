@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User #UserManager
-
+from django.dispatch import receiver 
 from captcha.fields import CaptchaField 
 from registration.signals import user_registered
+
 
 
 class Customer(models.Model):
@@ -17,15 +18,14 @@ class Customer(models.Model):
         return self.user.username 
 
 
-from .forms import CustomerForm
+@receiver(user_registered)
 def user_registered_callback(sender, user, request, **kwargs):
+    from .forms import CustomerForm
     form =  CustomerForm(request.POST)
     customer = Customer(user=user)
     customer.name = form.data["name"]
     customer.company = form.data["company"]
     customer.phone_number = form.data["phone_number"]
     customer.save()
-
-user_registered.connect(user_registered_callback)
 
 
