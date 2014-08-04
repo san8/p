@@ -14,4 +14,3 @@ class AccountsModelsTestCase(TestCase):
         c = self.create_Customer()
         self.assertTrue(isinstance(c, Customer))
         self.assertEqual(c.__unicode__, c.user.name)
-
