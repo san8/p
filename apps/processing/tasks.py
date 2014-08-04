@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from subprocess import call 
 from celery import Celery 
 
-from pearl.settings import BASE_DIR, NEW_PROJECT_DIR, REPORT_DIR 
+from pearl.settings.base import BASE_DIR, NEW_PROJECT_DIR, REPORT_DIR 
 
 app = Celery('project_tasks', backend='amqp', broker='amqp://')
 

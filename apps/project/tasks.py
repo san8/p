@@ -4,7 +4,7 @@ from os.path import join
 from ftplib import FTP
 from urlparse import urlparse 
 
-from pearl.settings import BASE_DIR, NEW_PROJECT_DIR
+from pearl.settings.base import BASE_DIR, NEW_PROJECT_DIR
 
 
 app = Celery('project_tasks', backend='amqp', broker='amqp://',

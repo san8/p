@@ -1,4 +1,3 @@
-"""
 from django.test import TestCase
 
 
@@ -15,7 +14,6 @@ class HomeViewsTestCase(TestCase):
         resp = self.client.get('/home/faq/')
         self.assertEqual(resp.status_code, 200)
 
-    def test_unknown(self):
-        resp = self.client.get('/doesntexits/')
+    def test_unknown_view(self):
+        resp = self.client.get('/does-not-exits/')
         self.assertEqual(resp.status_code, 404)
-"""

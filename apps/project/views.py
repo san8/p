@@ -8,7 +8,7 @@ from .models import STATUS_OPTIONS
 from .models import DO_PROCESSING 
 from .forms import NewProjectForm, StartProcessingForm 
 
-from pearl.settings import REPORT_DIR 
+from pearl.settings.base import REPORT_DIR 
 
 
 class NewProjectFormView(View):

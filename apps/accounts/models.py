@@ -5,7 +5,6 @@ from captcha.fields import CaptchaField
 from registration.signals import user_registered
 
 
-
 class Customer(models.Model):
     user = models.ForeignKey(User, related_name='customer_to_user')
     name = models.CharField(max_length=50, blank=True)
