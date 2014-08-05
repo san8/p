@@ -1,5 +1,4 @@
 {% extends 'home/base.html' %}
-{% load bootstrap3 %}
 
 {% block content %}
     <h3>Welcome, {{ user | title }}</h3>
@@ -20,13 +19,7 @@
             {% endfor %}
         </select>
         <p></p>
-        {% buttons submit='Update Preferences' %}{% endbuttons %}
+        <button type="submit" class="btn btn-primary">Update Preferences</button>
     </form>
 
 {% endblock content %}
-
-{% block js %}
-(function(){
-    $('.form-control').css('width', '250px');
-})();
-{% endblock js %}

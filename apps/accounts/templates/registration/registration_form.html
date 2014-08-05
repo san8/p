@@ -1,10 +1,5 @@
 {% extends "home/base.html" %}
-{% load bootstrap3 %}
 {% load bootstrap %}
-
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-{% bootstrap_messages %}
 
 {% block title %}Sign up{% endblock %}
 
@@ -12,12 +7,6 @@
     <form action="" method="POST">
         {% csrf_token %}
         {{ form | bootstrap }}
-        {% buttons submit=' Register ' %} {% endbuttons %}
+        <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
 {% endblock %}
-
-{% block js %}
-(function(){
-    $('.form-group').css('width', 250);
-})();
-{% endblock js %}

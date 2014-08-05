@@ -17,7 +17,7 @@ INSTALLED_APPS += (
     'debug_toolbar',
     'django_jenkins',
     'django_shell_ipynb',
-
+    #'djcelery_testworker',
 )
 
 # Database
