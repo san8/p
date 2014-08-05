@@ -61,7 +61,8 @@ INSTALLED_APPS = (
     'apps.processing',
 )
 
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+#For django-crispy-froms
+#CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 #login session expiry
 SESSION_COOKIE_AGE = 10 * 60
@@ -85,7 +86,7 @@ PASSWORD_COMPLEXITY = {
 }
 
 
-# Settings for django-celery
+# django-celery
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = "django://"
@@ -106,7 +107,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
 
-#    'apps.accounts.middlewares.TimezoneMiddleware',
+    #'apps.accounts.middlewares.TimezoneMiddleware',
     #'apps.project.middleware.CheckLogin',
     #'apps.accounts.middleware.EnforceLoginMiddleware',
 )

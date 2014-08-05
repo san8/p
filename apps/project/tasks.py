@@ -63,4 +63,3 @@ def get_ftp_files(project_id,):
         project.save() 
         print 'Unable to fetch files.'
         return -1
-        

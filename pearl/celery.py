@@ -1,13 +1,13 @@
 from __future__ import absolute_import
 
-import os
-
+from os import environ
 from celery import Celery
 
 from django.conf import settings
 
+
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pearl.settings')
+environ.setdefault('DJANGO_SETTINGS_MODULE', 'pearl.settings')
 
 app = Celery('pearl')
 

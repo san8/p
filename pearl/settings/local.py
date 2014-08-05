@@ -1,10 +1,14 @@
+"""Additional settings for Development Environment."""
+
+import os 
+
 from .base import *
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@-+a#8cz=$*c^&jjf9ai!cw976%k!+@v3!%l+j9e%-d#h466*i'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 DEBUG = True
 

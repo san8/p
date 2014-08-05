@@ -1,15 +1,21 @@
-from os.path import isfile, join, splitext 
+"""List of tasks done during processing."""
+
+from __future__ import absolute_import
+
 from os import chdir, getcwd, listdir, mkdir, devnull 
+from os.path import isfile, join, splitext 
 from contextlib import contextmanager
 from subprocess import call 
 from celery import Celery 
 
 from pearl.settings.base import BASE_DIR, NEW_PROJECT_DIR, REPORT_DIR 
 
+
 app = Celery('project_tasks', backend='amqp', broker='amqp://')
 
 @contextmanager
 def cd(path):
+    """A simple context manage to change directory."""
     old_dir = getcwd()
     chdir(path)
     try:
@@ -20,7 +26,7 @@ def cd(path):
 
 @app.task()
 def do_qc(project_id):
-    # quality control for fastq/vcf
+    """After fetching files, unzip & do quality control."""
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
     try:
@@ -51,12 +57,25 @@ def do_qc(project_id):
 
 
 @app.task()
+def qc_mail(project_id):
+    """After qc is completed, send mail to user about it."""
+    pass
+
+
+@app.task()
 def do_processing(project_id):
+    """Start processing files after user verifies QC."""
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
     if project.file_type == 'fastq':
         print 'Started Processing FASTQ.'
         return 0
+
+
+@app.task()
+def report_mail(project_id):
+    """After report is generted, send mail to user about it."""
+    pass 
 
 
 @app.task()
