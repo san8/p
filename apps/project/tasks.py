@@ -7,10 +7,10 @@ from urlparse import urlparse
 from pearl.settings.base import BASE_DIR, NEW_PROJECT_DIR
 
 
-app = Celery('project_tasks', backend='amqp', broker='amqp://',
+celery = Celery('project_tasks', backend='amqp', broker='amqp://',
              include=['apps.processing.tasks'])
 
-@app.task()
+@celery.task()
 def project_created(project_id):
     from .models import NewProject 
     project = NewProject.objects.get(id=project_id)
@@ -36,7 +36,7 @@ def project_created(project_id):
     return 1
 
 
-@app.task()
+@celery.task()
 def get_ftp_files(project_id,):
     from .models import NewProject 
     project = NewProject.objects.get(id=project_id)
@@ -63,3 +63,18 @@ def get_ftp_files(project_id,):
         project.save() 
         print 'Unable to fetch files.'
         return -1
+
+
+@celery.task()
+def add(x, y):
+    return x + y
+
+
+@celery.task()
+def add_db(id):
+    from .models import NewProject
+    x = id
+    n = NewProject.objects.get(pk=id)
+    y = n.customer_id
+    return x + y 
+
