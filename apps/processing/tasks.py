@@ -4,33 +4,47 @@ List of tasks done during processing.
 
 from __future__ import absolute_import
 
-from os import chdir, getcwd, listdir, mkdir, devnull 
-from os.path import isfile, join, splitext 
-from contextlib import contextmanager
-from subprocess import call 
 from celery import Celery 
-
-from pearl.settings.base import BASE_DIR, NEW_PROJECT_DIR, REPORT_DIR 
 
 
 app = Celery('project_tasks', backend='amqp', broker='amqp://')
 
-@contextmanager
-def cd(path):
-    """
-    A simple context manage to change directory.
-    """
-    old_dir = getcwd()
-    chdir(path)
-    try: yield
-    finally: chdir(old_dir)
-
 
 @app.task()
+def qc_mail(project_id):
+    """
+    After qc is completed, send mail to user about it.
+    """
+    pass
+
+
+
+"""
+@app.task()
+def report_mail(project_id):
+    pass 
+
+
+@app.task(name='apps.project.tasks.do_qc')
+def do_qasdfuality_control(project_id):
+    pass 
+STATUS = ('Uploading RAW Files.',
+          'QC Processing.',
+          'Started Processing.',
+          'Completed.')
+"""
+'''
+def start_processing(project_id):
+    from apps.project.models import NewProject 
+    project = NewProject.objects.get(id=project_id)
+    return project.start_processing 
+'''
+#chain = check_fastq_quality.s(project_id)
+#chain()
+
+"""
+@app.task()
 def do_qc(project_id):
-    """
-    After fetching files, unzip & do quality control.
-    """
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
     try:
@@ -60,59 +74,13 @@ def do_qc(project_id):
         return -1
 
 
-@app.task()
-def qc_mail(project_id):
-    """After qc is completed, send mail to user about it."""
-    pass
 
 
 @app.task()
 def do_processing(project_id):
-    """Start processing files after user verifies QC."""
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
     if project.file_type == 'fastq':
         print 'Started Processing FASTQ.'
         return 0
-
-
-@app.task()
-def report_mail(project_id):
-    """After report is generted, send mail to user about it."""
-    pass 
-
-
-@app.task()
-def generate_vcf(project_id):
-    print 'Started Processing File. Generating VCF.'
-    return 0
-
-
-@app.task()
-def check_vcf_quality(project_id):
-    print('checking vcf quality')
-    pass
-
-
-@app.task()
-def generate_final_report(project_id):
-    pass 
-
-
 """
-@app.task(name='apps.project.tasks.do_qc')
-def do_qasdfuality_control(project_id):
-    pass 
-STATUS = ('Uploading RAW Files.',
-          'QC Processing.',
-          'Started Processing.',
-          'Completed.')
-"""
-'''
-def start_processing(project_id):
-    from apps.project.models import NewProject 
-    project = NewProject.objects.get(id=project_id)
-    return project.start_processing 
-'''
-#chain = check_fastq_quality.s(project_id)
-#chain()
