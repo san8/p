@@ -1,4 +1,6 @@
-"""List of tasks done during processing."""
+"""
+List of tasks done during processing.
+"""
 
 from __future__ import absolute_import
 
@@ -15,18 +17,20 @@ app = Celery('project_tasks', backend='amqp', broker='amqp://')
 
 @contextmanager
 def cd(path):
-    """A simple context manage to change directory."""
+    """
+    A simple context manage to change directory.
+    """
     old_dir = getcwd()
     chdir(path)
-    try:
-        yield
-    finally:
-        chdir(old_dir)
+    try: yield
+    finally: chdir(old_dir)
 
 
 @app.task()
 def do_qc(project_id):
-    """After fetching files, unzip & do quality control."""
+    """
+    After fetching files, unzip & do quality control.
+    """
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
     try:

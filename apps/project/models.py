@@ -4,7 +4,7 @@ from os.path import join
 from django.contrib.auth.models import User 
 from django.db import models
 
-from .tasks import project_created 
+#from .functions import work_flow
 #from pearl.settings import REPORT_DIR 
 REPORT_DIR = "/media/Report/"
 
@@ -38,12 +38,12 @@ class NewProject(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, blank=True)
     file_type = models.CharField(max_length=10)
-    vcf_file1 = models.URLField(max_length=200, blank=True)
+    vcf_file1 = models.CharField(max_length=200, blank=True)
     total_fastq_files = models.SmallIntegerField(default=0, 
                                                  blank=True, 
                                                  null=True,)
-    fastq_file1 = models.URLField(max_length=200, blank=True)
-    fastq_file2 = models.URLField(max_length=200, blank=True)
+    fastq_file1 = models.CharField(max_length=200, blank=True)
+    fastq_file2 = models.CharField(max_length=200, blank=True)
     file_list = models.CharField(max_length=200, blank=True)
     paired_end_distance = models.IntegerField(blank=True, null=True)
     tissue = models.CharField(max_length=100, default='', blank=True)
@@ -57,14 +57,12 @@ class NewProject(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['updated_at']
-        permissions = (
-            ('view_report', 'view_report'),
-        )
+        ordering = ('updated_at',)
 
     def save(self, *args, **kwargs):
         super(NewProject, self).save(*args, **kwargs)
-        project_created.apply_async(args=[self.pk,])
+        from .tasks import work_flow
+        work_flow.apply_async(args=[self.pk, self.status])
 
     def qc_report_links(self):
         url_list = self.url_list()
@@ -72,14 +70,11 @@ class NewProject(models.Model):
         for url in url_list:
             file_name = url.split('/')[LAST]
             file_name_root = file_name.split(FASTQ_EXTENSION)[FIRST]
-            dir_name = file_name_root + FASTQC_TAIL 
-            link = join(REPORT_DIR, str(self.id), dir_name, FASTQC_REPORT)
-            links.append(link)
+        dir_name = file_name_root + FASTQC_TAIL 
+        link = join(REPORT_DIR, str(self.id), dir_name, FASTQC_REPORT)
+        links.append(link)
         return links 
 
-    def url_list(self):
-        url_list = [self.fastq_file1, self.fastq_file2, self.vcf_file1]
-        return filter(None, url_list)
 
 """
 class ProjectReport(models.Model):

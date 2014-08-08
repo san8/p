@@ -15,14 +15,14 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('description', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
             ('file_type', self.gf('django.db.models.fields.CharField')(max_length=10)),
-            ('vcf_file1', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('vcf_file1', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
             ('total_fastq_files', self.gf('django.db.models.fields.SmallIntegerField')(default=0, null=True, blank=True)),
-            ('fastq_file1', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('fastq_file2', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('fastq_file1', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
+            ('fastq_file2', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
             ('file_list', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
             ('paired_end_distance', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('tissue', self.gf('django.db.models.fields.CharField')(default='', max_length=100)),
-            ('disease', self.gf('django.db.models.fields.CharField')(default='', max_length=100)),
+            ('tissue', self.gf('django.db.models.fields.CharField')(default='', max_length=100, blank=True)),
+            ('disease', self.gf('django.db.models.fields.CharField')(default='', max_length=100, blank=True)),
             ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('start_processing', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
@@ -30,22 +30,10 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'project', ['NewProject'])
 
-        # Adding model 'ProjectReport'
-        db.create_table(u'project_projectreport', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(related_name='project_as_foreign_key', to=orm['project.NewProject'])),
-            ('pdf_file', self.gf('django.db.models.fields.CharField')(default='', max_length=100)),
-            ('data', self.gf('django.db.models.fields.CharField')(default='', max_length=20)),
-        ))
-        db.send_create_signal(u'project', ['ProjectReport'])
-
 
     def backwards(self, orm):
         # Deleting model 'NewProject'
         db.delete_table(u'project_newproject')
-
-        # Deleting model 'ProjectReport'
-        db.delete_table(u'project_projectreport')
 
 
     models = {
@@ -86,13 +74,13 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'project.newproject': {
-            'Meta': {'ordering': "['updated_at']", 'object_name': 'NewProject'},
+            'Meta': {'ordering': "('updated_at',)", 'object_name': 'NewProject'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'customer': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'original_customer_id'", 'to': u"orm['auth.User']"}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
-            'disease': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
-            'fastq_file1': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
-            'fastq_file2': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            'disease': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'blank': 'True'}),
+            'fastq_file1': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'fastq_file2': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
             'file_list': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
             'file_type': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -100,17 +88,10 @@ class Migration(SchemaMigration):
             'paired_end_distance': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'start_processing': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'status': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'tissue': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
+            'tissue': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'blank': 'True'}),
             'total_fastq_files': ('django.db.models.fields.SmallIntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'vcf_file1': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'})
-        },
-        u'project.projectreport': {
-            'Meta': {'object_name': 'ProjectReport'},
-            'data': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '20'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'pdf_file': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'project_as_foreign_key'", 'to': u"orm['project.NewProject']"})
+            'vcf_file1': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'})
         }
     }
 
