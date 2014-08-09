@@ -7,10 +7,10 @@ from __future__ import absolute_import
 from celery import Celery 
 
 
-app = Celery('project_tasks', backend='amqp', broker='amqp://')
+celery = Celery(name='processing_tasks')
 
 
-@app.task()
+@celery.task()
 def qc_mail(project_id):
     """
     After qc is completed, send mail to user about it.

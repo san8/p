@@ -9,9 +9,11 @@ from urllib2 import urlopen
 from .functions import get_files
 from apps.processing.functions import do_qc, user_approval, do_processing
 
-celery = Celery('project_tasks', backend='amqp', broker='amqp://',
-                 include=['apps.processing.tasks'])
-
+celery = Celery('project_tasks', include=['apps.processing.tasks'])
+'''
+celery = Celery(name = 'project_tasks', backend='amqp', broker='amqp://,
+              include['apps.processing.tasks'])
+'''
 
 @celery.task()
 def work_flow(project_id, project_status):
@@ -21,7 +23,7 @@ def work_flow(project_id, project_status):
     if project_status in range(0,3):
         functions = [get_files, do_qc, user_approval, do_processing]
         functions[project_status](project_id)
-    return project_status, project_id
+    return project_id, project_status
 
 
 @celery.task()

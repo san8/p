@@ -92,6 +92,7 @@ djcelery.setup_loader()
 BROKER_URL = "django://"
 BROKER_BACKEND = 'memory'
 CELERY_IMPORTS = ('apps.processing.tasks',)
+#CELERY_ROUTES = {'apps.project.tasks': {'queue1': 'queue2'}}
 
 
 # django-registration 
