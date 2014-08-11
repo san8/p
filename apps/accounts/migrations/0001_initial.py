@@ -8,24 +8,32 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'CustomUser'
-        db.create_table(u'accounts_customuser', (
-            (u'user_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, primary_key=True)),
-            ('company', self.gf('django.db.models.fields.CharField')(max_length=100)),
+        # Adding model 'Customer'
+        db.create_table(u'accounts_customer', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='customer_to_user', to=orm['auth.User'])),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
+            ('company', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
+            ('phone_number', self.gf('django.db.models.fields.CharField')(max_length=20, blank=True)),
+            ('timezone', self.gf('django.db.models.fields.CharField')(default='', max_length=50, blank=True)),
         ))
-        db.send_create_signal(u'accounts', ['CustomUser'])
+        db.send_create_signal(u'accounts', ['Customer'])
 
 
     def backwards(self, orm):
-        # Deleting model 'CustomUser'
-        db.delete_table(u'accounts_customuser')
+        # Deleting model 'Customer'
+        db.delete_table(u'accounts_customer')
 
 
     models = {
-        u'accounts.customuser': {
-            'Meta': {'object_name': 'CustomUser', '_ormbases': [u'auth.User']},
-            'company': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
+        u'accounts.customer': {
+            'Meta': {'object_name': 'Customer'},
+            'company': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
+            'phone_number': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'timezone': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '50', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'customer_to_user'", 'to': u"orm['auth.User']"})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
