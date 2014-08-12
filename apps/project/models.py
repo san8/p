@@ -64,6 +64,7 @@ class NewProject(models.Model):
         from .tasks import work_flow
         work_flow.apply_async(args=[self.pk, self.status])
 
+"""
     def qc_report_links(self):
         url_list = self.url_list()
         links = []
@@ -76,7 +77,7 @@ class NewProject(models.Model):
         return links 
 
 
-"""
+
 class ProjectReport(models.Model):
     project = models.ForeignKey(NewProject, related_name='project_as_foreign_key')
     pdf_file = models.CharField(max_length=100, default='')
