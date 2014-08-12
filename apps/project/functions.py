@@ -23,3 +23,5 @@ def get_files(project_id):
     fetch_files_ftp.s(local_dir, url_list)() 
     project.status = 1
     project.save()
+
+    
