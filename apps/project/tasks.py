@@ -38,6 +38,6 @@ def fetch_files_ftp(local_dir, url_list):
             local_file_name = url.split('/')[-1]
             local_file = open(local_file_name, "wb") 
             copyfileobj(ftp_file, local_file)
-    return "Successfully fetched files."
+    return True
 
 
