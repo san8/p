@@ -22,12 +22,14 @@ class AccountsViewsTestCase(TestCase):
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 200)
 
-    def test_profile(self):
+    def test_profile_view_get(self):
         response = self.client.get(reverse('account:account_profile'))
         self.assertEqual(response.status_code, 302)
         login = self.client.login(username='testpearl', password='123456')
         self.assertTrue(login)
         response = self.client.get(reverse('account:account_profile'))
         self.assertEqual(response.status_code, 200)
-
+        data = { 'timezone': 'UTC'}
+        response = self.client.post(reverse('account:account_profile'), data)
+        self.assertEqual(response.status_code, 302)
 

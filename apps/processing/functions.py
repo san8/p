@@ -32,6 +32,7 @@ def do_qc(project_id):
     quality_control[project.file_type](project_dir)
     project.status = 2
     project.save()
+    return True
 
 
 def unzip_files(path):
@@ -69,8 +70,6 @@ def user_approval(project_id):
     Wait for user approval for further processing.
     """
     pass 
-
-
 
 
 def do_processing(project_id):

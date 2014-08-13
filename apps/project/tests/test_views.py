@@ -35,23 +35,27 @@ class ProjectViewsTestCase(TestCase):
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 200)
 
+
+"""
     def test_qcreport_view_get(self):
        response = self.client.get(reverse('project:project_qcreport', args={55}))
        self.assertEqual(response.status_code, 200)
 
     def test_qcreport_view_post_invalid_entry(self):
         data = {'start_processing': True }
-        response = self.client.post(reverse('project:project_qcreport', args={55}), data)
+        response = self.client.post(reverse('project:project_qcreport',
+                                             args={55}), data)
         self.assertEqual(response.status_code, 200)
 
     def test_qcreport_view_post_valid_entry(self):
         data = {'trash_field': 'trash_options',}
-        response = self.client.post(reverse('project:project_qcreport', args={55}), data)
+        response = self.client.post(reverse('project:project_qcreport',
+                                             args={55}), data)
         self.assertEqual(response.status_code, 200)
 
 
 
-"""
+
 class CeleryTasksTestCase(TestCase):
 
     def test_get_ftp_files(self):

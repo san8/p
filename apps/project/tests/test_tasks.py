@@ -7,7 +7,6 @@ from ..tasks import fetch_files_ftp, work_flow
 from ..models import NewProject
 
 
-
 class CeleryTasksTestCase(TestCase):
 
     @override_settings(CELERY_EAGER_PROPAGATES_EXCEPTIONS=True,
@@ -22,11 +21,9 @@ class CeleryTasksTestCase(TestCase):
         
     def test_get_ftp_files(self):
         n = mommy.make('NewProject')
-        local_dir = 'media/tests'
+        local_dir = 'media/tests/'
         url_list = ['ftp://pearl:pearl@localhost/fastq_files/sample1.fastq.gz',
                      'ftp://pearl:pearl@localhost/fastq_files/sample2.fastq.bz2']
         result = fetch_files_ftp(local_dir, url_list)
         self.assertTrue(result)
 
-
-        

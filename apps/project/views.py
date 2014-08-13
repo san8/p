@@ -38,7 +38,8 @@ class DashboardView(View):
                  'status_options': STATUS_OPTIONS,
                  'user_timezone': customer.timezone,},)
 
-
+        
+"""
 class QcReportView(View):
     form = StartProcessingForm
     def get(self, request, project_id):
@@ -63,7 +64,7 @@ class QcReportView(View):
                 {'project_id': project_id, 'links': links, 'form': form,})
 
 
-"""
+
 class QcDetailsView(View):
     def get(self):
     #def get(self, project_id, report_dir):
