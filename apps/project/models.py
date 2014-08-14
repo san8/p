@@ -64,6 +64,19 @@ class NewProject(models.Model):
         from .tasks import work_flow
         work_flow.apply_async(args=[self.pk, self.status])
 
+    
+class MeshTissues(models.Model):
+    descriptorui = models.CharField(max_length=7) 
+    descriptornamestring = models.CharField(max_length=41, blank=True) 
+    treenumber = models.TextField(blank=True)
+
+    
+class MeshDiseases(models.Model):
+    descriptorui = models.CharField(max_length=7)
+    descriptornamestring = models.CharField(max_length=100, blank=True)
+    treenumber = models.TextField(blank=True)
+
+        
 """
     def qc_report_links(self):
         url_list = self.url_list()

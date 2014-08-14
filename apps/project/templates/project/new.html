@@ -39,22 +39,6 @@
 
 {% block js %}
 
-var tissues = [
-    {"label": "taaaa 1"},
-    {"label": "tbbbb 2"},
-    {"label": "tcccc 3"},
-    {"label": "tissue 4"},
-    {"label": "tissue 5"},
-];
-
-var diseases = [
-    {"label": "daaaaaa 1"},
-    {"label": "dbbbbbb 2"},
-    {"label": "dcccccc 3"},
-    {"label": "disease 4"},
-    {"label": "disease 5"},
-];
-
 (function(){
     $('input:radio').click(function() {
         var value = $(this).val();
@@ -80,32 +64,23 @@ var diseases = [
             }
     });
 
-    $('input#id_tissue').autocomplete({
-        source: tissues 
-    });
-    $('input#id_disease').autocomplete({
-        source: diseases 
+    $('input#id_tissue').keyup(function() {
+        query = $('input#id_tissue').val(); 
+        ajax_url = "http://127.0.0.1:8000/project/api/tissues/" + query
+        $('input#id_tissue').autocomplete({
+            source: ajax_url 
+        });
     });
 
-/*
-    $('input#id_tissue').click(function(){
-        console.log('tissue');
-        console.log($(this).val());
+    $('#id_disease').keyup(function() {
+        query = $('#id_disease').val();
+        ajax_url = "http://127.0.0.1:8000/project/api/diseases/" + query
+        $('#id_disease').autocomplete({
+            source: ajax_url
+        });
     });
-    $('input#id_disease').keyup(function(){
-        console.log('disease');
-        console.log($(this).val());
-    });
-    var params = { fields: 'field', query: 'q' };
-    var str = $.param(params);
-    console.log(str);
-
-    var inFocus = false
-    $('input#tissues').focus(function(){
-        inFocus = true 
-    });
-*/
 
 })(); 
+
 {% endblock %}
 

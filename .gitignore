@@ -14,3 +14,4 @@ htmlcov/
 Py Ch.ipynb
 *.ipynb
 #*
+*.py#

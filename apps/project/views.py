@@ -1,14 +1,15 @@
+import json
+
 from django.core.urlresolvers import reverse 
-from django.shortcuts import HttpResponseRedirect, render 
+from django.shortcuts import HttpResponseRedirect, render, HttpResponse
 from django.views.generic.base import View 
 
-from apps.accounts.models import Customer 
-from .models import NewProject 
-from .models import STATUS_OPTIONS 
-from .models import DO_PROCESSING 
-from .forms import NewProjectForm, StartProcessingForm 
-
 from pearl.settings.base import REPORT_DIR 
+from apps.accounts.models import Customer 
+
+from .models import NewProject, MeshTissues, MeshDiseases
+from .models import STATUS_OPTIONS 
+from .forms import NewProjectForm, StartProcessingForm 
 
 
 class NewProjectFormView(View):
@@ -38,7 +39,22 @@ class DashboardView(View):
                  'status_options': STATUS_OPTIONS,
                  'user_timezone': customer.timezone,},)
 
-        
+
+def api(request, item, query):
+    response_data = {}
+    response_data['item'] = item
+    response_data['query'] = query
+    databases = {'tissues': MeshTissues, 'diseases': MeshDiseases}
+    results = databases[item].objects.filter(descriptornamestring__icontains=query)
+    data = []
+    for result in results[:10]:
+        item = {"label": result.descriptornamestring }
+        data.append(item)
+    return HttpResponse(json.dumps(data),
+                        content_type="application/json")
+    
+
+    
 """
 class QcReportView(View):
     form = StartProcessingForm
