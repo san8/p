@@ -1,0 +1,40 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div>
+    <table id="projects" class="table table-bordered table-curved table-hover">
+        <thead>
+            <th> Project Name </th>     
+            <th> Status </th>
+            <th> Updated At </th> 
+        </thead>
+        <tbody>
+            {% for project in projects %}
+            <tr>
+                <td> {{ project.name }} </td>
+                <td>
+                    {% for stat in status_options %}
+                        {% if stat.0 == project.status %}
+                            {{ stat.1 }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if user_timezone %}
+                        {% load tz %}
+                        {% timezone user_timezone %}
+                            {{ project.updated_at }}
+                        {% endtimezone %}
+                    {% else %}
+                        {{ project.updated_at }}
+                    {% endif %}
+                </td> 
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
+

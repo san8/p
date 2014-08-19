@@ -1,0 +1,47 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <h2>{{ project_details.name }}</h2>
+    <p>{{ project_details.description }}</p>
+    <div>
+        <table>
+            <tr>
+                <th> Step </th>
+                <th> Status </th>
+            </tr>
+            <tr>
+                {% if project_details.status == 0 %}
+                    <td>
+                        <h5>{{ 0 }}</h5>
+                    </td>
+                    <td>
+                        Uploading Files
+                    </td>
+                {% endif %}
+                {% if project_details.status >= 1 %}
+                    <td>
+                        <h5>{{ 1 }}</h5>
+                    </td>
+                    <td>
+                        {% if project_details.fastq_file1 %}
+                            <p>FASTQ File1: {{ project_details.fastq_file1 }}</p>
+                        {% endif %}
+                        {% if project_details.fastq_file2 %}
+                            <p>FASTQ File2: {{ project_details.fastq_file2 }}</p>
+                        {% endif %}
+                        {% if project_details.vcf_file1 %}
+                            <p>VCF File: {{ project_details.vcf_file1 }}</p>
+                        {% endif %}
+                    </td>
+                {% endif %}
+            </tr>
+        </table>
+    </div>
+
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}
+

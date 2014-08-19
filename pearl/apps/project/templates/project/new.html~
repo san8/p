@@ -1,0 +1,109 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% load bootstrap %}
+{% load bootstrap3 %}
+
+{% block static_files %}
+    <link rel="stylesheet" href="{% static 'pearl/css/jquery-ui.min.css' %}" />
+    <script src="{% static 'pearl/js/jquery-ui.min.js' %}"></script> 
+{% endblock static_files %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div id="{{ field.name }}" class="form-group">
+                {{ field.errors }}
+                {{ field | bootstrap }}
+            </div>
+        {% endfor %} 
+        {% buttons submit='Start Project' %}{% endbuttons %}
+    </form>
+{% endblock content %}
+
+{% block css %}
+.radio {
+    display: inline-block;  
+}
+
+#total_fastq_files,
+#fastq_file1,
+#fastq_file2,
+#paired_end_distance,
+#vcf_file1 {
+    display: none; 
+}
+{% endblock css %}
+
+{% block js %}
+
+var tissues = [
+    {"label": "taaaa 1"},
+    {"label": "tbbbb 2"},
+    {"label": "tcccc 3"},
+    {"label": "tissue 4"},
+    {"label": "tissue 5"},
+];
+
+var diseases = [
+    {"label": "daaaaaa 1"},
+    {"label": "dbbbbbb 2"},
+    {"label": "dcccccc 3"},
+    {"label": "disease 4"},
+    {"label": "disease 5"},
+];
+
+(function(){
+    $('input:radio').click(function() {
+        var value = $(this).val();
+        if (value == 'fastq'){
+            $('div#total_fastq_files').show();
+            $('div#vcf_file1').hide();
+        } else if (value == 'vcf'){
+            $('div#total_fastq_files').hide();
+            $('div#vcf_file1').show();
+        }
+    });
+
+    $("input:radio").click(function() {
+        var value = $(this).val();
+            if (value == 1){
+                $('div#fastq_file1').show();
+                $('div#fastq_file2').hide();
+                $('div#paired_end_distance').hide();
+            } else if (value == 2){
+                $('div#fastq_file1').show();
+                $('div#fastq_file2').show();
+                $('div#paired_end_distance').show();
+            }
+    });
+
+/*
+    $('input#id_tissue').autocomplete({
+        source: tissues 
+    })
+    $('input#id_disease').autocomplete({
+        source: diseases 
+    })
+
+    $('input#id_tissue').click(function(){
+        console.log('tissue');
+        console.log($(this).val());
+    });
+    $('input#id_disease').keyup(function(){
+        console.log('disease');
+        console.log($(this).val());
+    });
+    var params = { fields: 'field', query: 'q' };
+    var str = $.param(params);
+    console.log(str);
+
+    var inFocus = false
+    $('input#tissues').focus(function(){
+        inFocus = true 
+    });
+*/
+
+})(); 
+{% endblock %}
+

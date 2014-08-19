@@ -1,0 +1,68 @@
+[
+{
+    "pk": 53, 
+    "model": "project.newproject", 
+    "fields": {
+        "customer": 64, 
+        "total_fastq_files": 2, 
+        "name": "test project", 
+        "file_type": "fastq", 
+        "fastq_file2": "", 
+        "fastq_file1": "ftp://localhost/fastq_files/sample1.fastq.gz", 
+        "disease": "", 
+        "paired_end_distance": null, 
+        "updated_at": "2014-07-28T10:29:17Z", 
+        "tissue": "", 
+        "status": 2, 
+        "start_processing": false, 
+        "file_list": "", 
+        "created_at": "2014-07-28T10:29:01Z", 
+        "vcf_file1": "", 
+        "description": "asdf asdfjlas dflas dflas df"
+    }
+},
+{
+    "pk": 54, 
+    "model": "project.newproject", 
+    "fields": {
+        "customer": 64, 
+        "total_fastq_files": 1, 
+        "name": "skdfj asdfk ", 
+        "file_type": "fastq", 
+        "fastq_file2": "", 
+        "fastq_file1": "ftp://localhost/fastq_files/sample1.fastq.gz", 
+        "disease": "daaaaaa 1", 
+        "paired_end_distance": null, 
+        "updated_at": "2014-07-28T10:29:45Z", 
+        "tissue": "taaaa 1", 
+        "status": 2, 
+        "start_processing": false, 
+        "file_list": "", 
+        "created_at": "2014-07-28T10:29:30Z", 
+        "vcf_file1": "", 
+        "description": "k lasdfk "
+    }
+},
+{
+    "pk": 55, 
+    "model": "project.newproject", 
+    "fields": {
+        "customer": 66, 
+        "total_fastq_files": 1, 
+        "name": "akdf asdlkf ", 
+        "file_type": "fastq", 
+        "fastq_file2": "", 
+        "fastq_file1": "ftp://localhost/fastq_files/sample1.fastq.gz", 
+        "disease": "daaaaaa 1", 
+        "paired_end_distance": null, 
+        "updated_at": "2014-07-28T10:56:19Z", 
+        "tissue": "taaaa 1", 
+        "status": 2, 
+        "start_processing": false, 
+        "file_list": "", 
+        "created_at": "2014-07-28T10:56:06Z", 
+        "vcf_file1": "", 
+        "description": "lka dsfaskdf"
+    }
+}
+]

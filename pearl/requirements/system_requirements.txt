@@ -1,0 +1,2 @@
+FastQC v0.10.1
+p7zip Version 9.20 (locale=en_IN,Utf16=on,HugeFiles=on,4 CPUs)
