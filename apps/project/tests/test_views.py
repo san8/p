@@ -35,7 +35,14 @@ class ProjectViewsTestCase(TestCase):
         response = self.client.get(reverse('project:project_dashboard'))
         self.assertEqual(response.status_code, 200)
 
-
+    def test_api(self):
+        response = self.client.get(reverse('project:data_api',
+                                           args=('tissues', 'elbow')))
+        self.assertEqual(response.status_code, 200)
+        expected_content = [{"label": "Elbow"}, {"label": "Elbow Joint"}]
+        self.assertContains(response, expected_content) 
+        
+        
 """
     def test_qcreport_view_get(self):
        response = self.client.get(reverse('project:project_qcreport', args={55}))
@@ -54,8 +61,6 @@ class ProjectViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-
-
 class CeleryTasksTestCase(TestCase):
 
     def test_get_ftp_files(self):
@@ -65,7 +70,6 @@ class CeleryTasksTestCase(TestCase):
         self.assertTrue(result.successfull())
 
 """
-
 
 '''  
 class ProjectModelTestCase(TestCase):
