@@ -23,7 +23,8 @@ def work_flow(project_id, project_status):
     if project_status in range(0,3):
         functions = [get_files, do_qc, user_approval, do_processing]
         functions[project_status](project_id)
-    return project_id, project_status
+    print project_id, project_status
+    return True
 
 
 @celery.task()

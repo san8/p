@@ -47,6 +47,7 @@ def unzip_files(path):
                 call(command, stdout=open(devnull, 'wb'))
     return True
 
+    
 def fastq_qc(project_dir):
     """
     Run FASTQC on unzipped files to generate qc report.
@@ -58,17 +59,15 @@ def fastq_qc(project_dir):
             call(command, stdout=open(devnull, 'wb'))
     return True
 
+    
+
 def vcf_qc(project_id):
-    """
-    Do QC for VCF files.
-    """
+    pass 
 
-
+    
 def user_approval(project_id):
-    """
-    Wait for user approval for further processing.
-    """
+    pass 
 
-
+    
 def do_processing(project_id):
     pass 
