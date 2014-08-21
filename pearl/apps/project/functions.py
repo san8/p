@@ -21,6 +21,8 @@ def get_files(project_id):
     local_dir = join(NEW_PROJECT_DIR, str(project_id)) 
     mkdir(local_dir)
     fetch_files_ftp.s(local_dir, url_list)() 
+    import time
+    time.sleep(20)
     project.status = 1
     project.save()
     return True

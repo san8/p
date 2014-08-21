@@ -8,7 +8,6 @@ from django.test import TestCase
 from ..functions import get_files
 from ..models import NewProject
 
-
         
 class FunctionsTestCase(TestCase):
 
@@ -16,3 +15,8 @@ class FunctionsTestCase(TestCase):
         n = mommy.make('NewProject')
         result = get_files(n.id)
         self.assertEqual(result, True)
+
+    def test_dummy(self):
+        os.path.join('asdf', 'asdf')
+        return True
+        
