@@ -3,18 +3,23 @@ List of tasks done during processing.
 """
 
 from __future__ import absolute_import
+from celery import Celery
 
-from celery import Celery 
+from .functions import do_qc
 
 
-celery = Celery(name='processing_tasks')
+celery = Celery(name='processing_tasks', include=['apps.project.tasks',])
 
 
 @celery.task()
-def qc_mail(project_id):
+def processing_tasks(project_id, project_status):
     """
     After qc is completed, send mail to user about it.
     """
+    if project_status == 1:
+        print 'start processing'
+        do_qc(project_id)
+        print 'completed processing'
     pass
 
 

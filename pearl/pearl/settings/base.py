@@ -85,14 +85,51 @@ PASSWORD_COMPLEXITY = {
     "PUNCTUATION": 1, # Punctuation (string.punctuation)
 }
 
-
+from kombu import Queue
 # django-celery
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = "django://"
 BROKER_BACKEND = 'memory'
-CELERY_IMPORTS = ('apps.processing.tasks',)
-#CELERY_ROUTES = {'apps.project.tasks': {'queue1': 'queue2'}}
+CELERY_IMPORTS = ('apps.project.tasks',
+                  'apps.processing.tasks',)
+CELERY_DEFAULT_QUEUE = 'celery'
+CELERY_QUEUES = (
+    Queue('celery'),
+    Queue('processing'),
+)
+
+
+'''
+
+CELERY_ACCEPT_CONTENT = ['json', 'pickle']
+CELERYD_CONCURRENCY = 2
+CELERYD_MAX_TASKS_PER_CHILD = 4
+CELERYD_PREFETCH_MULTIPLIER = 1
+
+from kombu import Queue, Exchange
+# celery queues setup
+CELERY_DEFAULT_QUEUE = 'default'
+CELERY_DEFAULT_EXCHANGE_TYPE = 'topic'
+CELERY_DEFAULT_ROUTING_KEY = 'default'
+CELERY_QUEUES = (
+    Queue('project', Exchange('project'), routing_key='project_tasks'),
+    Queue('processing', Exchange('processing'), routing_key='processing_tasks'),
+)
+CELERY_ROUTES = {
+    'apps.project.tasks': {
+        'queue': 'project',
+        'routing_key': 'project_tasks',
+    },
+}
+'''
+
+
+
+
+
+
+
 
 
 # django-registration 

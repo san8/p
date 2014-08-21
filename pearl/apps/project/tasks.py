@@ -7,22 +7,22 @@ from shutil import copyfileobj
 from urllib2 import urlopen
 
 from .functions import get_files
-from apps.processing.functions import do_qc, user_approval, do_processing
+
 
 celery = Celery('project_tasks', include=['apps.processing.tasks'])
+
 '''
 celery = Celery(name = 'project_tasks', backend='amqp', broker='amqp://,
               include['apps.processing.tasks'])
 '''
 
 @celery.task()
-def work_flow(project_id, project_status):
+def project_tasks(project_id, project_status):
     """
     Call a corresponding fucntion when status is changed.
     """
-    if project_status in range(0,3):
-        functions = [get_files, do_qc, user_approval, do_processing]
-        functions[project_status](project_id)
+    if project_status == 0:
+        get_files(project_id)
     print project_id, project_status
     return True
 

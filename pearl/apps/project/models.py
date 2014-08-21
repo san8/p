@@ -2,8 +2,6 @@
 Models for Project App.
 """
 
-from os.path import join
-
 from django.contrib.auth.models import User 
 from django.db import models
 
@@ -54,9 +52,11 @@ class NewProject(models.Model):
 
     def save(self, *args, **kwargs):
         super(NewProject, self).save(*args, **kwargs)
-        from .tasks import work_flow
-        work_flow.apply_async(args=[self.pk, self.status])
-
+        from apps.project.tasks import project_tasks
+        project_tasks.apply_async(args=[self.pk, self.status,])
+        from apps.processing.tasks import processing_tasks
+        processing_tasks.apply_async(args=[self.pk, self.status,], queue='processing')
+        
     
 class MeshTissues(models.Model):
     descriptorui = models.CharField(max_length=7) 

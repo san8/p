@@ -30,8 +30,6 @@ def do_qc(project_id):
     unzip_files(project_dir)
     quality_control = {'fastq': fastq_qc, 'vcf': vcf_qc}
     quality_control[project.file_type](project_dir)
-    import time
-    time.sleep(20)
     project.status = 2
     project.save()
     return True

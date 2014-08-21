@@ -13,7 +13,7 @@ def get_files(project_id):
     Gets user files & updates status.
     """
     from .models import NewProject 
-    from .tasks import fetch_files_ftp
+    from apps.project.tasks import fetch_files_ftp
 
     project = NewProject.objects.get(id=project_id)
     url_list = [project.fastq_file1, project.fastq_file2, project.vcf_file1] 
