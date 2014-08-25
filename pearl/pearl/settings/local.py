@@ -38,6 +38,9 @@ DATABASES = {
     }
 }
 
+#import dj_database_url
+#DATABASES['default'] = dj_database_url.config(default='mysql://db/pearl.db')
+
 # django-nose
 #TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 # djceley testrunner

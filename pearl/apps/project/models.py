@@ -52,10 +52,8 @@ class NewProject(models.Model):
 
     def save(self, *args, **kwargs):
         super(NewProject, self).save(*args, **kwargs)
-        from apps.project.tasks import project_tasks
-        project_tasks.apply_async(args=[self.pk, self.status,])
-        from apps.processing.tasks import processing_tasks
-        processing_tasks.apply_async(args=[self.pk, self.status,], queue='processing')
+        from apps.project.tasks import project_queue
+        project_queue.apply_async(args=[self.pk, self.status, self.file_type],)
         
     
 class MeshTissues(models.Model):

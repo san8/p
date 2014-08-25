@@ -85,21 +85,15 @@ PASSWORD_COMPLEXITY = {
     "PUNCTUATION": 1, # Punctuation (string.punctuation)
 }
 
-from kombu import Queue
+
 # django-celery
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = "django://"
 BROKER_BACKEND = 'memory'
+CELERY_RESULT_BACKEND = "amqp"
 CELERY_IMPORTS = ('apps.project.tasks',
                   'apps.processing.tasks',)
-CELERY_DEFAULT_QUEUE = 'celery'
-CELERY_QUEUES = (
-    Queue('celery'),
-    Queue('processing'),
-)
-
-
 '''
 
 CELERY_ACCEPT_CONTENT = ['json', 'pickle']
