@@ -31,7 +31,7 @@ class NewProject(models.Model):
     description = models.CharField(max_length=100, blank=True)
     file_type = models.CharField(max_length=10)
     vcf_file1 = models.CharField(max_length=200, blank=True)
-    total_fastq_files = models.SmallIntegerField(default=0, 
+    total_fastq_files = models.SmallIntegerField(default=1, 
                                                  blank=True,)
     fastq_file1 = models.CharField(max_length=200, blank=True)
     fastq_file2 = models.CharField(max_length=200, blank=True)

@@ -44,6 +44,7 @@
         var value = $(this).val();
         if (value == 'fastq'){
             $('div#total_fastq_files').show();
+            $('div#fastq_file1').show();
             $('div#vcf_file1').hide();
         } else if (value == 'vcf'){
             $('div#total_fastq_files').hide();
@@ -83,4 +84,5 @@
 })(); 
 
 {% endblock %}
+
 

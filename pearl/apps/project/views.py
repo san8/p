@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import HttpResponseRedirect, render, HttpResponse
 from django.views.generic.base import View 
 
-from pearl.settings.base import REPORT_DIR 
+#from pearl.settings.base import REPORT_DIR 
 from apps.accounts.models import Customer 
 
 from .models import NewProject, MeshTissues, MeshDiseases
@@ -16,7 +16,7 @@ class NewProjectFormView(View):
     form_class = NewProjectForm
 
     def get(self, request):
-        form = NewProjectForm()
+        form = NewProjectForm(initial={'total_fastq_files': '1'})
         return render(request, 'project/new.html', {'form': form},)
    
     def post(self, request):
