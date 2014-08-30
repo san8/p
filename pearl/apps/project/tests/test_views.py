@@ -94,18 +94,4 @@ class ProjectModelTestCase(TestCase):
         self.assertTrue(isinstance(n, NewProject))
         self.assertEqual(n.__str__(), n.name)
 '''
-''' 
-    def test_dashboard(self):
-        response = self.client.get(reverse('project:project_dashboard'))
-        self.assertEqual(response.status_code, 302)
-        self.user = User.objects.create(username='chillaranand2', password='123456',
-                is_active=True, is_staff=True, is_superuser=True) 
-        self.user.set_password('123456') 
-        self.user.save() 
-        self.user = authenticate(username='chillaranand2', password='123456') 
-        login = self.client.login(username='chillaranand2', password='123456') 
-        self.assertTrue(login)
-        response = self.client.get(reverse('project:project_dashboard'))
-        self.assertEqual(response.status_code, 200)
-''' 
 

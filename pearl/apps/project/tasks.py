@@ -3,9 +3,9 @@ All celery tasks required for projects.
 """
 from __future__ import absolute_import
 
-from os.path import join
 from subprocess import call
 from os import mkdir, getcwd, chdir, devnull, listdir
+from os.path import join
 from shutil import copyfileobj
 from urllib2 import urlopen
 from contextlib import contextmanager
@@ -89,7 +89,7 @@ def do_qc(project_id, file_type):
 
 def unzip_files(path):
     """
-    Unzip the files in the given location & remove zip files.
+    Unzip the files in the given location & delete zip files.
     """
     zip_files = [files for files in listdir(path)]
     with cd(path):
@@ -113,7 +113,10 @@ def fastq_qc(project_dir):
 
 
 def vcf_qc(project_id):
+    """
+    Run VCF QC check on unzipped files.
+    """
     print 'started vcf qc'
     import time
     time.sleep(10)
-    print 'vcf qc completed'
+    print 'vcf qc completed'    
