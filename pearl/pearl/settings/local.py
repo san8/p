@@ -46,21 +46,6 @@ DATABASES = {
 # djceley testrunner
 TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
-# public urls for enfore login middle ware
-PUBLIC_URLS = (
-    r'/',
-    r'/home/',
-    r'/home/faq/',
-    r'/accounts/register/',
-    r'/accounts/login/',
-)
-SERVE_STATIC_TO_PUBLIC = True 
-
 
 #LOGIN_URL = 'accounts/login'
 #LOGIN_REDIRECT_URL = 'accounts/dashboard'
-
-#celery - depricated pickle
-#CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
-CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
-

@@ -14,6 +14,7 @@ from os.path import join, dirname, abspath
 CURRENT_DIR = abspath(join(dirname( __file__ ), '..'))
 BASE_DIR = abspath(join(CURRENT_DIR, '..'))
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 STATICFILES_DIRS = (join(BASE_DIR, 'static'),)
@@ -74,6 +75,7 @@ SITE_ID = 1
 CAPTCHA_LENGTH = 6
 #CAPTCHA_WORDS_DICTIONARY = join(BASE_DIR, 'static') + 'words'
 
+
 # django-passwords
 PASSWORD_MIN_LENGTH = 8
 PASSWORD_COMPLEXITY = { 
@@ -84,46 +86,6 @@ PASSWORD_COMPLEXITY = {
     #"NON ASCII": 1,   # Non Ascii (ord() >= 128)
     "PUNCTUATION": 1, # Punctuation (string.punctuation)
 }
-
-
-# django-celery
-import djcelery
-djcelery.setup_loader()
-BROKER_URL = "django://"
-BROKER_BACKEND = 'memory'
-CELERY_RESULT_BACKEND = "amqp"
-CELERY_IMPORTS = ('apps.project.tasks',
-                  'apps.processing.tasks',)
-'''
-
-CELERY_ACCEPT_CONTENT = ['json', 'pickle']
-CELERYD_CONCURRENCY = 2
-CELERYD_MAX_TASKS_PER_CHILD = 4
-CELERYD_PREFETCH_MULTIPLIER = 1
-
-from kombu import Queue, Exchange
-# celery queues setup
-CELERY_DEFAULT_QUEUE = 'default'
-CELERY_DEFAULT_EXCHANGE_TYPE = 'topic'
-CELERY_DEFAULT_ROUTING_KEY = 'default'
-CELERY_QUEUES = (
-    Queue('project', Exchange('project'), routing_key='project_tasks'),
-    Queue('processing', Exchange('processing'), routing_key='processing_tasks'),
-)
-CELERY_ROUTES = {
-    'apps.project.tasks': {
-        'queue': 'project',
-        'routing_key': 'project_tasks',
-    },
-}
-'''
-
-
-
-
-
-
-
 
 
 # django-registration 

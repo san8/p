@@ -1,27 +1,23 @@
-from celery import Celery
+from pearl.celery_conf import app as celery_app
 
-celery = Celery('processing_tasks',backend='amqp', broker='amqp://',
-                include=['apps.project.tasks'],)
-
-
-@celery.task()
+@celery_app.task()
 def processing(project_id, file_type):
     if file_type == 'fastq':
         print 'started fastq processing'
         import time
-        time.sleep(20)
+        time.sleep(5)
         print 'completed fastq processing'
         fastq_processing(project_id)
     else:
         print 'started vcf processing'
         import time
-        time.sleep(10)
+        time.sleep(5)
         print 'completed vcf processing'
         vcf_processing.apply_async(args=[project_id,])
     return True
 
 
-@celery.task()
+@celery_app.task()
 def fastq_processing(project_id):
     """
     Do fastq processing.
@@ -30,7 +26,7 @@ def fastq_processing(project_id):
     pass
 
 
-@celery.task()
+@celery_app.task()
 def vcf_processing(project_id):
     """
     Do VCF processing.

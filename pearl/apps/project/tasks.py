@@ -10,15 +10,18 @@ from os.path import join
 from shutil import copyfileobj
 from urllib2 import urlopen
 from contextlib import contextmanager
-from celery import Celery
-
+#from celery import Celery
+from pearl.celery_conf import app as celery_app
 from pearl.settings.base import NEW_PROJECT_DIR, BASE_DIR
 from apps.processing.tasks import processing
+'''
 
 celery = Celery('project_tasks',backend='amqp', broker='amqp://',
                 include=['apps.processing.tasks'],)
+celery.conf.CELERYD_POOL_RESTARTS = True
+'''
 
-@celery.task()
+@celery_app.task()
 def project_queue(project_id, project_status, file_type):
     """
     Queue up all projects by calling required tasks.
@@ -31,7 +34,7 @@ def project_queue(project_id, project_status, file_type):
         processing.apply_async(args=[project_id, file_type], queue=queue)
 
 
-@celery.task()
+@celery_app.task()
 def get_files(project_id):
     """
     Gets customer files & updates status.
