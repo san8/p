@@ -8,6 +8,7 @@ def processing(project_id, file_type):
         time.sleep(5)
         print 'completed fastq processing'
         fastq_processing(project_id)
+        fastq_processing(project_id)
     else:
         print 'started vcf processing'
         import time
@@ -23,6 +24,10 @@ def fastq_processing(project_id):
     Do fastq processing.
     """
     print("fast_processing func")
+    import time
+    time.sleep(10)
+    fastq_processing.delay(project_id)
+    print('asdf')
     pass
 
 

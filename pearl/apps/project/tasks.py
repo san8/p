@@ -14,12 +14,10 @@ from contextlib import contextmanager
 from pearl.celery_conf import app as celery_app
 from pearl.settings.base import NEW_PROJECT_DIR, BASE_DIR
 from apps.processing.tasks import processing
-'''
 
-celery = Celery('project_tasks',backend='amqp', broker='amqp://',
-                include=['apps.processing.tasks'],)
-celery.conf.CELERYD_POOL_RESTARTS = True
-'''
+celery_app.conf.update(
+    CELERYD_POOL_RESTARTS = True,
+)
 
 @celery_app.task()
 def project_queue(project_id, project_status, file_type):
