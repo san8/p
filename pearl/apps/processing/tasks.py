@@ -1,5 +1,6 @@
 from pearl.celery_conf import app as celery_app
 
+
 @celery_app.task()
 def processing(project_id, file_type):
     if file_type == 'fastq':
@@ -26,7 +27,6 @@ def fastq_processing(project_id):
     print("fast_processing func")
     import time
     time.sleep(10)
-    fastq_processing.delay(project_id)
     print('asdf')
     pass
 

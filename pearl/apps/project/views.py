@@ -9,10 +9,11 @@ from apps.accounts.models import Customer
 
 from .models import NewProject, MeshTissues, MeshDiseases
 from .models import STATUS_OPTIONS 
-from .forms import NewProjectForm, StartProcessingForm 
+from .forms import NewProjectForm
 
 
 class NewProjectFormView(View):
+    
     form_class = NewProjectForm
 
     def get(self, request):
