@@ -8,16 +8,14 @@
 {% block content %} 
     <div id="content">
         <h3>Quality Control Report(s).</h3>
-        {% for link in links  %}
-            <p><a href="{{ link }}"> {{ link }}  </a></p>
-        {% endfor %}
-
+        {{ project }}
+        {{ project.status }}
         {% if project.status >= 2 %}
             <h3>Processing</h3>
             {% if project.start_processing %}
                 <p>Your files were queued for processing.</p>
             {% else %}
-                <form method="POST" action="">
+                <form method="POST" action="{% url 'project:project_dashboard' %}">
                     {% csrf_token %}
                     {{ form | bootstrap }}
                     <button type="submit" class="btn btn-primary"> Submit </button>
@@ -32,3 +30,4 @@
     $('.radio').css('display', 'inline-block');
 })();
 {% endblock js %}
+

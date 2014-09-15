@@ -27,7 +27,6 @@ def fastq_processing(project_id):
     print("fast_processing func")
     import time
     time.sleep(10)
-    print('asdf')
     pass
 
 

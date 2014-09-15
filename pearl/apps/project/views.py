@@ -2,14 +2,15 @@ import json
 
 from django.core.urlresolvers import reverse 
 from django.shortcuts import HttpResponseRedirect, render, HttpResponse
-from django.views.generic.base import View 
+from django.views.generic.base import View
+from django.views.generic.edit import FormView
 
 #from pearl.settings.base import REPORT_DIR 
 from apps.accounts.models import Customer 
 
 from .models import NewProject, MeshTissues, MeshDiseases
 from .models import STATUS_OPTIONS 
-from .forms import NewProjectForm
+from .forms import NewProjectForm, StartProcessingForm
 
 
 class NewProjectFormView(View):
@@ -31,6 +32,7 @@ class NewProjectFormView(View):
 
 
 class DashboardView(View):
+    
     def get(self, request):
         customer_id = request.user.id 
         customer = Customer.objects.get(user_id=customer_id)
@@ -40,7 +42,28 @@ class DashboardView(View):
                  'status_options': STATUS_OPTIONS,
                  'user_timezone': customer.timezone,},)
 
+    
+class QcReportView(FormView):
+    """
+    Show QC report to the user.
+    Get conformation from user to start processing.
+    """
+    
+    def get(self, request, project_id):
+        form = StartProcessingForm()
+        customer_id = request.user.id 
+        project = NewProject.objects.filter(customer_id=customer_id).get(id=project_id)
+        return render(request, 'project/qc_report.html',
+                      {'project': project, 'form': form,},)
 
+    def post(self, request, project_id):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('project:project_dashboard'))
+        return render(request, 'project/qc_report.html')
+
+        
 def api(request, item, query):
     response_data = {}
     response_data['item'] = item
@@ -51,4 +74,16 @@ def api(request, item, query):
     return HttpResponse(json.dumps(data),
                         content_type="application/json")
     
+        
+    '''
+    template_name ='project/qc_report.html'
+    from_class = StartProcessingForm
+    success_url = 'project/dashborad/'
     
+    def form_valid(self, form):
+        form.save()
+        return super(QcReportView, self).form_valid(form)
+
+        
+    '''
+ 

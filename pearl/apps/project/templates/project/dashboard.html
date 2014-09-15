@@ -16,7 +16,8 @@
                 <td>
                     {% for stat in status_options %}
                         {% if stat.0 == project.status %}
-                            {{ stat.1 }}
+                            <a href="{% url 'project:project_qcreport' project.id %}">{{ stat.1 }}</a>
+                
                         {% endif %}
                     {% endfor %}
                 </td>
@@ -37,4 +38,6 @@
 </div>
 
 {% endblock content %}
+
+
 

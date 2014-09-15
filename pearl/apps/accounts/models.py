@@ -11,7 +11,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=50, blank=True)
     company = models.CharField(max_length=50, blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
-    captcha = CaptchaField()
+   # captcha = CaptchaField()
     timezone = models.CharField(max_length=50, default='', blank=True)
 
     def __unicode__(self):
