@@ -15,7 +15,7 @@
             {% if project.start_processing %}
                 <p>Your files were queued for processing.</p>
             {% else %}
-                <form method="POST" action="{% url 'project:project_dashboard' %}">
+                 <form method="POST" action=''>
                     {% csrf_token %}
                     {{ form | bootstrap }}
                     <button type="submit" class="btn btn-primary"> Submit </button>
@@ -30,4 +30,6 @@
     $('.radio').css('display', 'inline-block');
 })();
 {% endblock js %}
+
+
 

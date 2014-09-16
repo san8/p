@@ -43,11 +43,13 @@ class DashboardView(View):
                  'user_timezone': customer.timezone,},)
 
     
-class QcReportView(FormView):
+class QcReportView(View):
     """
     Show QC report to the user.
     Get conformation from user to start processing.
     """
+
+    form_class = StartProcessingForm
     
     def get(self, request, project_id):
         form = StartProcessingForm()
@@ -59,9 +61,15 @@ class QcReportView(FormView):
     def post(self, request, project_id):
         form = self.form_class(request.POST)
         if form.is_valid():
-            form.save()
+            project = NewProject.objects.get(pk=project_id)
+            project.start_processing = form.cleaned_data['start_processing']
+            if project.start_processing:
+                project.status = 3
+            else:
+                project.status = -2
+            project.save() 
             return HttpResponseRedirect(reverse('project:project_dashboard'))
-        return render(request, 'project/qc_report.html')
+        return render(request, 'project/qc_report.html',)
 
         
 def api(request, item, query):

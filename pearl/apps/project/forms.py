@@ -1,4 +1,3 @@
-from django.forms import ModelForm 
 from django import forms 
 
 from .models import NewProject 
@@ -15,7 +14,8 @@ PROCESSING_CHOICES = (
     ('1', 'Yes'),
     ('0', 'No'),
 )
-class NewProjectForm(ModelForm):
+class NewProjectForm(forms.ModelForm):
+
     file_type = forms.ChoiceField(choices=FILE_TYPE_CHOICES,
                                   widget=forms.RadioSelect,)
     total_fastq_files = forms.ChoiceField(choices=NUMBER_OF_FASTQ,
@@ -29,7 +29,7 @@ class NewProjectForm(ModelForm):
                   'vcf_file1', 'tissue', 'disease']
 
 
-class StartProcessingForm(forms.Form):
+class StartProcessingForm(forms.ModelForm):
 
     start_processing = forms.TypedChoiceField(choices=PROCESSING_CHOICES,
                 widget=forms.RadioSelect, coerce=int, required=True,)
