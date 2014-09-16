@@ -101,6 +101,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
 
+ #   'common.middleware.LoginRequiredMiddleware',
+#    'common.middleware.RequireLoginMiddleware',
     #'apps.accounts.middlewares.TimezoneMiddleware',
     #'apps.project.middleware.CheckLogin',
     #'apps.accounts.middleware.EnforceLoginMiddleware',
