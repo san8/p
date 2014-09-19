@@ -29,6 +29,7 @@
         <!-- JS -->
         <script src="{% static 'pearl/js/jquery-1.11.1.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        {% block js_files %}{% endblock js_files %}
     </head>
 
     <body background="{% static 'pearl/images/textured_paper.png' %}">
@@ -62,8 +63,9 @@
 
         <div id="content"> {% block content %}{% endblock content %} </div>
 
-    {% block js_files %}{% endblock js_files %}
+
     <script> {% block js %} {% endblock js %} </script>
     </body>
 </html>
+
 

@@ -1,9 +1,14 @@
 {% extends 'home/base.html' %}
 {% load bootstrap %}
+{% load staticfiles %}
 
 {% block title %}
     Review Quality 
 {% endblock title %}
+
+{% block js_files %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% endblock js_files %}
 
 {% block content %} 
     <div id="content">
@@ -23,13 +28,19 @@
             {% endif %}
         {% endif %}
     </div>
+
+    <div id='chart'>
+      {{ chart.as_html }}
+    </div>
+  
 {% endblock content %}
 
 {% block js %}
 (function(){
     $('.radio').css('display', 'inline-block');
 })();
+
+    // to load graphos chart
+    google.load("visualization", "1", {packages:["corechart"]});
+
 {% endblock js %}
-
-
-

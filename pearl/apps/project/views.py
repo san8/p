@@ -3,11 +3,11 @@ import json
 from django.core.urlresolvers import reverse 
 from django.shortcuts import HttpResponseRedirect, render, HttpResponse
 from django.views.generic.base import View
-from django.views.generic.edit import FormView
 
-#from pearl.settings.base import REPORT_DIR 
+from graphos.renderers import gchart
+from graphos.sources.model import ModelDataSource
+
 from apps.accounts.models import Customer 
-
 from .models import NewProject, MeshTissues, MeshDiseases
 from .models import STATUS_OPTIONS 
 from .forms import NewProjectForm, StartProcessingForm
@@ -42,7 +42,7 @@ class DashboardView(View):
                  'status_options': STATUS_OPTIONS,
                  'user_timezone': customer.timezone,},)
 
-    
+
 class QcReportView(View):
     """
     Show QC report to the user.
@@ -55,8 +55,13 @@ class QcReportView(View):
         form = StartProcessingForm()
         customer_id = request.user.id 
         project = NewProject.objects.filter(customer_id=customer_id).get(id=project_id)
+
+        queryset = NewProject.objects.filter(customer_id=customer_id)
+        data_source = ModelDataSource(queryset, fields=['name', 'id'])
+        chart = gchart.PieChart(data_source)
+        
         return render(request, 'project/qc_report.html',
-                      {'project': project, 'form': form,},)
+                      {'project': project, 'form': form, 'chart': chart},)
 
     def post(self, request, project_id):
         form = self.form_class(request.POST)

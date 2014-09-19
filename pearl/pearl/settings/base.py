@@ -52,6 +52,8 @@ INSTALLED_APPS = (
     'djcelery', 
     'kombu.transport.django',
     'bootstrapform',
+    'graphos',
+    
 #    'bootstrap3',
 #    'crispy_forms',
 
