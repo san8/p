@@ -22,3 +22,5 @@ Py Ch.ipynb
 #*
 *.py#
 backup/
+*.log
+*.pid

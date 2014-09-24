@@ -21,7 +21,7 @@ STATUS_OPTIONS = (
     (START_PROCESSING, 'Review Quality.'),
     (STOP_PROCESSING, 'Project terminated at QC.'),
     (DO_PROCESSING, 'Processing the file.'),
-    (FINAL_REPORT, 'Report Generated.'),
+    (FINAL_REPORT, 'Read Report.'),
 )
 
 

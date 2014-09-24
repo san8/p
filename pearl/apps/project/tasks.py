@@ -19,12 +19,12 @@ from apps.processing.tasks import processing
 @celery_app.task()
 def project_queue(project_id, project_status, file_type):
     """
-    Queue up all projects by calling required tasks.
+    Queue up all projects by calling tasks based on status.
     """
     if project_status == 0:
         queue = 'ftp_' + file_type
         get_files.apply_async(args=[project_id], queue=queue)
-    elif project_status == 2:
+    elif project_status == 3:
         queue = 'proc_' + file_type
         processing.apply_async(args=[project_id, file_type], queue=queue)
 
