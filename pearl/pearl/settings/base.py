@@ -17,7 +17,9 @@ BASE_DIR = abspath(join(CURRENT_DIR, '..'))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-STATICFILES_DIRS = (join(BASE_DIR, 'static'),)
+STATICFILES_DIRS = (
+    join(BASE_DIR, 'static'),
+)
 STATIC_ROOT = join(BASE_DIR, 'collect_static')
 STATIC_URL = '/static/'
 
@@ -52,7 +54,7 @@ INSTALLED_APPS = (
     'djcelery', 
     'kombu.transport.django',
     'bootstrapform',
-    'graphos',
+    'chartkick',
     
 #    'bootstrap3',
 #    'crispy_forms',

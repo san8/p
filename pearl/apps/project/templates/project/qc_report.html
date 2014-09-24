@@ -1,22 +1,21 @@
 {% extends 'home/base.html' %}
 {% load bootstrap %}
 {% load staticfiles %}
-
+{% load chartkick %}
 {% block title %}
     Review Quality 
 {% endblock title %}
 
 {% block js_files %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="http://ankane.github.io/chartkick/chartkick.js"></script>
 {% endblock js_files %}
 
 {% block content %} 
     <div id="content">
-        <h3>Quality Control Report(s).</h3>
-        {{ project }}
-        {{ project.status }}
+        <h3>QC Summary</h3>
+        <p>Overall Quality: </p>
         {% if project.status >= 2 %}
-            <h3>Processing</h3>
             {% if project.start_processing %}
                 <p>Your files were queued for processing.</p>
             {% else %}
@@ -28,9 +27,9 @@
             {% endif %}
         {% endif %}
     </div>
-
+    <h3> Detailed QC Report<h3>
     <div id='chart'>
-      {{ chart.as_html }}
+      {% pie_chart browser_stats with library={"title":"Browser Statistics, May 2013"} %}
     </div>
   
 {% endblock content %}
@@ -40,7 +39,5 @@
     $('.radio').css('display', 'inline-block');
 })();
 
-    // to load graphos chart
-    google.load("visualization", "1", {packages:["corechart"]});
-
 {% endblock js %}
+

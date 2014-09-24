@@ -4,10 +4,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import HttpResponseRedirect, render, HttpResponse
 from django.views.generic.base import View
 
-from graphos.renderers import gchart
-from graphos.sources.model import ModelDataSource
+from apps.accounts.models import Customer
 
-from apps.accounts.models import Customer 
 from .models import NewProject, MeshTissues, MeshDiseases
 from .models import STATUS_OPTIONS 
 from .forms import NewProjectForm, StartProcessingForm
@@ -55,13 +53,11 @@ class QcReportView(View):
         form = StartProcessingForm()
         customer_id = request.user.id 
         project = NewProject.objects.filter(customer_id=customer_id).get(id=project_id)
+        browser_stats = [['Chrome', 52.9], ['Firefox', 27.7], ['Opera', 1.6],
+                         ['Internet Explorer', 12.6], ['Safari', 4]]
 
-        queryset = NewProject.objects.filter(customer_id=customer_id)
-        data_source = ModelDataSource(queryset, fields=['name', 'id'])
-        chart = gchart.PieChart(data_source)
-        
         return render(request, 'project/qc_report.html',
-                      {'project': project, 'form': form, 'chart': chart},)
+                      {'project': project, 'form': form, 'browser_stats': browser_stats},)
 
     def post(self, request, project_id):
         form = self.form_class(request.POST)
