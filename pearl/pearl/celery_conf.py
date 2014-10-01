@@ -17,7 +17,10 @@ app.conf.update(
     CELERYD_POOL_RESTARTS = True,
     CELERY_TASK_SERIALIZER = 'json',
     CELERY_RESULT_SERIALIZER = 'json',
-    CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+    CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml'],
+    CELERY_ENABLE_UTC = True,
+    CELERY_TIMEZONE = "UTC",
+
 )
 
 
