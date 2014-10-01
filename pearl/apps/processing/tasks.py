@@ -1,3 +1,5 @@
+import sys
+
 from pearl.celery_conf import app as celery_app
 
 
@@ -17,8 +19,8 @@ def fastq_processing(project_id):
     """
     Do fastq processing.
     """
-    print("completed fast_processing func")
     update_status(project_id, 4)
+    print(sys._getframe().f_code.co_name)
 
 
 @celery_app.task()
@@ -26,14 +28,14 @@ def vcf_processing(project_id):
     """
     Do VCF processing.
     """
-    print('completed vcf_processing func')
     update_status(project_id, 4)
+    print('completed vcf_processing func')
 
     
 def update_status(project_id, status):
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
-    project.satus = status
-    print('changed status')
+    project.status = status
+    print(project_id, status)
     project.save()
     

@@ -3,6 +3,7 @@ import json
 from django.core.urlresolvers import reverse 
 from django.shortcuts import HttpResponseRedirect, render, HttpResponse
 from django.views.generic.base import View
+from django.views.generic.edit import FormView
 
 from apps.accounts.models import Customer
 
@@ -11,22 +12,19 @@ from .models import STATUS_OPTIONS
 from .forms import NewProjectForm, StartProcessingForm
 
 
-class NewProjectFormView(View):
-    
+class NewProjectFormView(FormView):
+    """
+    Form to create a new project.
+    """
+    template_name = 'project/new.html'
     form_class = NewProjectForm
+    success_url = '/project/dashboard'
 
-    def get(self, request):
-        form = NewProjectForm(initial={'total_fastq_files': '1'})
-        return render(request, 'project/new.html', {'form': form},)
-   
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.customer_id = request.user.id 
-            instance.save()
-            return HttpResponseRedirect(reverse('project:project_dashboard'))
-        return render(request, 'project/new.html', {'form': form},)
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.customer_id = self.request.user.id
+        instance.save()
+        return super(NewProjectFormView, self).form_valid(form)
 
 
 class DashboardView(View):
