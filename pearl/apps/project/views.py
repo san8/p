@@ -2,7 +2,7 @@ import json
 
 from django.core.urlresolvers import reverse 
 from django.shortcuts import HttpResponseRedirect, render, HttpResponse
-from django.views.generic.base import View
+from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import FormView
 
 from apps.accounts.models import Customer
@@ -27,17 +27,20 @@ class NewProjectFormView(FormView):
         return super(NewProjectFormView, self).form_valid(form)
 
 
-class DashboardView(View):
-    
-    def get(self, request):
-        customer_id = request.user.id 
-        customer = Customer.objects.get(user_id=customer_id)
-        myProjects = NewProject.objects.filter(customer=customer_id)
-        return render(request, 'project/dashboard.html', 
-                {'projects': myProjects,
-                 'status_options': STATUS_OPTIONS,
-                 'user_timezone': customer.timezone,},)
+class DashboardView(TemplateView):
 
+    template_name = 'project/dashboard.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(DashboardView, self).get_context_data(**kwargs)
+        customer_id = self.request.user.id
+        myProjects = NewProject.objects.filter(customer=customer_id)
+        context['projects'] = myProjects
+        customer = Customer.objects.get(user_id=customer_id)
+        context['user_timezone'] = customer.timezone 
+        context['status_options'] = STATUS_OPTIONS
+        return context
+        
 
 class QcReportView(View):
     """
