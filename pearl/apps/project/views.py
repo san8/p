@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import HttpResponseRedirect, render, HttpResponse
 from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import FormView
+from django.views.generic import ListView
 
 from apps.accounts.models import Customer
 
@@ -17,8 +18,8 @@ class NewProjectFormView(FormView):
     Form to create a new project.
     """
     template_name = 'project/new.html'
-    form_class = NewProjectForm
     success_url = '/project/dashboard'
+    form_class = NewProjectForm
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -27,20 +28,21 @@ class NewProjectFormView(FormView):
         return super(NewProjectFormView, self).form_valid(form)
 
 
-class DashboardView(TemplateView):
-
+class DashboardView(ListView):
+    model = NewProject
     template_name = 'project/dashboard.html'
-    
+    context_object_name = 'projects'
+
+    def get_queryset(self):
+        return NewProject.objects.filter(customer=self.request.user.id)
+        
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-        customer_id = self.request.user.id
-        myProjects = NewProject.objects.filter(customer=customer_id)
-        context['projects'] = myProjects
-        customer = Customer.objects.get(user_id=customer_id)
-        context['user_timezone'] = customer.timezone 
+        customer = Customer.objects.get(user_id=self.request.user.id)
+        context['user_timezone'] = customer.timezone
         context['status_options'] = STATUS_OPTIONS
         return context
-        
+     
 
 class QcReportView(View):
     """
@@ -85,15 +87,3 @@ def api(request, item, query):
                         content_type="application/json")
     
         
-    '''
-    template_name ='project/qc_report.html'
-    from_class = StartProcessingForm
-    success_url = 'project/dashborad/'
-    
-    def form_valid(self, form):
-        form.save()
-        return super(QcReportView, self).form_valid(form)
-
-        
-    '''
- 
