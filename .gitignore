@@ -24,3 +24,4 @@ Py Ch.ipynb
 backup/
 *.log
 *.pid
+*.out
