@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from subprocess import call
 import os
 from os import mkdir, getcwd, chdir, devnull, listdir
-from os.path import join
+from os.path import join, abspath
 from shutil import copyfileobj
 from urllib2 import urlopen
 from contextlib import contextmanager
@@ -110,20 +110,42 @@ def fastq_qc(project_dir):
     return True
 
 
-def fastq_qc_plus(project_dir):
+def fastq_qc_plus(project_id):
     """
-    Run a script on top of fastq_qc to remove unwanted details.
+    Parse FASTQC results & get base statistics, sequence quality,
+    length distribution, adapter content
     """
+    project_dir = join(NEW_PROJECT_DIR, str(project_id))
     with cd(project_dir):
+        qc_data = []
         for root, dirs, files in os.walk(project_dir):
             for file_name in files:
-                if 'fastqc_data.txt' in file_name:
-                    report_name = root.split('/')[-1].replace('fastqc', 'report')
-                    file_path = join(root, file_name)
-                    command = ['python', join(BASE_DIR, 'bin/fastq_qc_plus.py'),
-                    file_path, report_name]
-                    call(command, stdout=open(devnull, 'wb'))
+                if file_name == 'fastqc_data.txt':
+                    data = parse_data(join(root, file_name))
+                    qc_data.append(data)
+    return qc_data
 
+
+def parse_data(file_name):
+    import sys
+    sys.path.insert(1, '/home/k3/project_pearl/pearl/apps/project')
+    from fadapa import Parser
+    d = Parser(file_name)
+    data = {}
+    data['base_stats'] = d.clean_data('Basic Statistics')[1:]
+
+    base_n = d.clean_data('Per base N content')[1:]
+    base_n = [[int(x[0]), float(x[1])] for x in base_n]
+    data['base_n'] = base_n
+ 
+    base_seq = d.clean_data('Per base sequence quality')[1:]
+    base_seq = [[int(x[0]), float(x[1])] for x in base_seq]
+    data['base_seq'] = base_seq
+
+    try: data['adapter'] = d.cleaned_data('Adapter Content')[1:]
+    except: pass
+
+    return data 
     
 def vcf_qc(project_id):
     """

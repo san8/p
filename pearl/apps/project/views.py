@@ -18,8 +18,8 @@ class NewProjectFormView(FormView):
     Form to create a new project.
     """
     template_name = 'project/new.html'
-    success_url = '/project/dashboard'
     form_class = NewProjectForm
+    success_url = '/project/dashboard'
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -44,20 +44,48 @@ class DashboardView(ListView):
         return context
      
 
-class QcReportView(View):
+class QcReportView(FormView):
     """
     Show QC report to the user.
     Get conformation from user to start processing.
     """
-
+    template_name = 'project/qc_report.html'
     form_class = StartProcessingForm
-    
+    success_url = '/project/dashboard'
+
+    def get_context_data(self,  **kwargs):
+        context = super(QcReportView, self).get_context_data(**kwargs)
+        customer_id = self.request.user.id
+        project_id = self.args[0]
+        project = NewProject.objects.filter(customer_id=customer_id)\
+                                    .get(id=project_id)
+        context['project'] = project
+        context['file_count'] = range(1, project.total_fastq_files+1)
+        if project.status == 2:
+            from .tasks import fastq_qc_plus
+            context['qc_data'] = (fastq_qc_plus(project_id))
+        context['jq'] =  [[[1, 1],[3,3],[5,5]]]
+
+        return context 
+ 
+        
+    def form_valid(self, form):
+        form.save(commit=False)
+        project_id = self.args[0]
+        project = NewProject.objects.get(pk=project_id)
+        project.start_processing = form.cleaned_data['start_processing']
+        project.status = (-2, 3)[project.start_processing]
+        project.save()
+        return super(QcReportView, self).form_valid(form)
+
+
+    '''
+  
     def get(self, request, project_id):
         form = StartProcessingForm()
         customer_id = request.user.id 
         project = NewProject.objects.filter(customer_id=customer_id).get(id=project_id)
-        browser_stats = [['Chrome', 52.9], ['Firefox', 27.7], ['Opera', 1.6],
-                         ['Internet Explorer', 12.6], ['Safari', 4]]
+        browser_stats = [['Chrome', 52.9], ['Firefox', 27.7], ['Opera', 1.6],]
 
         return render(request, 'project/qc_report.html',
                       {'project': project, 'form': form, 'browser_stats': browser_stats},)
@@ -74,7 +102,7 @@ class QcReportView(View):
             project.save() 
             return HttpResponseRedirect(reverse('project:project_dashboard'))
         return render(request, 'project/qc_report.html',)
-
+    '''  
         
 def api(request, item, query):
     response_data = {}
@@ -87,3 +115,5 @@ def api(request, item, query):
                         content_type="application/json")
     
         
+
+
