@@ -8,14 +8,19 @@
 {% endblock title %}
 
 
-{% block js_files %}
-<script src="{% static 'pearl/js/jquery.jqplot.min.js' %}"></script>
-{% endblock js_files %}
-
-
 {% block css_files %}
 <link href="{% static 'pearl/css/jquery.jqplot.min.css' %}" rel="stylesheet" />
 {% endblock css_files %}
+
+
+{% block js_files %}
+<script src="{% static 'pearl/js/jquery.jqplot.min.js' %}"></script>
+<script src="{% static 'pearl/js/jqplot.canvasOverlay.min.js' %}"></script>
+{% endblock js_files %}
+
+
+{% block css %}
+{% endblock css %}
 
 
 {% block js %}
@@ -25,16 +30,22 @@
 
 var arr = [1, 2];
 
-var markings = [
-        { color: '#000', lineWidth: 1, xaxis: { from: 0, to: 10 } },
-        { color: '#000', lineWidth: 1, xaxis: { from: 10, to: 30 } }
-    ];
-
 $.each(arr, function(key, value) {
-
     var data = "#base_seq_data" + value;
     var base_seq = $(data).data('baseseq');
     var chart = 'base_seq_chart' + value;
+    var createRect = function(ymin, ymax, color, string) {
+        return rect = { 
+            rectangle: { 
+                ymin: ymin, ymax: ymax, 
+                xminOffset: "0px", xmaxOffset: "0px", 
+                yminOffset: "0px", ymaxOffset: "0px",
+                color: "rgba(" + color.toString() + ")", 
+                showTooltip: true, 
+                tooltipFormatString: string, 
+            }
+        };
+    };
     var plot = $.jqplot(chart, [base_seq], {
         axes: {
             xaxis: {
@@ -43,12 +54,19 @@ $.each(arr, function(key, value) {
             yaxis: {
                 label: "Sequence Quality"
             }
-        }
-    });
+        },
+        canvasOverlay : {
+            show: true,
+            objects: [
+                createRect(undefined, 30, [255, 0, 0, 0.4], "Bad Quality"),
+                createRect(30, 36, [0, 200, 0, 0.2], "Good Quality"),
+                createRect(36, undefined, [0, 255, 0, 0.4], "Very Good Quality"),
+            ],
+        },    
+    });  // end of jqplot
 
     var data = "#base_n_data" + value;
     var base_n = $(data).data('basen');
-console.log(base_n);
     var chart = 'base_n_chart' + value;
     $.jqplot(chart, [base_n], {
         axes: {
@@ -58,27 +76,20 @@ console.log(base_n);
             yaxis: {
                 label: "N Content"
             }
-        }  // end of axes
-
-    });
-
+        },  // end of axes 
+    }); // end of jqplot
 }); // end of $.each
 
 {% endblock js %}
 
 
-{% block css %}
-{% endblock css%}
-
-
 {% block content %}
-
   <div id='qc-report-summary'>
     <h3>QC Summary</h3>
 
       <h4>Go to    
       {% for i in file_count %}
-        <a href="#{{i}}">Report{{ i }}</a>
+        <a class="anchor" id="anchort" href="#{{i}}">Report{{ i }}</a>
       {% endfor %}
       </h4>
 
