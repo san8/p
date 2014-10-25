@@ -17,7 +17,6 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1',]
 
 INSTALLED_APPS += (
-    'south',
     'debug_toolbar',
     'django_jenkins',
     'django_shell_ipynb',
