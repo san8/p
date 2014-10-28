@@ -25,7 +25,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-NEW_PROJECT_DIR = join(BASE_DIR, MEDIA_URL, 'NewProject/')
+NEW_PROJECT_DIR = join(MEDIA_ROOT, 'NewProject/')
 REPORT_DIR = join(MEDIA_ROOT, 'Report/')
 
 
