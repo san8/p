@@ -10,9 +10,10 @@ from os.path import join, abspath
 from shutil import copyfileobj
 from urllib2 import urlopen
 from contextlib import contextmanager
-#from celery import Celery
+
 from pearl.celery_conf import app as celery_app
 from pearl.settings.base import NEW_PROJECT_DIR, BASE_DIR
+
 from apps.processing.tasks import processing
 
 
