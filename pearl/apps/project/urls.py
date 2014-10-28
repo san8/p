@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required 
 
 from .views import (NewProjectFormView, DashboardView,
-                    api, QcReportView)
+                    api, QcReportView, FinalReportView)
 
 
 urlpatterns = patterns('',
@@ -13,5 +13,7 @@ urlpatterns = patterns('',
     url(r'^api/(?P<item>\w+)/(?P<query>\w+)', api, name="data_api"),
     url(r'^qcreport/(\d+)/$', login_required(QcReportView.as_view()),
                               name='project_qcreport'),
+    url(r'^finalreport/(\d+)/$', login_required(FinalReportView.as_view()),
+                              name='finalreport'),
 
 )

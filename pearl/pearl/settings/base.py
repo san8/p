@@ -1,27 +1,17 @@
 """
 Django settings for pearl project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from os.path import join, dirname, abspath
 
 CURRENT_DIR = abspath(join(dirname( __file__ ), '..'))
 BASE_DIR = abspath(join(CURRENT_DIR, '..'))
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
+# Static and media
 STATICFILES_DIRS = (
     join(BASE_DIR, 'static'),
 )
-STATIC_ROOT = join(BASE_DIR, 'collect_static')
-STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
     join(BASE_DIR, 'apps/home'),
@@ -29,16 +19,17 @@ TEMPLATE_DIRS = (
     join(BASE_DIR, 'apps/project'),
 )
 
+STATIC_ROOT = join(BASE_DIR, 'collect_static')
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = join(BASE_DIR, 'media')
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 
 NEW_PROJECT_DIR = join(BASE_DIR, MEDIA_URL, 'NewProject/')
 REPORT_DIR = join(MEDIA_ROOT, 'Report/')
 
 
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -55,10 +46,9 @@ INSTALLED_APPS = (
     'djcelery', 
     'kombu.transport.django',
     'bootstrapform',
-    'chartkick',
-    
-#    'bootstrap3',
-#    'crispy_forms',
+    #'chartkick',
+    #'bootstrap3',
+    #'crispy_forms',
 
     #apps
     'apps.home',

@@ -1,6 +1,9 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
+from django.conf.urls.static import static
+
+from pearl.settings.base import MEDIA_URL, MEDIA_ROOT
 
 from registration.backends.default.views import RegistrationView 
 
@@ -21,14 +24,5 @@ urlpatterns = patterns('',
     url(r'^captcha/', include('captcha.urls')), 
     url(r'^admin/', include(admin.site.urls)),
 
-) 
-'''
+) + static(MEDIA_URL, document_root = MEDIA_ROOT)
 
-if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-            'document_root': settings.MEDIA_ROOT })
-)
-
-'''
-#+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
