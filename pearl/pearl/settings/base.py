@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 
     # django packages
+    'south',
     'registration',
     'captcha',
     'djcelery', 

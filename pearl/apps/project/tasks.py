@@ -103,9 +103,10 @@ def fastq_qc(project_dir):
     Run FASTQC on unzipped files to generate qc report.
     """
     fastq_files = [files for files in listdir(project_dir)]
+    fastqc = os.path.join(BASE_DIR, 'bin/fastqc/fastqc')
     with cd(project_dir):
         for fastq_file in fastq_files: 
-            command = ["fastqc", fastq_file, "--quiet"]
+            command = [fastqc, fastq_file, "--extract", "--quiet"]
             call(command, stdout=open(devnull, 'wb'))
     return True
 
@@ -129,8 +130,8 @@ def fastq_qc_plus(project_id):
 def parse_data(file_name):
     import sys
     sys.path.insert(1, '/home/k3/project_pearl/pearl/apps/project')
-    from fadapa import Parser
-    d = Parser(file_name)
+    from fadapa import Fadapa
+    d = Fadapa(file_name)
     data = {}
     data['base_stats'] = d.clean_data('Basic Statistics')[1:]
 
