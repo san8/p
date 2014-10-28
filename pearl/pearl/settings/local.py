@@ -4,11 +4,6 @@ import os
 
 from .base import *
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.environ['SECRET_KEY']
 SECRET_KEY='@-+a#8cz=c^&jjf9ai!cw976%k!+@v3!%l+j9e%-d#h466*i'
 
 DEBUG = True
@@ -18,8 +13,7 @@ TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS = ['127.0.0.1',]
 
 INSTALLED_APPS += (
-    #'south',
-    #'debug_toolbar',
+    'debug_toolbar',
     #'django_jenkins',
     #'django_shell_ipynb',
     'django_extensions',
@@ -27,7 +21,6 @@ INSTALLED_APPS += (
 )
 
 # Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -39,15 +32,7 @@ DATABASES = {
     }
 }
 
-#import dj_database_url
-#DATABASES['default'] = dj_database_url.config(default='mysql://db/pearl.db')
-
-# django-nose
-#TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 # djceley testrunner
 TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
-
-#LOGIN_URL = 'accounts/login'
-#LOGIN_REDIRECT_URL = 'accounts/dashboard'
 
