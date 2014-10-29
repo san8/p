@@ -31,12 +31,14 @@ def fastq_processing(project_id):
     print(project_dir)
     fq_files = [ os.path.join(project_dir, f) for f in os.listdir(project_dir) \
                  if f[-6:] == '.fastq' ]
+    print(fq_files)
     if len(fq_files) == 2:
-        command = ["pearl workflow.pl ", "-1", fq_files[0], "-2", fq_files[1],
-                   "-o", project_dir]
+        command = "workflow.pl -1 " + fq_files[0] + " -2 " + fq_files[1] + \
+                   " -o " +  project_dir
     if len(fq_files) == 1:
-        command = ["perl workflow.pl", "-u", fq_files[0], "-o", project_dir]
-    subprocess.call(command, stdout=open(os.devnull, 'wb'))
+        command = "workflow.pl -u " + fq_files[0] + " -o " + project_dir
+    print(command)
+    subprocess.call(command, shell=True)
     return True
 
 
