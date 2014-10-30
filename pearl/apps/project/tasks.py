@@ -129,8 +129,6 @@ def fastq_qc_plus(project_id):
 
 
 def parse_data(file_name):
-    import sys
-    sys.path.insert(1, '/home/k3/project_pearl/pearl/apps/project')
     from fadapa import Fadapa
     d = Fadapa(file_name)
     data = {}
