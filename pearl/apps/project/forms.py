@@ -4,7 +4,7 @@ from .models import NewProject
 
 FILE_TYPE_CHOICES = (
     ('fastq', 'FASTQ'),
-    ('vcf', 'VCF'),
+    ('vcf', 'VCF(Coming Soon)'),
 )
 NUMBER_OF_FASTQ = (
     ('1', '1'),

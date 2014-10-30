@@ -2,13 +2,16 @@
 {% load staticfiles %}
 {% load bootstrap %}
 
+
 {% block css_files %}
     <link rel="stylesheet" href="{% static 'pearl/css/jquery-ui.min.css' %}" />
 {% endblock css_files %}
 
+
 {% block js_files %}
     <script src="{% static 'pearl/js/jquery-ui.min.js' %}"></script> 
 {% endblock js_files %}
+
 
 {% block content %}
     <form action="" method="post" enctype="multipart/form-data">
@@ -22,6 +25,7 @@
         <input type=submit class="btn btn-primary btn-large" /> 
     </form>
 {% endblock content %}
+
 
 {% block css %}
 .radio {
@@ -79,6 +83,10 @@
             source: ajax_url
         });
     });
+
+
+// temporarily disable vcf option
+$("input[value='vcf']")[0].disabled = true;
 
 })(); 
 
