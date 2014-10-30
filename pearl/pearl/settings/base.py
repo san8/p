@@ -48,7 +48,8 @@ INSTALLED_APPS = (
     'bootstrapform',
     #'chartkick',
     #'bootstrap3',
-    #'crispy_forms',
+    'crispy_forms',
+    'floppyforms',
 
     #apps
     'apps.home',
@@ -58,7 +59,7 @@ INSTALLED_APPS = (
 )
 
 #For django-crispy-froms
-#CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 #login session expiry
 SESSION_COOKIE_AGE = 10 * 60
