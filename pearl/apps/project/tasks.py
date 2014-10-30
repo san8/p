@@ -43,7 +43,7 @@ def get_files(project_id):
     mkdir(local_dir)
     fetch_files_ftp(local_dir, url_list)
     do_qc(project_id, project.file_type)
-    project.status = 2
+    project.status = 3
     project.save()
     return True
 
