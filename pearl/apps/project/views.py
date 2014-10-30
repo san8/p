@@ -35,7 +35,8 @@ class DashboardView(ListView):
     context_object_name = 'projects'
 
     def get_queryset(self):
-        return NewProject.objects.filter(customer=self.request.user.id)
+        return NewProject.objects.filter(customer=self.request.user.id)\
+                                 .order_by('-updated_at')
         
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
