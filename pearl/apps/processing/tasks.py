@@ -16,7 +16,7 @@ def processing(project_id, file_type):
     Route tasks according to their file type.
     """
     if file_type == 'fastq':
-        fastq_processing.delay(project_id)
+        fastq_processing.apply_async(args=[project_id,], queue='proc_fastq')
     elif file_type == 'vcf':
         vcf_processing.apply_async(args=[project_id,])
     return True
