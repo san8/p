@@ -6,8 +6,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-REPORT_DIR = "/media/Report/"
-
 UPLOADING_FILES = 0
 QUALITY_CONTROL = 1
 START_PROCESSING, STOP_PROCESSING = 2, -2
@@ -65,5 +63,3 @@ class MeshDiseases(models.Model):
     descriptorui = models.CharField(max_length=7)
     descriptornamestring = models.CharField(max_length=100, blank=True)
     treenumber = models.TextField(blank=True)
-
-
