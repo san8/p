@@ -17,7 +17,6 @@ ALLOWED_HOSTS = ['127.0.0.1',]
 INSTALLED_APPS += (
     'debug_toolbar',
     'django_extensions',
-    'djcelery_testworker',
 )
 
 # Database
@@ -31,9 +30,6 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
-# djcelery testrunner
-TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
 
 # email settings
