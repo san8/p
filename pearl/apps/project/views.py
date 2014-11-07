@@ -67,6 +67,7 @@ class QcReportView(FormView):
             from .tasks import fastq_qc_plus
             context['qc_data'] = (fastq_qc_plus(project_id))
         context['jq'] =  [[[1, 1],[3,3],[5,5]]]
+        context['vcf_link']  = MEDIA_URL + 'NewProject/' + str(project_id) + '/final.vcf'
 
         return context 
  

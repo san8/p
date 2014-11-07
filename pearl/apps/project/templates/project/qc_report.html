@@ -84,6 +84,14 @@ $.each(arr, function(key, value) {
 
 
 {% block content %}
+
+{% if project.status == 0 %}
+    <h4>Uploading files. Please wait...</h4>
+
+{% elif project.status == 1 %}
+    <h4>Running quality check. Please wait... </h4>
+
+{% elif project.status == 2 %}
   <div id='qc-report-summary'>
     <h3>QC Summary</h3>
 
@@ -167,7 +175,15 @@ $.each(arr, function(key, value) {
      </div> <!-- adapter div -->
      {% endfor %}
     </div> <!-- div qc-report -->
+{% elif project.status == 3 %}
+     <h4>Your files are being processed. Please wait... </h4>
+
+{% elif project.status == 4 %}
+  <h4>Report</h4>
+  <a href="{{ vcf_link }}">Click  here to download VCF File</a>
+{% endif %}
   
+
 {% endblock content %}
 
 
