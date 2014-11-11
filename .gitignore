@@ -19,3 +19,4 @@ htmlcov/
 *.pid
 *.out
 env_var.sh
+todo.org
