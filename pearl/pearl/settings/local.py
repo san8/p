@@ -24,7 +24,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pearl',
-        'USER': os.environ.get('DB_USER', ''),
+        'USER': os.environ.get('DB_USER', ''), 
         'PASSWORD': os.environ.get('DB_PASS', ''),
         'HOST': 'localhost',
         'PORT': '3306',
@@ -32,7 +32,6 @@ DATABASES = {
 }
 
 
-# email settings
 EMAIL_HOST = 'mail.leucinerichbio.com'
 EMAIL_PORT = 26
 EMAIL_HOST_USER = 'noreply@leucinerichbio.com'
