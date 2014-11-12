@@ -12,13 +12,9 @@ DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['192.168.0.103', '127.0.0.1']
+ALLOWED_HOSTS = ['0.0.0.0',]
 
-INSTALLED_APPS += (
-    #'debug_toolbar',
-)
 
-# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -31,7 +27,6 @@ DATABASES = {
 }
 
 
-# email settings
 EMAIL_HOST = 'mail.leucinerichbio.com'
 EMAIL_PORT = 26
 EMAIL_HOST_USER = 'noreply@leucinerichbio.com'
