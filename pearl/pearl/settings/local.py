@@ -17,7 +17,9 @@ ALLOWED_HOSTS = ['127.0.0.1',]
 INSTALLED_APPS += (
     'debug_toolbar',
     'django_extensions',
+    'djsupervisor',
 )
+
 
 # Database
 DATABASES = {
