@@ -1,12 +1,13 @@
 """
-All celery tasks required for projects. 
+Celery tasks to fetch files and do quality check.
 """
+
 from __future__ import absolute_import
 
 from subprocess import call
 import os
-from os import mkdir, getcwd, chdir, devnull, listdir
-from os.path import join, abspath
+from os import getcwd, chdir, devnull, listdir
+from os.path import join
 from shutil import copyfileobj
 from urllib2 import urlopen
 from contextlib import contextmanager
@@ -17,6 +18,12 @@ from pearl.settings.base import NEW_PROJECT_DIR, BASE_DIR
 from apps.processing.tasks import processing
 
 
+celery_app.conf.update(
+    CELERYD_LOG_COLOR = False,
+    CELERYD_POOL_RESTARTS = True,
+)
+
+
 @celery_app.task()
 def project_queue(project_id, project_status, file_type):
     """
@@ -24,25 +31,27 @@ def project_queue(project_id, project_status, file_type):
     """
     if project_status == 0:
         queue = 'ftp_' + file_type
-        get_files.apply_async(args=[project_id], queue=queue)
+        ftp_qc.apply_async(args=[project_id], queue=queue)
     elif project_status == 3:
-        queue = 'proc_' + file_type
-        processing.apply_async(args=[project_id, file_type], queue=queue)
+        processing.apply_async(args=[project_id, file_type], queue='proc')
+    return True
 
 
 @celery_app.task()
-def get_files(project_id):
+def ftp_qc(project_id):
     """
-    Gets customer files & updates status.
+    Fectch project files, do_qc  & update project status.
     """
     from .models import NewProject 
     project = NewProject.objects.get(id=project_id)
     url_list = [project.fastq_file1, project.fastq_file2, project.vcf_file1] 
     url_list = filter(None, url_list)
     local_dir = join(NEW_PROJECT_DIR, str(project_id)) 
-    mkdir(local_dir)
+    os.mkdir(local_dir)
     fetch_files_ftp(local_dir, url_list)
-    do_qc(project_id, project.file_type)
+    unzip_files(local_dir)
+    if project.file_type == 'fastq':
+        do_qc(project_id, project.file_type)
     project.status = 3
     project.save()
     return True
@@ -77,12 +86,9 @@ def do_qc(project_id, file_type):
     Uzip user files and start quality control. 
     """
     project_dir = join(NEW_PROJECT_DIR, str(project_id))
-    unzip_files(project_dir)
     if file_type == 'fastq':
         fastq_qc(project_dir)
         fastq_qc_plus(project_dir)
-    elif file_type == 'vcf':
-        vcf_qc(project_id)
     return True
 
 
@@ -94,8 +100,11 @@ def unzip_files(path):
     with cd(path):
         for zip_file in zip_files:
             commands = [["7z", "e", zip_file], ["rm", zip_file]]
-            for command in commands:
-                call(command, stdout=open(devnull, 'wb'))
+            try:
+                for command in commands:
+                    call(command, stdout=open(devnull, 'wb'))
+            except:
+                pass
     return True
 
 
@@ -146,12 +155,4 @@ def parse_data(file_name):
     except: pass
 
     return data 
-    
-def vcf_qc(project_id):
-    """
-    Run VCF QC check on unzipped files.
-    """
-    print 'started vcf qc'
-    import time
-    time.sleep(10)
-    print 'vcf qc completed'    
+

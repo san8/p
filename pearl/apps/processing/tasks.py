@@ -2,13 +2,17 @@
 Various tasks to process the user files.
 """
 
-import sys
 import os
 import subprocess
 
 from pearl.settings.base import NEW_PROJECT_DIR
 from pearl.celery_conf import app as celery_app
 
+
+celery_app.conf.update(
+    CELERYD_LOG_COLOR = False,
+    CELERYD_POOL_RESTARTS = True,
+)
 
 @celery_app.task()
 def processing(project_id, file_type):
@@ -18,7 +22,7 @@ def processing(project_id, file_type):
     if file_type == 'fastq':
         fastq_processing.apply_async(args=[project_id,], queue='proc_fastq')
     elif file_type == 'vcf':
-        vcf_processing.apply_async(args=[project_id,])
+        vcf_processing.apply_async(args=[project_id,], queue='proc_vcf')
     return True
 
 
@@ -28,33 +32,34 @@ def fastq_processing(project_id):
     Run fastq through a perl script which runs all the pipelines.
     """
     project_dir = os.path.join(NEW_PROJECT_DIR, str(project_id)) 
-    print(project_dir)
     fq_files = [ os.path.join(project_dir, f) for f in os.listdir(project_dir) \
                  if f[-6:] == '.fastq' ]
-    print(fq_files)
     if len(fq_files) == 2:
         command = "workflow.pl -1 " + fq_files[0] + " -2 " + fq_files[1] + \
                    " -o " +  project_dir
     if len(fq_files) == 1:
         command = "workflow.pl -u " + fq_files[0] + " -o " + project_dir
-    print(command)
     subprocess.call(command, shell=True)
+    update_status(project_id, status=4)
     return True
 
 
 @celery_app.task()
 def vcf_processing(project_id):
     """
-    Do VCF processing.
+    VCF processing through a perl script.
     """
-    update_status(project_id, 4)
-    print('completed vcf_processing func')
+    project_dir = os.path.join(NEW_PROJECT_DIR, str(project_id))
+    vcf_file = [ os.path.join(project_dir, f) for f in os.listdir(project_dir) \
+                  if f[-4:] == '.vcf' ]
+    command = "workflow.pl -v" + vcf_file[0] + '-o' + project_dir
+    subprocess.call(command, shell=True)
+    update_status(project_id, status=4)
+    return True
 
     
 def update_status(project_id, status):
     from apps.project.models import NewProject 
     project = NewProject.objects.get(id=project_id)
     project.status = status
-    print(project_id, status)
-    project.save()
-    
+    project.save()    
