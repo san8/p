@@ -52,7 +52,7 @@ def vcf_processing(project_id):
     project_dir = os.path.join(NEW_PROJECT_DIR, str(project_id))
     vcf_file = [ os.path.join(project_dir, f) for f in os.listdir(project_dir) \
                   if f[-4:] == '.vcf' ]
-    command = "workflow.pl -v" + vcf_file[0] + '-o' + project_dir
+    command = "workflow.pl -v " + vcf_file[0] + ' -o ' + project_dir
     subprocess.call(command, shell=True)
     update_status(project_id, status=4)
     return True
