@@ -48,9 +48,11 @@
         var value = $(this).val();
         if (value == 'fastq'){
             $('div#total_fastq_files').show();
+            $('div#fastq_file1').show();
             $('div#vcf_file1').hide();
         } else if (value == 'vcf'){
             $('div#total_fastq_files').hide();
+            $('div#fastq_file1').hide();
             $('div#vcf_file1').show();
         }
     });
@@ -70,7 +72,7 @@
 
     $('input#id_tissue').keyup(function() {
         query = $('input#id_tissue').val(); 
-        ajax_url = "http://127.0.0.1:8000/project/api/tissues/" + query
+        ajax_url = "http://ctog.leucinerichbio.com/project/api/tissues/" + query
         $('input#id_tissue').autocomplete({
             source: ajax_url 
         });
@@ -78,7 +80,7 @@
 
     $('#id_disease').keyup(function() {
         query = $('#id_disease').val();
-        ajax_url = "http://127.0.0.1:8000/project/api/diseases/" + query
+        ajax_url = "http://ctog.leucinerichbio.com/project/api/diseases/" + query
         $('#id_disease').autocomplete({
             source: ajax_url
         });
@@ -86,7 +88,9 @@
 
 
 // temporarily disable vcf option
-$("input[value='vcf']")[0].disabled = true;
+// $("input[value='vcf']").prop('disabled', true);
+$("input[id='id_tissue']").prop('disabled', true);
+$("input[id='id_disease']").prop('disabled', true);
 
 })(); 
 

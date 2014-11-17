@@ -34,15 +34,17 @@ class NewProject(models.Model):
     fastq_file2 = models.CharField(max_length=200, blank=True)
     file_list = models.CharField(max_length=200, blank=True)
     paired_end_distance = models.IntegerField(blank=True, null=True)
-    tissue = models.CharField(max_length=100, default='', blank=True)
-    disease = models.CharField(max_length=100, default='', blank=True)
+    tissue = models.CharField(max_length=100, default='', blank=True,
+                              verbose_name='Tissue (Coming Soon)')
+    disease = models.CharField(max_length=100, default='', blank=True,
+                               verbose_name='Disease (Coming Soon)')
     status = models.IntegerField(choices=STATUS_OPTIONS, default=UPLOADING_FILES)
     start_processing = models.BooleanField(default=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.name
+        return self.name    # pragma: no cover
 
     class Meta:
         ordering = ('updated_at',)

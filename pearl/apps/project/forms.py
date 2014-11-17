@@ -4,23 +4,25 @@ from .models import NewProject
 
 FILE_TYPE_CHOICES = (
     ('fastq', 'FASTQ'),
-    ('vcf', 'VCF(Coming Soon)'),
+    ('vcf', 'VCF'),
 )
 NUMBER_OF_FASTQ = (
-    ('1', '1'),
-    ('2', '2')
+    ('1', 'Single End'),
+    ('2', 'Paired End')
 )
 PROCESSING_CHOICES = (
     ('1', 'Yes'),
     ('0', 'No'),
 )
-class NewProjectForm(forms.ModelForm):
 
+
+class NewProjectForm(forms.ModelForm):
+                
     file_type = forms.ChoiceField(choices=FILE_TYPE_CHOICES,
                                   widget=forms.RadioSelect,)
     total_fastq_files = forms.ChoiceField(choices=NUMBER_OF_FASTQ,
                                           widget=forms.RadioSelect,
-                                          required=False, )
+                                          initial=1, )
     class Meta:
         model = NewProject
         fields = ['name', 'description', 'file_type',
