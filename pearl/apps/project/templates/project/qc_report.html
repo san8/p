@@ -82,7 +82,6 @@ $.each(arr, function(key, value) {
 
 {% endblock js %}
 
-
 {% block content %}
 
 {% if project.status == 0 %}
@@ -116,13 +115,13 @@ $.each(arr, function(key, value) {
   </div>  <!-- end div qc-report summary -->
 
     <div id='qc-report'>
-     <h3> Detailed QC Report</h3>
+     <h3> QC Report</h3>
 
     {% for data in qc_data %}
      <h4><a name="{{forloop.counter}}">Report {{ forloop.counter }}</a></h4>
 
      <div id='base-stats'>
-       <h4>Base Statistics</h4>
+       <h4>Statistics</h4>
        <table id='base-stats' class="table table-bordered table-curved table-hover">
          <thead>
            <th class="col-md-1">Measure</th> 
@@ -140,13 +139,13 @@ $.each(arr, function(key, value) {
      </div> <!-- base-stats -->     
 
      <div id='base-seq'>
-       <h4>Base Sequence Quality</h4>
+       <h4>Sequence Quality</h4>
        <div id="base_seq_data{{forloop.counter}}" data-baseseq="{{ data.base_seq }}">
        <div id="base_seq_chart{{ forloop.counter }}" style="height:400px; width:800px;"></div>
      </div>
 
      <div id='base-n'>
-       <h4>Base N Content</h4>
+       <h4>N Content</h4>
        <div id="base_n_data{{ forloop.counter }}" data-basen="{{ data.base_n }}">
        <div id="base_n_chart{{ forloop.counter }}" style="height:400px; width:800px;"></div>
      </div>
