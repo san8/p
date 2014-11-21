@@ -25,5 +25,5 @@ def user_registered_callback(sender, user, request, **kwargs):
     
     send_mail('New User Has Registered', message,
               'noreply@leucinerichbio.com',
-              ['info@leucinerichbio.com', 'anand21nanda@gmail.com', ])
+              ['info@leucinerichbio.com',])
 
