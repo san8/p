@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
 from .views import (NewProjectFormView, DashboardView,
-                    api, QcReportView, FinalReportView,)
+                    api, QcReportView,)
 
 
 urlpatterns = patterns('',
