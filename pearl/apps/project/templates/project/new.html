@@ -4,12 +4,12 @@
 
 
 {% block css_files %}
-    <link rel="stylesheet" href="{% static 'pearl/css/jquery-ui.min.css' %}" />
+<link rel="stylesheet" href="{% static 'pearl/css/jquery-ui.min.css' %}" />
 {% endblock css_files %}
 
 
 {% block js_files %}
-    <script src="{% static 'pearl/js/jquery-ui.min.js' %}"></script> 
+<script src="{% static 'pearl/js/jquery-ui.min.js' %}"></script>
 {% endblock js_files %}
 
 
@@ -21,15 +21,15 @@
                 {{ field.errors }}
                 {{ field | bootstrap }}
             </div>
-        {% endfor %} 
-        <input type=submit class="btn btn-primary btn-large" /> 
+        {% endfor %}
+        <input type=submit class="btn btn-primary btn-large" />
     </form>
 {% endblock content %}
 
 
 {% block css %}
 .radio {
-    display: inline-block;  
+    display: inline-block;
 }
 
 #total_fastq_files,
@@ -37,62 +37,67 @@
 #fastq_file2,
 #paired_end_distance,
 #vcf_file1 {
-    display: none; 
+    display: none;
 }
 {% endblock css %}
 
 {% block js %}
 
 (function(){
-    $('input:radio').click(function() {
-        var value = $(this).val();
-        if (value == 'fastq'){
-            $('div#total_fastq_files').show();
-            $('div#fastq_file1').show();
-            $('div#vcf_file1').hide();
-        } else if (value == 'vcf'){
-            $('div#total_fastq_files').hide();
-            $('div#fastq_file1').hide();
-            $('div#vcf_file1').show();
-        }
-    });
 
-    $("input:radio").click(function() {
-        var value = $(this).val();
-            if (value == 1){
-                $('div#fastq_file1').show();
-                $('div#fastq_file2').hide();
-                $('div#paired_end_distance').hide();
-            } else if (value == 2){
-                $('div#fastq_file1').show();
-                $('div#fastq_file2').show();
-                $('div#paired_end_distance').show();
-            }
-    });
+  $('input:radio').click(function() {
+    var value = $(this).val();
+    if (value == 'fastq'){
+      $("input#id_fastq_file1").prop('required',true);
+      $('div#total_fastq_files').show();
+      $('div#fastq_file1').show();
+      $('div#vcf_file1').hide();
+    } else if (value == 'vcf'){
+      $('div#total_fastq_files').hide();
+      $('div#fastq_file1').hide();
+      $('div#vcf_file1').show();
+      $("input#id_vcf_file1").prop('required',true);
+    }
+  });
 
-    $('input#id_tissue').keyup(function() {
-        query = $('input#id_tissue').val(); 
-        ajax_url = "http://ctog.leucinerichbio.com/project/api/tissues/" + query
-        $('input#id_tissue').autocomplete({
-            source: ajax_url 
-        });
-    });
+  $("input:radio").click(function() {
+    var value = $(this).val();
+    if (value == 1){
+      $('div#fastq_file1').show();
+      $('div#fastq_file2').hide();
+      $('div#paired_end_distance').hide();
+    } else if (value == 2){
+      $('div#fastq_file1').show();
+      $('div#fastq_file2').show();
+      $('div#paired_end_distance').show();
+      $("input#id_fastq_file1").prop('required',true);
+      $("input#id_fastq_file2").prop('required',true);
+    }
+  });
 
-    $('#id_disease').keyup(function() {
-        query = $('#id_disease').val();
-        ajax_url = "http://ctog.leucinerichbio.com/project/api/diseases/" + query
-        $('#id_disease').autocomplete({
-            source: ajax_url
-        });
+  $('input#id_tissue').keyup(function() {
+    query = $('input#id_tissue').val();
+    ajax_url = "http://ctog.leucinerichbio.com/project/api/tissues/" + query
+    $('input#id_tissue').autocomplete({
+      source: ajax_url
     });
+  });
 
+  $('#id_disease').keyup(function() {
+    query = $('#id_disease').val();
+    ajax_url = "http://ctog.leucinerichbio.com/project/api/diseases/" + query
+    $('#id_disease').autocomplete({
+      source: ajax_url
+    });
+  });
 
 // temporarily disable vcf option
 // $("input[value='vcf']").prop('disabled', true);
 $("input[id='id_tissue']").prop('disabled', true);
 $("input[id='id_disease']").prop('disabled', true);
 
-})(); 
+
+})();
 
 {% endblock %}
 
