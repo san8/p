@@ -59,7 +59,8 @@ class QcReportView(FormView):
         context = super(QcReportView, self).get_context_data(**kwargs)
         customer_id = self.request.user.id
         project_id = self.args[0]
-        project = NewProject.objects.get(id=project_id)
+        project = NewProject.objects.filter(customer_id=customer_id).\
+                  get(id=project_id)
         context['project'] = project
         context['file_count'] = range(1, project.total_fastq_files+1)
         if project.status >= 2:
