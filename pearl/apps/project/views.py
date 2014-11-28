@@ -65,9 +65,9 @@ class QcReportView(FormView):
         if project.status >= 2:
             from .tasks import fastq_qc_plus
             context['qc_data'] = (fastq_qc_plus(project_id))
-            vcf = 'project_' + str(project_id) + '.vcf'
+            vcf = 'project' + str(project_id) + '.vcf'
             context['vcf_link'] = join(NEW_PROJECT_URL, str(project_id), vcf)
-            csv = 'project_' + str(project_id) + '_report' + '.csv'
+            csv = 'project' + str(project_id) + '_report' + '.csv'
             context['csv_link'] = join(NEW_PROJECT_URL, str(project_id), csv)
 
         return context
