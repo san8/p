@@ -2,23 +2,27 @@
 Models for Project App.
 """
 
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 from django.db import models
 
 
 UPLOADING_FILES = 0
-QUALITY_CONTROL = 1
-START_PROCESSING, STOP_PROCESSING = 2, -2
-DO_PROCESSING = 3
-FINAL_REPORT = 4
+CHECKING_QUALITY, FTP_FAILED = 1, -1
+APPROVAL_WAITING, QC_FAILED = 2, -2
+PROCESSING, APPROVAL_FAILED = 3, -3
+REPORT, PROCESSING_FAILED = 4, -4
 
 STATUS_OPTIONS = (
     (UPLOADING_FILES, 'Uploading Files.'),
-    (QUALITY_CONTROL, 'Checking Quality.'),
-    (START_PROCESSING, 'Review Quality.'),
-    (STOP_PROCESSING, 'Project terminated at QC.'),
-    (DO_PROCESSING, 'Processing the file.'),
-    (FINAL_REPORT, 'Read Report.'),
+    (CHECKING_QUALITY, 'Checking Quality.'),
+    (APPROVAL_WAITING, 'Review Quality.'),
+    (PROCESSING, 'Processing the file.'),
+    (REPORT, 'Read Report.'),
+
+    (FTP_FAILED, 'Unable to upload files.'),
+    (QC_FAILED, 'Input files are corrupted.'),
+    (APPROVAL_FAILED, 'Project terminated at QC.'),
+    (PROCESSING_FAILED, 'Unable to process files.'),
 )
 
 

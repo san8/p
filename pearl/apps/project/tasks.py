@@ -34,7 +34,7 @@ def project_queue(project_id, project_status, file_type):
         ftp_qc.apply_async(args=[project_id], queue=queue)
     elif project_status == 3:
         processing.apply_async(args=[project_id, file_type], queue='proc')
-    return True
+    return project_id, project_status
 
 
 @celery_app.task()
@@ -42,19 +42,51 @@ def ftp_qc(project_id):
     """
     Fectch project files, do_qc  & update project status.
     """
-    from .models import NewProject 
+    try:
+        from .models import NewProject
+        project = NewProject.objects.get(id=project_id)
+        url_list = filter(None, [project.fastq_file1, project.fastq_file2,
+                                 project.vcf_file1])
+        local_dir = join(NEW_PROJECT_DIR, str(project_id))
+        os.mkdir(local_dir)
+
+        try:
+            fetch_files_ftp(local_dir, url_list)
+            unzip_files(local_dir)
+            update_status(project_id, 1)
+        except Exception as e:
+            update_status(project_id, -1)
+            return project_id, status(project_id)
+
+        if project.file_type == 'fastq':
+            try:
+                do_qc(project_id, project.file_type)
+                update_status(project_id, 2)
+            except Exception as e:
+                update_status(project_id, -2)
+                return project_id, status(project_id)
+
+        update_status(project_id, 3)  # bypass user approval
+        return project_id, status(project_id)
+
+    except Exception as e:
+        ftp_qc.retry(exc=e, countdown=1*60)
+
+
+def update_status(project_id, status):
+    """
+    Change status of given project.
+    """
+    from apps.project.models import NewProject
     project = NewProject.objects.get(id=project_id)
-    url_list = [project.fastq_file1, project.fastq_file2, project.vcf_file1] 
-    url_list = filter(None, url_list)
-    local_dir = join(NEW_PROJECT_DIR, str(project_id)) 
-    os.mkdir(local_dir)
-    fetch_files_ftp(local_dir, url_list)
-    unzip_files(local_dir)
-    if project.file_type == 'fastq':
-        do_qc(project_id, project.file_type)
-    project.status = 3
+    project.status = status
     project.save()
-    return True
+    return
+
+def status(project_id):
+    from apps.project.models import NewProject
+    project = NewProject.objects.get(id=project_id)
+    return project.status
 
 
 @contextmanager
@@ -70,20 +102,20 @@ def cd(path):
 
 def fetch_files_ftp(local_dir, url_list):
     """
-    Gets files from url_list and stores them in local_dir. 
+    Gets files from url_list and stores them in local_dir.
     """
     with cd(local_dir):
         for url in url_list:
             ftp_file = urlopen(url)
             local_file_name = url.split('/')[-1]
-            local_file = open(local_file_name, "wb") 
+            local_file = open(local_file_name, "wb")
             copyfileobj(ftp_file, local_file)
     return True
 
-    
+
 def do_qc(project_id, file_type):
     """
-    Uzip user files and start quality control. 
+    Uzip user files and start quality control.
     """
     project_dir = join(NEW_PROJECT_DIR, str(project_id))
     if file_type == 'fastq':
@@ -115,7 +147,7 @@ def fastq_qc(project_dir):
     fastq_files = [files for files in listdir(project_dir)]
     fastqc = os.path.join(BASE_DIR, 'bin/fastqc/fastqc')
     with cd(project_dir):
-        for fastq_file in fastq_files: 
+        for fastq_file in fastq_files:
             command = [fastqc, fastq_file, "--extract", "--quiet"]
             call(command, stdout=open(devnull, 'wb'))
     return True
@@ -138,6 +170,9 @@ def fastq_qc_plus(project_id):
 
 
 def parse_data(file_name):
+    """
+    Parse fastqc_data file and return only required values.
+    """
     from fadapa import Fadapa
     d = Fadapa(file_name)
     data = {}
@@ -146,13 +181,15 @@ def parse_data(file_name):
     base_n = d.clean_data('Per base N content')[1:]
     base_n = [[int(x[0]), float(x[1])] for x in base_n]
     data['base_n'] = base_n
- 
+
     base_seq = d.clean_data('Per base sequence quality')[1:]
     base_seq = [[int(x[0]), float(x[1])] for x in base_seq]
     data['base_seq'] = base_seq
 
-    try: data['adapter'] = d.cleaned_data('Adapter Content')[1:]
-    except: pass
+    try:
+        data['adapter'] = d.cleaned_data('Adapter Content')[1:]
+    except:
+        pass
 
-    return data 
+    return data
 
