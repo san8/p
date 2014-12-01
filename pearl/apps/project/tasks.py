@@ -42,36 +42,35 @@ def ftp_qc(project_id):
     """
     Fectch project files, do_qc  & update project status.
     """
+    from .models import NewProject
+    project = NewProject.objects.get(id=project_id)
+    url_list = filter(None, [project.fastq_file1, project.fastq_file2,
+                             project.vcf_file1])
+    print(url_list)
+    local_dir = join(NEW_PROJECT_DIR, str(project_id))
+    os.mkdir(local_dir)
+
     try:
-        from .models import NewProject
-        project = NewProject.objects.get(id=project_id)
-        url_list = filter(None, [project.fastq_file1, project.fastq_file2,
-                                 project.vcf_file1])
-        local_dir = join(NEW_PROJECT_DIR, str(project_id))
-        os.mkdir(local_dir)
+        fetch_files_ftp(local_dir, url_list)
+        unzip_files(local_dir)
+        new_status = update_status(project_id, 1)
+        print(project_id, new_status)
+    except:
+        new_status = update_status(project_id, -1)
+        return project_id, new_status
 
+    if project.file_type == 'fastq':
         try:
-            fetch_files_ftp(local_dir, url_list)
-            unzip_files(local_dir)
-            update_status(project_id, 1)
-        except Exception as e:
-            update_status(project_id, -1)
-            return project_id, status(project_id)
+            do_qc(project_id, project.file_type)
+            new_status = update_status(project_id, 2)
+            print(project_id, new_status)
+        except:
+            new_status = update_status(project_id, -2)
+            return project_id, new_status
 
-        if project.file_type == 'fastq':
-            try:
-                do_qc(project_id, project.file_type)
-                update_status(project_id, 2)
-            except Exception as e:
-                update_status(project_id, -2)
-                return project_id, status(project_id)
-
-        update_status(project_id, 3)  # bypass user approval
-        return project_id, status(project_id)
-
-    except Exception as e:
-        ftp_qc.retry(exc=e, countdown=1*60)
-
+    new_status = update_status(project_id, 3)  # bypass user approval
+    print(project_id, new_status)
+    return "ftp_qc completed successfully."
 
 def update_status(project_id, status):
     """
@@ -81,7 +80,7 @@ def update_status(project_id, status):
     project = NewProject.objects.get(id=project_id)
     project.status = status
     project.save()
-    return
+    return status
 
 def status(project_id):
     from apps.project.models import NewProject
@@ -192,4 +191,3 @@ def parse_data(file_name):
         pass
 
     return data
-

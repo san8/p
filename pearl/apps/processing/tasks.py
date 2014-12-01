@@ -42,8 +42,8 @@ def fastq_processing(project_id):
         command = "workflow.pl -u " + fq_files[0] + " -o " + project_dir + \
                   " -p " + file_name
     subprocess.call(command, shell=True)
-    update_status(project_id, status=4)
-    return True
+    new_status = update_status(project_id, status=4)
+    return project_id, new_status
 
 
 @celery_app.task()
@@ -58,8 +58,8 @@ def vcf_processing(project_id):
     command = "workflow.pl -v " + vcf_file[0] + ' -o ' + project_dir + \
               " -p " + file_name
     subprocess.call(command, shell=True)
-    update_status(project_id, status=4)
-    return True
+    new_status = update_status(project_id, status=4)
+    return project_id, new_status
 
 
 def update_status(project_id, status):
@@ -70,3 +70,4 @@ def update_status(project_id, status):
     project = NewProject.objects.get(id=project_id)
     project.status = status
     project.save()
+    return status
