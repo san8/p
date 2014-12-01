@@ -49,7 +49,7 @@ def ftp_qc(project_id):
     print(url_list)
     local_dir = join(NEW_PROJECT_DIR, str(project_id))
     os.mkdir(local_dir)
-
+    os.chmod(local_dir, 0777)
     try:
         fetch_files_ftp(local_dir, url_list)
         unzip_files(local_dir)
