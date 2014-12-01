@@ -20,7 +20,7 @@ STATUS_OPTIONS = (
     (REPORT, 'Read Report.'),
 
     (FTP_FAILED, 'Unable to upload files.'),
-    (QC_FAILED, 'Input files are corrupted.'),
+    (QC_FAILED, 'Error at Quality check.'),
     (APPROVAL_FAILED, 'Project terminated at QC.'),
     (PROCESSING_FAILED, 'Unable to process files.'),
 )
