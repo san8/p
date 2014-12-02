@@ -28,7 +28,9 @@
 
 {% elif project.status == 4 %}
      <h3>Report</h3>
+     {% if project.file_type == 'fastq' %}
      <a href="{{ vcf_link }}">Download Variant Calling File.</a><br />
+     {% endif %}
      <a href="{{ csv_link }}">Download Variant Annotation File.</a>
      {% include 'project/2.html' %}
 {% endif %}
