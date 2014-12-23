@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 
 from registration.backends.default.views import RegistrationView
+from billing import get_integration
 
 from pearl.settings.base import MEDIA_URL, MEDIA_ROOT
 from apps.home.views import HomeView
@@ -15,6 +16,7 @@ pay_pal = get_integration("pay_pal")
 urlpatterns = patterns(
     '',
 
+    url(r'^paypal-ipn-handler/', include(pay_pal.urls)),
     url(r'^home/', include('apps.home.urls', namespace='home')),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
                       {'next_page': '/home/'}),
