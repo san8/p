@@ -11,6 +11,6 @@ urlpatterns = patterns(
     url(r'^profile/$', login_required(ProfileView.as_view()),
         name='account_profile'),
     url(r'^payment-success/$',
-        csrf_exempt(login_required(PaymentSuccessView.as_view)),
+        csrf_exempt(login_required(PaymentSuccessView.as_view())),
         name='payment'),
 )
