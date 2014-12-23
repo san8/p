@@ -3,7 +3,7 @@ import pytz
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from django.views.generic import TemplateView
+from django.template.response import TemplateResponse
 
 from .models import Customer
 
@@ -27,8 +27,9 @@ class ProfileView(View):
         return redirect(reverse("account:account_profile"))
 
 
-class PaymentSuccessView(TemplateView):
+def PaymentSuccessView(request):
     """
     View to show that payment is successful.
     """
     template_name = 'accounts/payment_success.html'
+    return TemplateResponse(request, template_name)
