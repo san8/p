@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from paypal.standard.ipn.models import PayPalIPN
 
 #listener must be invoked before sending a signal
 from .signals import user_registered_callback
@@ -18,3 +19,11 @@ class Customer(models.Model):
 
     def __unicode__(self):
         return self.name # pragma: no cover
+
+
+class Payment(models.Model):
+    """
+    Table to map paypal transactions & user_id.
+    """
+    user = models.ForeignKey(User, related_name='payments_to_user')
+    payment = models.ForeignKey(PayPalIPN, related_name='paypal_id')
