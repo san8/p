@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+
 from paypal.standard.ipn.models import PayPalIPN
+from paypal.standard.ipn.signals import payment_was_successful, \
+    payment_was_flagged
 
 #listener must be invoked before sending a signal
 from .signals import user_registered_callback
@@ -27,3 +31,13 @@ class Payment(models.Model):
     """
     user = models.ForeignKey(User, related_name='payments_to_user')
     payment = models.ForeignKey(PayPalIPN, related_name='paypal_id')
+
+
+@receiver(payment_was_successful)
+def update_payment_info(sender, **kwargs):
+    paypal_object = sender
+    amount = paypal_object.mc_gross
+    user_id = paypal_object.custom
+    customer = Customer.objects.get(user_id=user_id)
+    customer.balance += float(amount)
+    customer.save()
