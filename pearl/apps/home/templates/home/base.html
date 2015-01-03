@@ -13,17 +13,17 @@
         <!-- Favicon -->
         <link rel="icon" href="{% static 'pearl/images/favicon.png' %}" />
 
-        <title>{% block title %}{% endblock title %}</title> 
+        <title>{% block title %}{% endblock title %}</title>
 
         <!-- CSS -->
         <link href="{% static 'pearl/css/style.css' %}" rel="stylesheet" />
         <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
         {% block css_files %}{% endblock css_files %}
-        <style> 
+        <style>
             .form-control {
                 width: 250px;
             }
-            {% block css %} {% endblock css %} 
+            {% block css %} {% endblock css %}
         </style>
 
         <!-- JS -->
@@ -36,7 +36,7 @@
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        
+
           ga('create', 'UA-56886732-1', 'auto');
           ga('send', 'pageview');
           </script>
@@ -60,10 +60,10 @@
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'account:account_profile' %}">Hi, {{ user.username | capfirst }}</a></li>
-                            <li><a href="{% url 'home:home_faq' %}">FAQ</a></li>
+                            <!-- <li><a href="{% url 'home:home_faq' %}">FAQ</a></li>  -->
                             <li><a href="/accounts/logout/">Sign Out</a></li>
                         {% else %}
-                            <li><a href="{% url 'home:home_faq' %}">FAQ</a></li>
+                            <!-- <li><a href="{% url 'home:home_faq' %}">FAQ</a></li>  -->
                             <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
                             <li><a href="{% url 'auth_login' %}">Sign In</a></li>
                         {% endif %}
@@ -76,8 +76,6 @@
 
 
     <script>  {% block js %} {% endblock js %} </script>
-    
+
     </body>
 </html>
-
-
