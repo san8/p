@@ -3,6 +3,7 @@
 
 
 {% block content %}
+
 <h3>Welcome, {{ user | title }}</h3>
 <br />
 {% if user_timezone %}
@@ -26,24 +27,24 @@ Your time zone is <span class="text-primary"> {{ user_timezone }} </span>
 <div id="payment">
   <br /><br />
   <h4>Payment:</h4>
-  Your current balance:  <span class="text-primary">${{ balance }}</span>
-
+  Your current balance:  <span class="text-primary">${{ balance }}</span><br /><br />
+  Enter amount to pay:
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
   <input type="hidden" name="business" value="accounts@leucinerichbio.com" id="id_business" />
   <input class="form-control" name="amount" id="id_amount" />
   <input type="hidden" name="item_name" value="CtoG Reports" id="id_item_name" />
-  <input type="hidden" name="notify_url" value="http://127.0.0.1:8000/paypal-ipn-handler/" id="id_notify_url" />
-  <input type="hidden" name="cancel_return" value="http://127.0.0.1:8000/home/" id="id_cancel_return" />
-  <input type="hidden" name="return" value="http://127.0.0.1:8000/account/payment-success/" id="id_return_url" />
+  <input type="hidden" name="notify_url" value="http://ctog.leucinerichbio.com/paypal-ipn-handler/" id="id_notify_url" />
+  <input type="hidden" name="cancel_return" value="http://ctog.leucinerichbio.com/payment-cancel/" id="id_cancel_return" />
+  <input type="hidden" name="return" value="http://ctog.leucinerichbio.com/account/payment-success/" id="id_return_url" />
   <input type="hidden" name="invoice" value="UID" id="id_invoice" />
   <input type="hidden" name="cmd" value="_xclick" id="id_cmd" />
   <input type="hidden" name="charset" value="utf-8" id="id_charset" />
   <input type="hidden" name="currency_code" value="USD" id="id_currency_code" />
   <input type="hidden" name="no_shipping" value="1" id="id_no_shipping" />
+  <input type="hidden" name="custom" value="{{ user.id }}" id="id_custom" />
   <button class="btn btn-primary">Make Payement!</button>
   <p>(You will be redirected to PayPal)</p>
 </form>
-
 
 </div>
 
