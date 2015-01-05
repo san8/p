@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf.urls.static import static
-from django.views.decorators.csrf import csrf_exempt
 
 from registration.backends.default.views import RegistrationView
 from billing import get_integration
@@ -17,7 +16,7 @@ pay_pal = get_integration("pay_pal")
 urlpatterns = patterns(
     '',
 
-    url(r'^paypal-ipn-handler/', csrf_exempt(include(pay_pal.urls))),
+    url(r'^paypal-ipn-handler/', include(pay_pal.urls)),
     url(r'^home/', include('apps.home.urls', namespace='home')),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
                       {'next_page': '/home/'}),

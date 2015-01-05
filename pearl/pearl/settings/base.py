@@ -2,6 +2,7 @@
 Django settings for pearl project.
 """
 
+import os
 from os.path import join, dirname, abspath
 
 CURRENT_DIR = abspath(join(dirname( __file__ ), '..'))
@@ -43,13 +44,15 @@ INSTALLED_APPS = (
     'south',
     'registration',
     'captcha',
-    'djcelery', 
     'kombu.transport.django',
     'bootstrapform',
-    #'chartkick',
-    #'bootstrap3',
     'crispy_forms',
     'floppyforms',
+    'billing',
+    'paypal.standard',
+    'paypal.pro',
+    'paypal.standard.pdt',
+    'paypal.standard.ipn',
 
     #apps
     'apps.home',
@@ -62,7 +65,7 @@ INSTALLED_APPS = (
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 #login session expiry
-SESSION_COOKIE_AGE = 10 * 60
+SESSION_COOKIE_AGE = 15 * 60
 
 SITE_ID = 1
 
@@ -74,7 +77,7 @@ CAPTCHA_LENGTH = 6
 
 # django-passwords
 PASSWORD_MIN_LENGTH = 8
-PASSWORD_COMPLEXITY = { 
+PASSWORD_COMPLEXITY = {
     # You can ommit any or all of these for no limit for that particular set
     "UPPER": 1,       # Uppercase
     "LOWER": 1,       # Lowercase
@@ -84,7 +87,7 @@ PASSWORD_COMPLEXITY = {
 }
 
 
-# django-registration 
+# django-registration
 ACCOUNT_ACTIVATION_DAYS = 3
 
 
@@ -96,12 +99,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-
- #   'common.middleware.LoginRequiredMiddleware',
-#    'common.middleware.RequireLoginMiddleware',
-    #'apps.accounts.middlewares.TimezoneMiddleware',
-    #'apps.project.middleware.CheckLogin',
-    #'apps.accounts.middleware.EnforceLoginMiddleware',
 )
 
 ROOT_URLCONF = 'pearl.urls'
@@ -122,11 +119,29 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# django-guardian
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend', # default
-    'guardian.backends.ObjectPermissionBackend',
-)
 ANONYMOUS_USER_ID = -1
 
+
+# django-paypal
+PAYPAL_WPP_USER = os.environ.get('PAYPAL_WPP_USER')
+PAYPAL_WPP_PASSWORD = os.environ.get('PAYPAL_WPP_PASSWORD')
+PAYPAL_WPP_SIGNATURE = os.environ.get('PAYPAL_WPP_SIGNATURE')
+PAYPAL_RECEIVER_EMAIL = os.environ.get('PAYPAL_RECEIVER_EMAIL')
+
+
+# django merchant
+MERCHANT_TEST_MODE = os.environ.get('MERCHANT_TEST_MODE')
+PAYPAL_TEST = MERCHANT_TEST_MODE
+MERCHANT_SETTINGS = {
+    "pay_pal": {
+        'WPP_USER': os.environ.get('WPP_USER'),
+        'WPP_PASSWORD': os.environ.get('WPP_PASSWORD'),
+        'WPP_SIGNATURE': os.environ.get('WPP_SIGNATURE'),
+        'RECEIVER_EMAIL': os.environ.get('RECEIVER_EMAIL'),
+    }
+}
+PAYPAL_IDENTITY_TOKEN = os.environ.get('PAYPAL_IDENTITY_TOKEN')
+
+
+# admins
+ADMINS = ((os.environ.get('ADMIN_NAME'), os.environ.get ('ADMIN_EMAIL')))

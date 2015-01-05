@@ -2,13 +2,13 @@
 Additional settings for Production Environment.
 """
 
-import os 
+import os
 
 from .base import *
 
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
-DEBUG = False
+DEBUG = os.environ.get('DEBUG')
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -18,7 +18,7 @@ ALLOWED_HOSTS = ['0.0.0.0',]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pearl',
+        'NAME': os.environ.get('DB_NAME', ''),
         'USER': os.environ.get('DB_USER', ''),
         'PASSWORD': os.environ.get('DB_PASS', ''),
         'HOST': 'localhost',
