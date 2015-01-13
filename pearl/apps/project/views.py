@@ -42,10 +42,16 @@ def deduct_balance(user_id, file_type):
     """
     if file_type == 'fastq':
         project_cost = settings.FASTQ_COST
-        discount = Discount.objects.get(user=user_id).fastq
+        try:
+            discount = Discount.objects.get(user=user_id).fastq
+        except:
+            discount = 0
     else:
         project_cost = settings.VCF_COST
-        discount = Discount.objects.get(user=user_id).vcf
+        try:
+            discount = Discount.objects.get(user=user_id).vcf
+        except:
+            discount = 0
 
     effective_cost = project_cost - discount
 
