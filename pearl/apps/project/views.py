@@ -1,13 +1,15 @@
 from os.path import join
 import json
 
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic import ListView
+from django.conf import settings
+
 from pearl.settings.base import NEW_PROJECT_URL
 
-from apps.accounts.models import Customer
+from apps.accounts.models import Customer, Discount
 
 from .models import NewProject, MeshTissues, MeshDiseases
 from .models import STATUS_OPTIONS
@@ -24,9 +26,36 @@ class NewProjectFormView(FormView):
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        instance.customer_id = self.request.user.id
-        instance.save()
-        return super(NewProjectFormView, self).form_valid(form)
+        user_id = self.request.user.id
+        instance.customer_id = user_id
+        file_type = form.cleaned_data['file_type']
+        if deduct_balance(user_id, file_type):
+            instance.save()
+            return super(NewProjectFormView, self).form_valid(form)
+        else:
+            return redirect("/account/insufficient-balance/")
+
+
+def deduct_balance(user_id, file_type):
+    """
+    Deduct amount for a project.
+    """
+    if file_type == 'fastq':
+        project_cost = settings.FASTQ_COST
+        discount = Discount.objects.get(user=user_id).fastq
+    else:
+        project_cost = settings.VCF_COST
+        discount = Discount.objects.get(user=user_id).vcf
+
+    effective_cost = project_cost - discount
+
+    balance = Customer.objects.get(user_id=user_id).balance
+    print(user_id, project_cost, balance, discount)
+
+    if balance > effective_cost:
+        Customer.objects.filter(user_id=user_id).update(balance=balance-effective_cost)
+        return True
+    return False
 
 
 class DashboardView(ListView):
