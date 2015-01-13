@@ -9,7 +9,6 @@ from .models import Customer
 
 
 class ProfileView(View):
-
     def get(self, request):
         customer_id = request.user.id
         user = Customer.objects.get(user_id=customer_id)
@@ -32,4 +31,12 @@ def PaymentSuccessView(request):
     View to show that payment is successful.
     """
     template_name = 'accounts/payment_success.html'
+    return TemplateResponse(request, template_name)
+
+
+def InsufficientBalanceView(request):
+    """
+    View to show insufficient balance.
+    """
+    template_name = 'accounts/insufficient_balance.html'
     return TemplateResponse(request, template_name)
