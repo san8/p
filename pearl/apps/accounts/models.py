@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 
 from paypal.standard.ipn.models import PayPalIPN
-from paypal.standard.ipn.signals import payment_was_successful, \
-    payment_was_flagged
+from paypal.standard.ipn.signals import (payment_was_successful,
+                                         payment_was_flagged)
 
 #listener must be invoked before sending a signal
 from .signals import user_registered_callback
@@ -41,3 +41,15 @@ def update_payment_info(sender, **kwargs):
     customer = Customer.objects.get(user_id=user_id)
     customer.balance += float(amount)
     customer.save()
+
+
+class Discount(models.Model):
+    """
+    Table for user specific discounts
+    """
+    user = models.OneToOneField(User)
+    fastq = models.FloatField(default=0.0)
+    vcf = models.FloatField(default=0.0)
+
+    def __str__(self):
+        return self.user.username
