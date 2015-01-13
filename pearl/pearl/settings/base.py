@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'paypal.pro',
     'paypal.standard.pdt',
     'paypal.standard.ipn',
+    'prompt_toolkit',
 
     #apps
     'apps.home',
