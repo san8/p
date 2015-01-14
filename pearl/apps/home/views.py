@@ -1,4 +1,4 @@
-from django.views.generic import  TemplateView 
+from django.views.generic import  TemplateView
 
 
 class HomeView(TemplateView):
@@ -7,4 +7,3 @@ class HomeView(TemplateView):
 
 class FAQView(TemplateView):
     template_name = 'home/faq.html'
-
