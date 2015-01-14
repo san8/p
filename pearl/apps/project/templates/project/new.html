@@ -15,10 +15,12 @@
 
 {% block content %}
 
+  {% if message %}
   <div class="alert alert-error">
     <a class="close" data-dismiss="alert">x</a>
     <strong>{{ message }}</strong>
   </div>
+  {% endif %}
 
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}

@@ -41,10 +41,11 @@ class NewProjectFormView(FormView):
 
         if balance < settings.VCF_COST:
             message = "You don't have enough balance to start a project."
-        else:
+        elif settings.VCF_COST < balance < settings.FASTQ_COST:
             message = "You don't have enough balance to start FASTQ project."
 
-        context['message'] = message
+        if 'message' in locals():
+            context['message'] = message
 
         return context
 
