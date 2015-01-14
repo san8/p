@@ -40,10 +40,11 @@ class NewProjectFormView(FormView):
         balance = Customer.objects.get(user_id=user_id).balance
 
         if balance < settings.VCF_COST:
-            message = "You don't have enough balance to start a project."
+            message = ("You don't have enough balance to start a project."
+                       "For more information, contact info@leucinerichbio.com")
         elif settings.VCF_COST < balance < settings.FASTQ_COST:
-            message = "You don't have enough balance to start FASTQ project."
-
+            message = ("You don't have enough balance to start FASTQ project."
+                       "For more information, contact info@leucinerichbio.com")
         if 'message' in locals():
             context['message'] = message
 
