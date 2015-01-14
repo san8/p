@@ -2,7 +2,6 @@ from os.path import join
 import json
 
 from django.shortcuts import HttpResponse, redirect
-from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic import ListView
 from django.conf import settings
@@ -35,6 +34,20 @@ class NewProjectFormView(FormView):
         else:
             return redirect("/account/insufficient-balance/")
 
+    def get_context_data(self, **kwargs):
+        context = super(NewProjectFormView, self).get_context_data(**kwargs)
+        user_id = self.request.user.id
+        balance = Customer.objects.get(user_id=user_id).balance
+
+        if balance < settings.VCF_COST:
+            message = "You don't have enough balance to start a project."
+        else:
+            message = "You don't have enough balance to start FASTQ project."
+
+        context['message'] = message
+
+        return context
+
 
 def deduct_balance(user_id, file_type):
     """
@@ -54,9 +67,7 @@ def deduct_balance(user_id, file_type):
             discount = 0
 
     effective_cost = project_cost - discount
-
     balance = Customer.objects.get(user_id=user_id).balance
-    print(user_id, project_cost, balance, discount)
 
     if balance > effective_cost:
         Customer.objects.filter(user_id=user_id).update(balance=balance-effective_cost)
