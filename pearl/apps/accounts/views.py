@@ -34,6 +34,14 @@ def PaymentSuccessView(request):
     return TemplateResponse(request, template_name)
 
 
+def PaymentCancelView(request):
+    """
+    View to show that payment is cancelled.
+    """
+    template_name = 'accounts/payment_cancel.html'
+    return TemplateResponse(request, template_name)
+
+
 def InsufficientBalanceView(request):
     """
     View to show insufficient balance.
