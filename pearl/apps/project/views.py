@@ -11,7 +11,7 @@ from pearl.settings.base import NEW_PROJECT_URL
 from apps.accounts.models import Customer, Discount
 
 from .models import NewProject, MeshTissues, MeshDiseases
-from .models import STATUS_OPTIONS
+from .models import STATUS_CODES
 from .forms import NewProjectForm, StartProcessingForm
 
 
@@ -41,10 +41,10 @@ class NewProjectFormView(FormView):
 
         if balance < settings.VCF_COST:
             message = ("You don't have enough balance to start a project."
-                       " For more information, contact info@leucinerichbio.com")
+                       " For more, contact info@leucinerichbio.com")
         elif settings.VCF_COST < balance < settings.FASTQ_COST:
             message = ("You don't have enough balance to start FASTQ project."
-                       " For more information, contact info@leucinerichbio.com")
+                       " For more, contact info@leucinerichbio.com")
         if 'message' in locals():
             context['message'] = message
 
@@ -72,7 +72,8 @@ def deduct_balance(user_id, file_type):
     balance = Customer.objects.get(user_id=user_id).balance
 
     if balance > effective_cost:
-        Customer.objects.filter(user_id=user_id).update(balance=balance-effective_cost)
+        Customer.objects.filter(user_id=user_id).update(
+            balance=balance-effective_cost)
         return True
     return False
 
@@ -90,7 +91,7 @@ class DashboardView(ListView):
         context = super(DashboardView, self).get_context_data(**kwargs)
         customer = Customer.objects.get(user_id=self.request.user.id)
         context['user_timezone'] = customer.timezone
-        context['status_options'] = STATUS_OPTIONS
+        context['status_codes'] = STATUS_CODES
         return context
 
 
@@ -107,8 +108,8 @@ class QcReportView(FormView):
         context = super(QcReportView, self).get_context_data(**kwargs)
         customer_id = self.request.user.id
         project_id = self.args[0]
-        project = NewProject.objects.filter(customer_id=customer_id).\
-                  get(id=project_id)
+        project = NewProject.objects.filter(customer_id=customer_id).get(
+            id=project_id)
         context['project'] = project
         context['file_count'] = range(1, project.total_fastq_files+1)
         if project.status >= 2:
@@ -136,7 +137,8 @@ def api(request, item, query):
     response_data['item'] = item
     response_data['query'] = query
     databases = {'tissues': MeshTissues, 'diseases': MeshDiseases}
-    results = databases[item].objects.filter(descriptornamestring__icontains=query)[:10]
+    results = databases[item].objects.filter(
+        descriptornamestring__icontains=query)[:10]
     data = [result.descriptornamestring for result in results]
     return HttpResponse(json.dumps(data),
                         content_type="application/json")
