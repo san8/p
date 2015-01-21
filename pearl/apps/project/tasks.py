@@ -4,9 +4,8 @@ Celery tasks to fetch files and do quality check.
 
 from __future__ import absolute_import
 
-from subprocess import call
 import os
-from os import getcwd, chdir, devnull, listdir
+import subprocess
 from os.path import join
 from shutil import copyfileobj
 from urllib2 import urlopen
@@ -19,13 +18,13 @@ from apps.processing.tasks import processing
 
 
 celery_app.conf.update(
-    CELERYD_LOG_COLOR = False,
-    CELERYD_POOL_RESTARTS = True,
-    CELERY_TASK_SERIALIZER = 'json',
-    CELERY_RESULT_SERIALIZER = 'json',
-    CELERY_ACCEPT_CONTENT = ['json'],
-    CELERY_ENABLE_UTC = True,
-    CELERY_TIMEZONE = "UTC",
+    CELERYD_LOG_COLOR=False,
+    CELERYD_POOL_RESTARTS=True,
+    CELERY_TASK_SERIALIZER='json',
+    CELERY_RESULT_SERIALIZER='json',
+    CELERY_ACCEPT_CONTENT=['json'],
+    CELERY_ENABLE_UTC=True,
+    CELERY_TIMEZONE="UTC",
 )
 
 
@@ -34,10 +33,10 @@ def project_queue(project_id, project_status, file_type):
     """
     Queue up all projects by calling tasks based on status.
     """
-    if project_status == 0:
+    if project_status == 5:
         queue = 'ftp_' + file_type
         ftp_qc.apply_async(args=[project_id], queue=queue)
-    elif project_status == 3:
+    elif project_status == 20:
         processing.apply_async(args=[project_id, file_type], queue='proc')
     return project_id, project_status
 
@@ -58,24 +57,44 @@ def ftp_qc(project_id):
     try:
         fetch_files_ftp(local_dir, url_list)
         unzip_files(local_dir)
-        new_status = update_status(project_id, 1)
-        print(project_id, new_status)
+        result = unicode_check(local_dir)
+        if result:
+            pass
+        else:
+            new_status = update_status(project_id, -7)
     except:
-        new_status = update_status(project_id, -1)
+        new_status = update_status(project_id, -6)
         return project_id, new_status
 
     if project.file_type == 'fastq':
         try:
             do_qc(project_id, project.file_type)
-            new_status = update_status(project_id, 2)
+            new_status = update_status(project_id, 15)
             print(project_id, new_status)
         except:
-            new_status = update_status(project_id, -2)
+            new_status = update_status(project_id, -11)
             return project_id, new_status
 
-    new_status = update_status(project_id, 3)  # bypass user approval
+    new_status = update_status(project_id, 20)  # bypass user approval
     print(project_id, new_status)
     return "ftp_qc completed successfully."
+
+
+def unicode_check(local_dir):
+    """
+    Find if unicode chars are present in given files.
+
+    :param local_dir: path to any directory.
+    :return: True if unicode is absent, otherwise False.
+    """
+    files = [os.path.join(local_dir, f) for f in os.listdir(local_dir)]
+    for f in files:
+        command = "/usr/bin/filter.pl -f " + f
+        result = subprocess.call(command, shell=True)
+        if result != 0:
+            return False
+    return True
+
 
 def update_status(project_id, status):
     """
@@ -86,6 +105,7 @@ def update_status(project_id, status):
     project.status = status
     project.save()
     return status
+
 
 def status(project_id):
     from apps.project.models import NewProject
@@ -98,10 +118,12 @@ def cd(path):
     """
     A simple context manager to change directory.
     """
-    old_dir = getcwd()
-    chdir(path)
-    try: yield
-    finally: chdir(old_dir)
+    old_dir = os.getcwd()
+    os.chdir(path)
+    try:
+        yield
+    finally:
+        os.chdir(old_dir)
 
 
 def fetch_files_ftp(local_dir, url_list):
@@ -132,13 +154,13 @@ def unzip_files(path):
     """
     Unzip the files in the given location & delete zip files.
     """
-    zip_files = [files for files in listdir(path)]
+    zip_files = [files for files in os.listdir(path)]
     with cd(path):
         for zip_file in zip_files:
             commands = [["7z", "e", zip_file], ["rm", zip_file]]
             try:
                 for command in commands:
-                    call(command, stdout=open(devnull, 'wb'))
+                    subprocess.call(command, stdout=open(os.devnull, 'wb'))
             except:
                 pass
     return True
@@ -148,12 +170,12 @@ def fastq_qc(project_dir):
     """
     Run FASTQC on unzipped files to generate qc report.
     """
-    fastq_files = [files for files in listdir(project_dir)]
+    fastq_files = [files for files in os.listdir(project_dir)]
     fastqc = os.path.join(BASE_DIR, 'bin/fastqc/fastqc')
     with cd(project_dir):
         for fastq_file in fastq_files:
             command = [fastqc, fastq_file, "--extract", "--quiet"]
-            call(command, stdout=open(devnull, 'wb'))
+            subprocess.call(command, stdout=open(os.devnull, 'wb'))
     return True
 
 
