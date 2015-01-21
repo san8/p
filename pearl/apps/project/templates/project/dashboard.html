@@ -5,32 +5,31 @@
 <div>
     <table id="projects" class="table table-bordered table-curved table-hover">
         <thead>
-            <th> Project Name </th>     
+            <th> Project Name </th>
             <th> Status </th>
-            <th> Updated At </th> 
+            <th> Updated At </th>
         </thead>
         <tbody>
             {% for project in projects %}
             <tr>
                 <td> {{ project.name }} </td>
                 <td>
-                    {% for stat in status_options %}
-                        {% if stat.0 == project.status %}
-                            <a href="{% url 'project:project_qcreport' project.id %}">{{ stat.1 }}</a>
-                
-                        {% endif %}
+                    {% for stat in status_codes %}
+                      {% if stat.0 == project.status %}
+                        <a href="{% url 'project:project_qcreport' project.id %}">{{ stat.1 }}</a>
+                      {% endif %}
                     {% endfor %}
                 </td>
                 <td>
                     {% if user_timezone %}
-                        {% load tz %}
-                        {% timezone user_timezone %}
-                            {{ project.updated_at }}
-                        {% endtimezone %}
-                    {% else %}
+                      {% load tz %}
+                      {% timezone user_timezone %}
                         {{ project.updated_at }}
+                      {% endtimezone %}
+                    {% else %}
+                      {{ project.updated_at }}
                     {% endif %}
-                </td> 
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -38,6 +37,3 @@
 </div>
 
 {% endblock content %}
-
-
-

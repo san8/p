@@ -13,32 +13,30 @@
 
 {% block content %}
 
-{% if project.status == 0 %}
+  {% if project.status == 0 %}
     <h4>Uploading files. Please wait...</h4>
 
-{% elif project.status == 1 %}
+  {% elif project.status == 1 %}
     <h4>Running quality check. Please wait... </h4>
 
-{% elif project.status == 2 %}
+  {% elif project.status == 2 %}
     {% if project.file_type == 'fastq' %}
-    {% include 'project/2.html' %}
+      {% include 'project/2.html' %}
     {% endif %}
 
-{% elif project.status == 3 %}
+  {% elif project.status == 3 %}
      <h4>Your files are being processed. Please wait... </h4>
      {% if project.file_type == 'fastq' %}
-     {% include 'project/2.html' %}
+       {% include 'project/2.html' %}
      {% endif %}
 
-{% elif project.status == 4 %}
+  {% elif project.status == 4 %}
      <h3>Report</h3>
      <a href="{{ csv_link }}">Download Variant Annotation File.</a><br />
      {% if project.file_type == 'fastq' %}
-     <a href="{{ vcf_link }}">Download Variant Calling File.</a><br />
-     {% include 'project/2.html' %}
+       <a href="{{ vcf_link }}">Download Variant Calling File.</a><br />
+       {% include 'project/2.html' %}
      {% endif %}
-
-
 {% endif %}
 
 {% endblock content %}
