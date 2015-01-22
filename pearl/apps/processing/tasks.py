@@ -49,7 +49,7 @@ def fastq_processing(project_id):
         command = "workflow.pl -u " + fq_files[0] + " -o " + project_dir + \
                   " -p " + file_name + " -t " + time_zone
     subprocess.call(command, shell=True)
-    new_status = update_status(project_id, status=4)
+    new_status = update_status(project_id, status=25)
     return project_id, new_status
 
 
@@ -66,7 +66,7 @@ def vcf_processing(project_id):
     command = "workflow.pl -v " + vcf_file[0] + ' -o ' + project_dir + \
               " -p " + file_name + " -t " + time_zone
     subprocess.call(command, shell=True)
-    new_status = update_status(project_id, status=4)
+    new_status = update_status(project_id, status=25)
     return project_id, new_status
 
 
