@@ -5,6 +5,7 @@ from django.shortcuts import HttpResponse, redirect
 from django.views.generic.edit import FormView
 from django.views.generic import ListView
 from django.conf import settings
+from django.core.mail import send_mail
 
 from pearl.settings.base import NEW_PROJECT_URL
 
