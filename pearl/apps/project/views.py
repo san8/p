@@ -90,8 +90,8 @@ def project_started(user_name, project_name):
     """.format(user_name, project_name)
 
     send_mail('New project started.', message,
-              'admin@leucinerichbio.com',
-              ['info@leucinerichbio.com',])
+              'noreply@leucinerichbio.com',
+              ['admin@leucinerichbio.com',])
 
 
 class DashboardView(ListView):
