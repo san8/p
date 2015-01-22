@@ -25,11 +25,12 @@ class NewProjectFormView(FormView):
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        user_id = self.request.user.id
-        instance.customer_id = user_id
+        user = self.request.user
+        instance.customer_id = user.id
         file_type = form.cleaned_data['file_type']
-        if deduct_balance(user_id, file_type):
+        if deduct_balance(user.id, file_type):
             instance.save()
+            project_started(user.username, form.cleaned_data['name'])
             return super(NewProjectFormView, self).form_valid(form)
         else:
             return redirect("/account/insufficient-balance/")
@@ -76,6 +77,20 @@ def deduct_balance(user_id, file_type):
             balance=balance-effective_cost)
         return True
     return False
+
+
+def project_started(user_name, project_name):
+    """
+    Send mail once a project is started.
+    """
+    message = """
+        User name: {0}
+        Project Number: {1}
+    """.format(user_name, project_name)
+
+    send_mail('New project started.', message,
+              'noreply@leucinerichbio.com',
+              ['info@leucinerichbio.com',])
 
 
 class DashboardView(ListView):

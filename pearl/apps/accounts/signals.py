@@ -22,8 +22,7 @@ def user_registered_callback(sender, user, request, **kwargs):
     Email: {1}
     Phone Number: {2}
     """.format(customer.name, user.email, customer.phone_number)
-    
+
     send_mail('New User Has Registered', message,
               'noreply@leucinerichbio.com',
               ['info@leucinerichbio.com',])
-
