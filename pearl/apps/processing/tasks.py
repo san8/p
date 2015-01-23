@@ -39,7 +39,7 @@ def fastq_processing(project_id):
     """
     time_zone = get_timezone(project_id)
     project_dir = os.path.join(NEW_PROJECT_DIR, str(project_id))
-    file_name = str(project_id).zfill(6)
+    file_name = str(project_id)
     fq_files = [os.path.join(project_dir, f) for f in os.listdir(project_dir)
                  if f[-6:] == '.fastq']
     if len(fq_files) == 2:
@@ -59,7 +59,7 @@ def vcf_processing(project_id):
     VCF processing through a perl script.
     """
     time_zone = get_timezone(project_id)
-    file_name = str(project_id).zfill(6)
+    file_name = str(project_id)
     project_dir = os.path.join(NEW_PROJECT_DIR, str(project_id))
     vcf_file = [os.path.join(project_dir, f) for f in os.listdir(project_dir)
                   if f[-4:] == '.vcf']
