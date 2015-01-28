@@ -2,7 +2,7 @@
 Additional settings for Development Environment.
 """
 
-import os 
+import os
 
 from .base import *
 
@@ -26,7 +26,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pearl',
-        'USER': os.environ.get('DB_USER', ''), 
+        'USER': os.environ.get('DB_USER', ''),
         'PASSWORD': os.environ.get('DB_PASS', ''),
         'HOST': 'localhost',
         'PORT': '3306',

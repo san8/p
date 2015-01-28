@@ -5,7 +5,7 @@ Django settings for pearl project.
 import os
 from os.path import join, dirname, abspath
 
-CURRENT_DIR = abspath(join(dirname( __file__ ), '..'))
+CURRENT_DIR = abspath(join(dirname(__file__), '..'))
 BASE_DIR = abspath(join(CURRENT_DIR, '..'))
 
 
@@ -145,11 +145,12 @@ PAYPAL_IDENTITY_TOKEN = os.environ.get('PAYPAL_IDENTITY_TOKEN')
 
 
 # admins
-ADMINS = ((os.environ.get('ADMIN_NAME'), os.environ.get ('ADMIN_EMAIL')))
+ADMINS = (
+    (os.environ.get('ADMIN_NAME'), os.environ.get('ADMIN_EMAIL'))
+)
 
 
 # pearl settings
-#payment settings
+# payment settings
 VCF_COST = 25.00
 FASTQ_COST = 150.00
-

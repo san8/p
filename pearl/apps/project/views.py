@@ -85,8 +85,8 @@ def project_started(user_name, project_name):
     Send mail once a project is started.
     """
     message = """
-        User name: {0}
-        Project Number: {1}
+    User name: {0}
+    Project Number: {1}
     """.format(user_name, project_name)
 
     send_mail('New project started.', message,
