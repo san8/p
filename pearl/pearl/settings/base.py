@@ -15,9 +15,10 @@ STATICFILES_DIRS = (
 )
 
 TEMPLATE_DIRS = (
-    join(BASE_DIR, 'apps/home'),
-    join(BASE_DIR, 'apps/accounts'),
-    join(BASE_DIR, 'apps/project'),
+    join(BASE_DIR, 'apps/home/templates/'),
+    join(BASE_DIR, 'apps/accounts/templates/'),
+    join(BASE_DIR, 'apps/accounts/templates/registration'),
+    join(BASE_DIR, 'apps/project/templates/'),
 )
 
 STATIC_ROOT = join(BASE_DIR, 'collect_static')
