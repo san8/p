@@ -19,13 +19,15 @@ urlpatterns = patterns(
     url(r'^paypal-ipn-handler/', include(pay_pal.urls)),
     url(r'^home/', include('apps.home.urls', namespace='home')),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
-                      {'next_page': '/home/'}),
-    url(r'^accounts/register/$', RegistrationView.as_view(form_class=CustomerForm),
-                                  name='registration_register'),
+        {'next_page': '/home/'}),
+    url(r'^accounts/register/$',
+        RegistrationView.as_view(form_class=CustomerForm),
+        name='registration_register'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^account/', include('apps.accounts.urls', namespace='account')),
     url(r'^project/', (include('apps.project.urls', namespace='project'))),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', HomeView.as_view()),
-) + static(MEDIA_URL, document_root = MEDIA_ROOT)
+
+) + static(MEDIA_URL, document_root=MEDIA_ROOT)
