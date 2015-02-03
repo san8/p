@@ -15,27 +15,28 @@
 
 {% block content %}
 
-  {% if message %}
-  <div class="alert alert-error">
-    <a class="close" data-dismiss="alert">x</a>
-    <strong>{{ message }}</strong>
-  </div>
-  {% endif %}
+{% if message %}
+<div class="alert alert-error">
+  <a class="close" data-dismiss="alert">x</a>
+  <strong>{{ message }}</strong>
+</div>
+{% endif %}
 
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-            <div id="{{ field.name }}" class="form-group">
-                {{ field.errors }}
-                {{ field | bootstrap }}
-            </div>
-        {% endfor %}
-        <input type=submit id="submit" class="btn btn-primary btn-large" />
-    </form>
+<form action="" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% for field in form %}
+  <div id="{{ field.name }}" class="form-group">
+    {{ field | bootstrap }}
+  </div>
+  {% endfor %}
+  <input type=submit id="submit" class="btn btn-primary btn-large" />
+</form>
+
 {% endblock content %}
 
 
 {% block css %}
+
 .radio {
     display: inline-block;
 }
@@ -44,23 +45,22 @@
 #fastq_file1,
 #fastq_file2,
 #paired_end_distance,
-#vcf_file1 {
+#vcf_file1,
+#vcf_upload_type,
+#vcf_file {
     display: none;
 }
 
 .alert-error {
     color: #b94a48;
-}
-
-.alert-error {
     background-color: #f2dede;
     border-color: #eed3d7;
 }
 
 .alert {
-padding: 8px 14px 8px 14px;
-margin-bottom: 20px;
-text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    padding: 8px 14px 8px 14px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 {% endblock css %}
@@ -70,51 +70,73 @@ text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 
 (function(){
 
-  $('input:radio').click(function() {
-    var value = $(this).val();
-    if (value == 'fastq'){
-      $("input#id_fastq_file1").prop('required',true);
-      $('div#total_fastq_files').show();
-      $('div#fastq_file1').show();
-      $('div#vcf_file1').hide();
-    } else if (value == 'vcf'){
-      $('div#total_fastq_files').hide();
-      $('div#fastq_file1').hide();
-      $('div#vcf_file1').show();
-      $("input#id_vcf_file1").prop('required',true);
-    }
-  });
+    $("div#file_type input[type=radio]").click(function() {
+        var value = $(this).val();
 
-  $("input:radio").click(function() {
-    var value = $(this).val();
-    if (value == 1){
-      $('div#fastq_file1').show();
-      $('div#fastq_file2').hide();
-      $('div#paired_end_distance').hide();
-    } else if (value == 2){
-      $('div#fastq_file1').show();
-      $('div#fastq_file2').show();
-      $('div#paired_end_distance').show();
-      $("input#id_fastq_file1").prop('required',true);
-      $("input#id_fastq_file2").prop('required',true);
-    }
-  });
+        if (value == 'fastq'){
+            $("input#id_fastq_file1").prop('required',true);
+            $("div#total_fastq_files").show();
+            $('div#fastq_file1').show();
 
-  $('input#id_tissue').keyup(function() {
-    query = $('input#id_tissue').val();
-    ajax_url = "http://ctog.leucinerichbio.com/project/api/tissues/" + query
-    $('input#id_tissue').autocomplete({
-      source: ajax_url
+            $('div#vcf_file1').hide();
+            $('div#vcf_upload_type').hide();
+        } else if (value == 'vcf'){
+            $('div#vcf_upload_type').show();
+            $("input#id_fastq_file1").prop('required', false);
+
+            $('div#total_fastq_files').hide();
+            $('div#fastq_file1').hide();
+            $('div#fastq_file2').hide();
+        }
+
     });
-  });
 
-  $('#id_disease').keyup(function() {
-    query = $('#id_disease').val();
-    ajax_url = "http://ctog.leucinerichbio.com/project/api/diseases/" + query
-    $('#id_disease').autocomplete({
-      source: ajax_url
+    $("div#total_fastq_files input[type=radio]").click(function() {
+        var value = $(this).val();
+
+        if (value == 1){
+            $('div#fastq_file1').show();
+            $('div#fastq_file2').hide();
+            $('div#paired_end_distance').hide();
+        } else if (value == 2){
+            $('div#fastq_file1').show();
+            $('div#fastq_file2').show();
+            $('div#paired_end_distance').show();
+            //$("input#id_fastq_file1").prop('required', true);
+            //$("input#id_fastq_file2").prop('required', true);
+        }
+
     });
-  });
+
+    $("div#vcf_upload_type input[type=radio]").click(function() {
+        var value= $(this).val();
+
+        if(value == 3) {
+            $("div#vcf_file1").show();
+            $("input#id_vcf_file1").prop('required', true);
+
+            $("div#vcf_file").hide();
+        } else if (value == 4) {
+            $("div#vcf_file").show();
+            $("div#vcf_file1").hide();
+        }
+    });
+
+    $('input#id_tissue').keyup(function() {
+        query = $('input#id_tissue').val();
+        ajax_url = "http://ctog.leucinerichbio.com/project/api/tissues/" + query
+        $('input#id_tissue').autocomplete({
+            source: ajax_url
+        });
+    });
+
+    $('#id_disease').keyup(function() {
+        query = $('#id_disease').val();
+        ajax_url = "http://ctog.leucinerichbio.com/project/api/diseases/" + query
+        $('#id_disease').autocomplete({
+            source: ajax_url
+        });
+    });
 
 // temporarily disable vcf option
 // $("input[value='vcf']").prop('disabled', true);
