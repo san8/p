@@ -4,18 +4,21 @@ Celery tasks to fetch files and do quality check.
 
 from __future__ import absolute_import
 
+import logging
 import os
+import shutil
 import subprocess
+from contextlib import contextmanager
 from os.path import join
 from shutil import copyfileobj
 from urllib2 import urlopen
-from contextlib import contextmanager
-
-from pearl.celery_conf import app as celery_app
-from pearl.settings.base import NEW_PROJECT_DIR, BASE_DIR
 
 from apps.processing.tasks import processing
+from pearl.celery_conf import app as celery_app
+from pearl.settings.base import BASE_DIR, NEW_PROJECT_DIR
 
+
+logger = logging.getLogger(__name__)
 
 celery_app.conf.update(
     CELERYD_LOG_COLOR=False,
@@ -55,7 +58,10 @@ def ftp_qc(project_id):
     os.mkdir(local_dir)
     os.chmod(local_dir, 0777)
     try:
-        fetch_files_ftp(local_dir, url_list)
+        if project.vcf_upload_type == 3:
+            fetch_files_ftp(local_dir, url_list)
+        elif project.vcf_upload_type == 4:
+            move_file(local_dir, project.vcf_file.path)
         unzip_files(local_dir)
         result = unicode_check(local_dir)
         if result:
@@ -137,6 +143,15 @@ def fetch_files_ftp(local_dir, url_list):
             local_file = open(local_file_name, "wb")
             copyfileobj(ftp_file, local_file)
     return True
+
+
+def move_file(local_dir, file_path):
+    """
+    Move vcf file from temporary location to project dir.
+    """
+    # logger.info(local_dir, file_path)
+    print(local_dir, file_path)
+    shutil.move(file_path, local_dir)
 
 
 def do_qc(project_id, file_type):

@@ -1,19 +1,16 @@
-from os.path import join
 import json
+from os.path import join
 
-from django.shortcuts import HttpResponse, redirect
-from django.views.generic.edit import FormView
-from django.views.generic import ListView
-from django.conf import settings
-from django.core.mail import send_mail
-
-from pearl.settings.base import NEW_PROJECT_URL
+from .forms import NewProjectForm, StartProcessingForm
+from .models import MeshDiseases, MeshTissues, NewProject, STATUS_CODES
 
 from apps.accounts.models import Customer, Discount
-
-from .models import NewProject, MeshTissues, MeshDiseases
-from .models import STATUS_CODES
-from .forms import NewProjectForm, StartProcessingForm
+from django.conf import settings
+from django.core.mail import send_mail
+from django.shortcuts import HttpResponse, redirect
+from django.views.generic import ListView
+from django.views.generic.edit import FormView
+from pearl.settings.base import NEW_PROJECT_URL
 
 
 class NewProjectFormView(FormView):
@@ -91,7 +88,7 @@ def project_started(user_name, project_name):
 
     send_mail('New project started.', message,
               'noreply@leucinerichbio.com',
-              ['admin@leucinerichbio.com',])
+              ['admin@leucinerichbio.com', ])
 
 
 class DashboardView(ListView):
