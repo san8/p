@@ -2,159 +2,159 @@
 {% load bootstrap %}
 
 {% block css_files %}
-<link href="{% static 'pearl/css/jquery.jqplot.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'pearl/css/jquery.jqplot.min.css' %}" rel="stylesheet" />
 {% endblock css_files %}
 
 
 {% block js_files %}
-<script src="{% static 'pearl/js/jquery.jqplot.min.js' %}"></script>
-<script src="{% static 'pearl/js/jqplot.canvasOverlay.min.js' %}"></script>
+  <script src="{% static 'pearl/js/jquery.jqplot.min.js' %}"></script>
+  <script src="{% static 'pearl/js/jqplot.canvasOverlay.min.js' %}"></script>
 {% endblock js_files %}
 
 
 <div id='qc-report-summary'>
-    <h3>QC Summary</h3>
+  <h3>QC Summary</h3>
 
-      <h4>Go to
-      {% for i in file_count %}
-        <a class="anchor" id="anchort" href="#{{i}}">Report{{ i }}</a>
-      {% endfor %}
-      </h4>
+  <h4>Go to
+    {% for i in file_count %}
+      <a class="anchor" id="anchort" href="#{{i}}">Report{{ i }}</a>
+    {% endfor %}
+  </h4>
 
-     {% if project.status == 2 %}
-        {% if project.start_processing %}
-        <p>Your files were queued for processing.</p>
-        {% else %}
-          <form method="POST" action=''>
-            {% csrf_token %}
-            {{ form | bootstrap }}
-            <button type="submit" class="btn btn-primary"> Submit </button>
-          </form>
-         {% endif %}
-      {% endif %}
+  {% if project.status == 2 %}
+    {% if project.start_processing %}
+      <p>Your files were queued for processing.</p>
+    {% else %}
+      <form method="POST" action=''>
+        {% csrf_token %}
+        {{ form | bootstrap }}
+        <button type="submit" class="btn btn-primary"> Submit </button>
+      </form>
+    {% endif %}
+  {% endif %}
 
-  </div>  <!-- end div qc-report summary -->
+</div>  <!-- end div qc-report summary -->
 
-    <div id='qc-report'>
-     <h3> QC Report</h3>
+<div id='qc-report'>
+  <h3> QC Report</h3>
 
-    {% for data in qc_data %}
-     <h4><a name="{{forloop.counter}}">Report {{ forloop.counter }}</a></h4>
+  {% for data in qc_data %}
+    <h4><a name="{{forloop.counter}}">Report {{ forloop.counter }}</a></h4>
 
-     <div id='base-stats'>
-       <h4>Statistics</h4>
-       <table id='base-stats' class="table table-bordered table-curved table-hover">
-         <thead>
-           <th class="col-md-1">Measure</th>
-           <th class="col-md-2">Value</th>
-         </thead>
-         <tbody>
-           {% for i in data.base_stats %}
-           <tr>
-             <td>{{ i.0 }}</td>
-             <td>{{ i.1 }}</td>
-           </tr>
-           {% endfor %}
-         </tbody>
-       </table>
-     </div> <!-- base-stats -->
+    <div id='base-stats'>
+      <h4>Statistics</h4>
+      <table id='base-stats' class="table table-bordered table-curved table-hover">
+        <thead>
+          <th class="col-md-1">Measure</th>
+          <th class="col-md-2">Value</th>
+        </thead>
+        <tbody>
+          {% for i in data.base_stats %}
+            <tr>
+              <td>{{ i.0 }}</td>
+              <td>{{ i.1 }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div> <!-- base-stats -->
 
-     <div id='base-seq'>
-       <h4>Sequence Quality</h4>
-       <div id="base_seq_data{{forloop.counter}}" data-baseseq="{{ data.base_seq }}">
-       <div id="base_seq_chart{{ forloop.counter }}" style="height:400px; width:800px;"></div>
-     </div>
+    <div id='base-seq'>
+      <h4>Sequence Quality</h4>
+      <div id="base_seq_data{{forloop.counter}}" data-baseseq="{{ data.base_seq }}">
+        <div id="base_seq_chart{{ forloop.counter }}" style="height:400px; width:800px;"></div>
+      </div>
 
-     <div id='base-n'>
-       <h4>N Content</h4>
-       <div id="base_n_data{{ forloop.counter }}" data-basen="{{ data.base_n }}">
-       <div id="base_n_chart{{ forloop.counter }}" style="height:400px; width:800px;"></div>
-     </div>
+      <div id='base-n'>
+        <h4>N Content</h4>
+        <div id="base_n_data{{ forloop.counter }}" data-basen="{{ data.base_n }}">
+          <div id="base_n_chart{{ forloop.counter }}" style="height:400px; width:800px;"></div>
+        </div>
 
-     <div id='adapter'>
-       {% if i.adapter %}
-       <table id='adapter-content' class="table table-bordered table-curved table-hover">
-         <h4>Adapter Content</h4>
-         <thead>
-           <th>Position</th>
-           <th>Illumina Universal Adapter</th>
-           <th>Illumina Small RNA Adapter</th>
-           <th>Nextera Transposase Sequence</th>
-         </thead>
-         <tbody>
-           {% for x in i.adapter %}
-           <tr>
-             {% for y in x %}
-             <td>{{ y }}</td>
-             {% endfor %}
-           </tr>
-         {% endfor %}
-         </tbody>
-       </table>
-       {% endif %}
-     </div> <!-- adapter div -->
-     {% endfor %}
-     </div> <!-- div qc-report -->
-
-
-     <div class='pull-right span6' style="padding:20px;">
-     </div>
-     <br /><br /><br /><br />
+        <div id='adapter'>
+          {% if i.adapter %}
+            <table id='adapter-content' class="table table-bordered table-curved table-hover">
+              <h4>Adapter Content</h4>
+              <thead>
+                <th>Position</th>
+                <th>Illumina Universal Adapter</th>
+                <th>Illumina Small RNA Adapter</th>
+                <th>Nextera Transposase Sequence</th>
+              </thead>
+              <tbody>
+                {% for x in i.adapter %}
+                  <tr>
+                    {% for y in x %}
+                      <td>{{ y }}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div> <!-- adapter div -->
+  {% endfor %}
+      </div> <!-- div qc-report -->
 
 
-     <script>
+      <div class='pull-right span6' style="padding:20px;">
+      </div>
+      <br /><br /><br /><br />
+
+
+      <script>
        var len = '{{ project.total_fastq_files }}';
        if (len == '1') { arr = [1]; }
        if(len == '2'){ arr = [1,2]; }
 
        $.each(arr, function(key, value) {
-       var data = "#base_seq_data" + value;
-       var base_seq = $(data).data('baseseq');
-       var chart = 'base_seq_chart' + value;
-       var createRect = function(ymin, ymax, color, string) {
-       return rect = {
-            rectangle: {
-                ymin: ymin, ymax: ymax,
-                xminOffset: "0px", xmaxOffset: "0px",
-                yminOffset: "0px", ymaxOffset: "0px",
-                color: "rgba(" + color.toString() + ")",
-                showTooltip: true,
-                tooltipFormatString: string,
-            }
+         var data = "#base_seq_data" + value;
+         var base_seq = $(data).data('baseseq');
+         var chart = 'base_seq_chart' + value;
+         var createRect = function(ymin, ymax, color, string) {
+           return rect = {
+             rectangle: {
+               ymin: ymin, ymax: ymax,
+               xminOffset: "0px", xmaxOffset: "0px",
+               yminOffset: "0px", ymaxOffset: "0px",
+               color: "rgba(" + color.toString() + ")",
+               showTooltip: true,
+               tooltipFormatString: string,
+             }
+           };
          };
-       };
 
-       var plot = $.jqplot(chart, [base_seq], {
-        axes: {
-            xaxis: {
-                label: "Base",
-            },
-            yaxis: {
-                label: "Sequence Quality"
-            }
-        },
-        canvasOverlay : {
-            show: true,
-            objects: [
-                createRect(undefined, 30, [255, 0, 0, 0.4], "Bad Quality"),
-                createRect(30, 36, [0, 200, 0, 0.2], "Good Quality"),
-                createRect(36, undefined, [0, 255, 0, 0.4], "Very Good Quality"),
-            ],
-        },
-    });  // end of jqplot
+         var plot = $.jqplot(chart, [base_seq], {
+           axes: {
+             xaxis: {
+               label: "Base",
+             },
+             yaxis: {
+               label: "Sequence Quality"
+             }
+           },
+           canvasOverlay : {
+             show: true,
+             objects: [
+               createRect(undefined, 30, [255, 0, 0, 0.4], "Bad Quality"),
+               createRect(30, 36, [0, 200, 0, 0.2], "Good Quality"),
+               createRect(36, undefined, [0, 255, 0, 0.4], "Very Good Quality"),
+             ],
+           },
+         });  // end of jqplot
 
-    var data = "#base_n_data" + value;
-    var base_n = $(data).data('basen');
-    var chart = 'base_n_chart' + value;
-    $.jqplot(chart, [base_n], {
-        axes: {
-            xaxis: {
-                label: "Base",
-            },
-            yaxis: {
-                label: "N Content"
-            }
-       },  // end of axes
-     }); // end of jqplot
-   }); // end of $.each
-     </script>
+         var data = "#base_n_data" + value;
+         var base_n = $(data).data('basen');
+         var chart = 'base_n_chart' + value;
+         $.jqplot(chart, [base_n], {
+           axes: {
+             xaxis: {
+               label: "Base",
+             },
+             yaxis: {
+               label: "N Content"
+             }
+           },  // end of axes
+         }); // end of jqplot
+       }); // end of $.each
+      </script>
