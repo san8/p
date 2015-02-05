@@ -146,6 +146,9 @@ class QcReportView(FormView):
 
 
 def api(request, item, query):
+    """
+    Auto complete function for mesh tissues, diseases.
+    """
     response_data = {}
     response_data['item'] = item
     response_data['query'] = query

@@ -180,6 +180,11 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': 'debug.log',
         },
+        'temp': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'temp.log',
+        }
 
     },
     'loggers': {
@@ -192,5 +197,9 @@ LOGGING = {
             'level': 'DEBUG',
             'handlers': ['file', ],
         },
+        'apps': {
+            'level': 'DEBUG',
+            'handlers': ['temp', ],
+        }
     }
 }
