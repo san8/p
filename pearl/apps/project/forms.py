@@ -21,7 +21,7 @@ class NewProjectForm(forms.ModelForm):
         fields = ['name', 'description', 'file_type',
                   'total_fastq_files', 'fastq_file1',
                   'fastq_file2', 'vcf_upload_type', 'vcf_file',
-                  'paired_end_distance', 'vcf_file1', 'tissue', 'disease']
+                  'paired_end_distance', 'vcf_file1', 'disease', 'tissue']
 
 
 class StartProcessingForm(forms.ModelForm):

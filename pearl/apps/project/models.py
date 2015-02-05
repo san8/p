@@ -2,7 +2,6 @@
 Models for Project App.
 """
 
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -47,7 +46,7 @@ class NewProject(models.Model):
     tissue = models.CharField(max_length=100, default='', blank=True,
                               verbose_name='Tissue (Coming Soon)')
     disease = models.CharField(max_length=100, default='', blank=True,
-                               verbose_name='Disease (Coming Soon)')
+                               verbose_name='Disease')
     status = models.IntegerField(choices=STATUS_CODES, default=5)
     start_processing = models.BooleanField(default=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -67,12 +66,22 @@ class NewProject(models.Model):
 
 
 class MeshTissues(models.Model):
+    """
+    Table for mesh tissues.
+    """
     descriptorui = models.CharField(max_length=7)
     descriptornamestring = models.CharField(max_length=41, blank=True)
-    treenumber = models.TextField(blank=True)
+
+    class Meta:
+       managed = False
 
 
 class MeshDiseases(models.Model):
+    """
+    Table for mesh diseases.
+    """
     descriptorui = models.CharField(max_length=7)
     descriptornamestring = models.CharField(max_length=100, blank=True)
-    treenumber = models.TextField(blank=True)
+
+    class Meta:
+       managed = False
