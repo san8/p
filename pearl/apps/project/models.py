@@ -46,7 +46,11 @@ class NewProject(models.Model):
     tissue = models.CharField(max_length=100, default='', blank=True,
                               verbose_name='Tissue (Coming Soon)')
     disease = models.CharField(max_length=100, default='', blank=True,
-                               verbose_name='Disease')
+                               verbose_name='Disease',
+                               help_text='''
+    <a href="http://www.nlm.nih.gov/mesh/MBrowser.html" target="_blank">
+    Disease Mesh Terms
+    </a>''')
     status = models.IntegerField(choices=STATUS_CODES, default=5)
     start_processing = models.BooleanField(default=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
