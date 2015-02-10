@@ -50,7 +50,7 @@ class ProjectViewsLiveTestCase(TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
-        self.driver.get("http://127.0.0.1:8000/project/new/")
+        self.driver.get("http://ctog.leucinerichbio.com/project/new/")
         username = self.driver.find_element_by_id("id_username")
         username.send_keys("anand")
         password = self.driver.find_element_by_id("id_password")
@@ -63,7 +63,7 @@ class ProjectViewsLiveTestCase(TestCase):
         self.driver.find_element_by_css_selector(
             "input[type='radio'][value='fastq']").click()
         self.driver.find_element_by_id("id_fastq_file1").send_keys(
-            "ftp://pearl:pearl@127.0.0.1/fastq_files/sample1.fastq.gz")
+            "ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/fastq/ERA021/ERA021502/ERX010282/ERR029554.fastq.bz2")
         self.driver.find_element_by_id("submit").click()
 
     def teardown(self):
