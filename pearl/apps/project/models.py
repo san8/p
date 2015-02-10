@@ -37,8 +37,7 @@ class NewProject(models.Model):
                                                  blank=True,)
     fastq_file1 = models.CharField(max_length=200, blank=True)
     fastq_file2 = models.CharField(max_length=200, blank=True)
-    vcf_upload_type = models.IntegerField(choices=VCF_UPLOAD_CHOICES,
-                                          default=0)
+    vcf_upload_type = models.SmallIntegerField(blank=True, default=3)
     vcf_file1 = models.CharField(max_length=200, blank=True)
     vcf_file = models.FileField(upload_to='NewProject/',
                                 default='')

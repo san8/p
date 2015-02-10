@@ -10,7 +10,7 @@ class NewProjectForm(forms.ModelForm):
                                   widget=forms.RadioSelect,)
     vcf_upload_type = forms.ChoiceField(choices=VCF_UPLOAD_CHOICES,
                                         widget=forms.RadioSelect,
-                                        required=False)
+                                        initial=3)
     total_fastq_files = forms.ChoiceField(choices=NUMBER_OF_FASTQ,
                                           widget=forms.RadioSelect,
                                           initial=1)
