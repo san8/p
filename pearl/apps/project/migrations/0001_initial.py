@@ -15,15 +15,16 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('description', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
             ('file_type', self.gf('django.db.models.fields.CharField')(max_length=10)),
-            ('vcf_file1', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
-            ('total_fastq_files', self.gf('django.db.models.fields.SmallIntegerField')(default=0, null=True, blank=True)),
+            ('total_fastq_files', self.gf('django.db.models.fields.SmallIntegerField')(default=1, blank=True)),
             ('fastq_file1', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
             ('fastq_file2', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
-            ('file_list', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
+            ('vcf_upload_type', self.gf('django.db.models.fields.SmallIntegerField')(default=3, blank=True)),
+            ('vcf_file1', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
+            ('vcf_file', self.gf('django.db.models.fields.files.FileField')(default='', max_length=100)),
             ('paired_end_distance', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('tissue', self.gf('django.db.models.fields.CharField')(default='', max_length=100, blank=True)),
             ('disease', self.gf('django.db.models.fields.CharField')(default='', max_length=100, blank=True)),
-            ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('status', self.gf('django.db.models.fields.IntegerField')(default=5)),
             ('start_processing', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
@@ -73,6 +74,18 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'project.meshdiseases': {
+            'Meta': {'object_name': 'MeshDiseases', 'managed': 'False'},
+            'descriptornamestring': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'descriptorui': ('django.db.models.fields.CharField', [], {'max_length': '7'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
+        u'project.meshtissues': {
+            'Meta': {'object_name': 'MeshTissues', 'managed': 'False'},
+            'descriptornamestring': ('django.db.models.fields.CharField', [], {'max_length': '41', 'blank': 'True'}),
+            'descriptorui': ('django.db.models.fields.CharField', [], {'max_length': '7'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
         u'project.newproject': {
             'Meta': {'ordering': "('updated_at',)", 'object_name': 'NewProject'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -81,17 +94,18 @@ class Migration(SchemaMigration):
             'disease': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'blank': 'True'}),
             'fastq_file1': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
             'fastq_file2': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
-            'file_list': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
             'file_type': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'paired_end_distance': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'start_processing': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'status': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'status': ('django.db.models.fields.IntegerField', [], {'default': '5'}),
             'tissue': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'blank': 'True'}),
-            'total_fastq_files': ('django.db.models.fields.SmallIntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
+            'total_fastq_files': ('django.db.models.fields.SmallIntegerField', [], {'default': '1', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'vcf_file1': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'})
+            'vcf_file': ('django.db.models.fields.files.FileField', [], {'default': "''", 'max_length': '100'}),
+            'vcf_file1': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'vcf_upload_type': ('django.db.models.fields.SmallIntegerField', [], {'default': '3', 'blank': 'True'})
         }
     }
 
