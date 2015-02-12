@@ -13,6 +13,8 @@ from os.path import join
 from shutil import copyfileobj
 from urllib2 import urlopen
 
+from django.db import connection
+
 from apps.processing.tasks import processing
 from pearl.celery_conf import app as celery_app
 from pearl.settings.base import BASE_DIR, NEW_PROJECT_DIR
@@ -50,6 +52,7 @@ def ftp_qc(project_id):
     Fectch project files, do_qc  & update project status.
     """
     from .models import NewProject
+    connection.close()
     project = NewProject.objects.get(id=project_id)
     url_list = filter(None, [project.fastq_file1, project.fastq_file2,
                              project.vcf_file1])
@@ -107,6 +110,7 @@ def update_status(project_id, status):
     Change status of given project.
     """
     from apps.project.models import NewProject
+    connection.close()
     project = NewProject.objects.get(id=project_id)
     project.status = status
     project.save()
@@ -115,6 +119,7 @@ def update_status(project_id, status):
 
 def status(project_id):
     from apps.project.models import NewProject
+    connection.close()
     project = NewProject.objects.get(id=project_id)
     return project.status
 

@@ -5,18 +5,20 @@ Various tasks to process the user files.
 import os
 import subprocess
 
-from pearl.settings.base import NEW_PROJECT_DIR
+from django.db import connection
+
 from pearl.celery_conf import app as celery_app
+from pearl.settings.base import NEW_PROJECT_DIR
 
 
 celery_app.conf.update(
-    CELERYD_LOG_COLOR = False,
-    CELERYD_POOL_RESTARTS = True,
-    CELERY_TASK_SERIALIZER = 'json',
-    CELERY_RESULT_SERIALIZER = 'json',
-    CELERY_ACCEPT_CONTENT = ['json'],
-    CELERY_ENABLE_UTC = True,
-    CELERY_TIMEZONE = "UTC",
+    CELERYD_LOG_COLOR=False,
+    CELERYD_POOL_RESTARTS=True,
+    CELERY_TASK_SERIALIZER='json',
+    CELERY_RESULT_SERIALIZER='json',
+    CELERY_ACCEPT_CONTENT=['json'],
+    CELERY_ENABLE_UTC=True,
+    CELERY_TIMEZONE="UTC",
 )
 
 
@@ -75,6 +77,7 @@ def update_status(project_id, status):
     Change status of project.
     """
     from apps.project.models import NewProject
+    connection.close()
     project = NewProject.objects.get(id=project_id)
     project.status = status
     project.save()
@@ -89,6 +92,7 @@ def get_timezone(project_id):
     """
     from apps.project.models import NewProject
     from apps.accounts.models import Customer
+    connection.close()
     user_id = NewProject.objects.get(id=project_id).customer_id
     time_zone = Customer.objects.get(user_id=user_id).timezone
     if not time_zone:
