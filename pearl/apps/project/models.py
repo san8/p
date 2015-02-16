@@ -30,8 +30,9 @@ PROCESSING_CHOICES = ((1, 'Yes'),
 
 class NewProject(models.Model):
     customer = models.ForeignKey(User, related_name='original_customer_id')
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=100, verbose_name='Project Name')
+    description = models.CharField(max_length=100, blank=True,
+                                   verbose_name="Project Description")
     file_type = models.CharField(max_length=10)
     total_fastq_files = models.SmallIntegerField(default=1,
                                                  blank=True,)
