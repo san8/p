@@ -55,12 +55,14 @@
           <a class="navbar-brand" href="{% url 'home:home_home' %}"><strong>CtoG</strong></a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            {% if user.is_authenticated %}
+
+          {% if user.is_authenticated %}
+            <ul class="nav navbar-nav">
               <li><a href="{% url 'project:project_dashboard' %}">Dashboard</a></li>
               <li><a href="{% url 'project:project_new' %}">New Project</a></li>
-            {% endif %}
-          </ul>
+            </ul>
+          {% endif %}
+
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
               <li><a href="{% url 'account:account_profile' %}">Hi, {{ user.username | capfirst }}</a></li>
@@ -78,7 +80,14 @@
 
     <div id="content"> {% block content %}{% endblock content %} </div>
 
-    {% block js %} {% endblock js %}
+    <script>
+     var url = window.location;
+     $('ul.nav a').filter(function() {
+       return this.href == url;
+     }).parent().addClass('active');
+    </script>
+
+    {% block js %}  {% endblock js %}
 
     <div class="footer">
       <div class="container floating">
