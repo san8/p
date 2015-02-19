@@ -23,11 +23,20 @@ class NewProjectForm(forms.ModelForm):
                   'fastq_file2', 'vcf_upload_type', 'vcf_file',
                   'paired_end_distance', 'vcf_file1', 'disease', 'tissue']
 
+    def clean_disease(self):
+        disease = self.cleaned_data['disease']
+        from .models import MeshDiseases
+        if not MeshDiseases.objects.filter(
+                descriptornamestring=disease).exists():
+            raise forms.ValidationError(
+                "Please select standard disease from MeSH drop down.")
+
 
 class StartProcessingForm(forms.ModelForm):
 
-    start_processing = forms.TypedChoiceField(choices=PROCESSING_CHOICES,
-                widget=forms.RadioSelect, coerce=int, required=True,)
+    start_processing = forms.TypedChoiceField(
+        choices=PROCESSING_CHOICES,
+        widget=forms.RadioSelect, coerce=int, required=True,)
 
     class Meta:
         model = NewProject
