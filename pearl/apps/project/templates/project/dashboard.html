@@ -2,37 +2,102 @@
 {% load staticfiles %}
 {% load tz %}
 
+{% block css_files %}
+  <link href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
+{% endblock %}
+
+{% block js_files %}
+  <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+  <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+{% endblock %}
+
+
 {% block content %}
-<div>
-    <table id="projects" class="table table-bordered table-curved table-hover">
-      <thead>
-        <th> Project Name </th>
-        <th> Status </th>
-        <th> Updated At </th>
-      </thead>
-      <tbody>
-        {% for project in projects %}
-          <tr>
-            <td> {{ project.name }} </td>
-            <td>
-              {% for stat in status_codes %}
-                {% if stat.0 == project.status %}
-                  <a href="{% url 'project:project_qcreport' project.id %}">{{ stat.1 }}</a>
-                {% endif %}
-              {% endfor %}
-            </td>
-            <td>
-              {% if user_timezone %}
-                {% timezone user_timezone %}
+  <div>
+    {% if projects %}
+      <table id="projects" class="table table-bordered table-curved table-hover">
+        <thead>
+          <th> Project Name </th>
+          <th> Status </th>
+          <th> Updated At </th>
+        </thead>
+        <tbody>
+          {% for project in projects %}
+            <tr>
+              <td> {{ project.name }} </td>
+              <td>
+                {% for stat in status_codes %}
+                  {% if stat.0 == project.status %}
+                    <a href="{% url 'project:project_qcreport' project.id %}">{{ stat.1 }}</a>
+                  {% endif %}
+                {% endfor %}
+              </td>
+              <td>
+                {% if user_timezone %}
+                  {% timezone user_timezone %}
                   {{ project.updated_at }}
                 {% endtimezone %}
-              {% else %}
-                  {{ project.updated_at }}
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+                {% else %}
+                {{ project.updated_at }}
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% else %}
+
+      <h4>You haven't started any projects.
+        Please <a href="{% url 'account:account_profile' %}">make a payment</a> &
+        start <a href="{% url 'project:project_new' %}">some projects.</a></h4>
+
+    {% endif %}
   </div>
+
+  <style>
+   select[name="projects_length"] {
+
+   }
+  </style>
+
 {% endblock content %}
+
+{% block js %}
+  <script>
+   $(document).ready(function(){
+     $('#projects').DataTable({});
+   })
+  </script>
+{% endblock %}
+
+{% block css %}
+  <style>
+
+   tbody tr {
+     background-color: #f8f8f8 !important;
+   }
+
+   .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+     background-color: #ffffff !important;
+     box-shadow:inset 0px 0px 40px #d0d0d0 !important;
+   }
+
+   thead .sorting_asc,
+   thead .sorting_desc {
+     background: none !important;
+   }
+
+   th::after {
+     color: blue !important;
+     opacity: 1 !important;
+   }
+
+   .dataTables_wrapper .dataTables_paginate .paginate_button {
+     padding: 0em 0em !important;
+     margin-right: -4px !important;
+   }
+
+  </style>
+{% endblock %}
