@@ -79,6 +79,9 @@ class MeshTissues(models.Model):
     class Meta:
        managed = False
 
+    def __unicode__(self):
+        return self.descriptornamestring
+
 
 class MeshDiseases(models.Model):
     """
@@ -89,3 +92,6 @@ class MeshDiseases(models.Model):
 
     class Meta:
        managed = False
+
+    def __unicode__(self):
+        return self.descriptornamestring
