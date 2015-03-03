@@ -15,9 +15,10 @@ TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS = ['127.0.0.1',]
 
 INSTALLED_APPS += (
-    'debug_toolbar',
+    # 'debug_toolbar',
     'django_extensions',
     'djsupervisor',
+    #'prompt_toolkit',
 )
 
 

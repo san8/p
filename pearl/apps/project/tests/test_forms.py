@@ -1,8 +1,8 @@
-from django.test import TestCase 
+from django.test import TestCase
 
-from django.core.urlresolvers import reverse 
+from django.core.urlresolvers import reverse
 
-from ..forms import NewProjectForm 
+from ..forms import NewProjectForm
 
 class ProjectFormsTestCase(TestCase):
 
@@ -22,6 +22,7 @@ class ProjectFormsTestCase(TestCase):
             'fastq_file1' : 'ftp://localhost/fastq_files/sample1.fastq.gz', }
         form = NewProjectForm(data=form_data)
         self.assertEqual(form.is_valid(), True)
+
 
 
 '''

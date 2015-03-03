@@ -3,11 +3,10 @@ Django settings for pearl project.
 """
 
 import os
-from os.path import join, dirname, abspath
+from os.path import join
 
-CURRENT_DIR = abspath(join(dirname(__file__), '..'))
-BASE_DIR = abspath(join(CURRENT_DIR, '..'))
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 # Static and media
 STATICFILES_DIRS = (
@@ -41,30 +40,30 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'apps.accounts',
+
     # django packages
+    # 'sslserver',
     'south',
-    'registration',
+    'allauth',
+    'allauth.account',
     'captcha',
     'kombu.transport.django',
     'bootstrapform',
-    'crispy_forms',
-    'floppyforms',
+    'bootstrap3',
     'billing',
     'paypal.standard',
     'paypal.pro',
     'paypal.standard.pdt',
     'paypal.standard.ipn',
-    'prompt_toolkit',
+
 
     #apps
     'apps.home',
-    'apps.accounts',
     'apps.project',
     'apps.processing',
 )
 
-#For django-crispy-froms
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 #login session expiry
 SESSION_COOKIE_AGE = 15 * 60
@@ -72,35 +71,41 @@ SESSION_COOKIE_AGE = 15 * 60
 SITE_ID = 1
 
 
-# django-captcha
-CAPTCHA_LENGTH = 6
-#CAPTCHA_WORDS_DICTIONARY = join(BASE_DIR, 'static') + 'words'
+# allauth
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # Required by allauth template tags
+    "django.core.context_processors.request",
+    "django.core.context_processors.csrf",
+    "django.contrib.auth.context_processors.auth",
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+)
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
-# django-passwords
-PASSWORD_MIN_LENGTH = 8
-PASSWORD_COMPLEXITY = {
-    # You can ommit any or all of these for no limit for that particular set
-    "UPPER": 1,       # Uppercase
-    "LOWER": 1,       # Lowercase
-    "DIGITS": 1,      # Digits
-    #"NON ASCII": 1,   # Non Ascii (ord() >= 128)
-    "PUNCTUATION": 1, # Punctuation (string.punctuation)
-}
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[AGIS] "
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-
-# django-registration
-ACCOUNT_ACTIVATION_DAYS = 3
+ACCOUNT_SIGNUP_FORM_CLASS = 'apps.accounts.forms.SignupForm'
+ACCOUNT_ADAPTER = "apps.accounts.adapter.CustomAccountAdapter"
 
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'pearl.urls'
@@ -108,14 +113,9 @@ ROOT_URLCONF = 'pearl.urls'
 WSGI_APPLICATION = 'pearl.wsgi.application'
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
-
-USE_I18N = True
 
 USE_L10N = True
 
@@ -155,6 +155,7 @@ ADMINS = (
 # payment settings
 VCF_COST = 25.00
 FASTQ_COST = 150.00
+
 
 
 LOGGING = {
@@ -203,3 +204,12 @@ LOGGING = {
         }
     }
 }
+
+
+# django recaptcha
+NORECAPTCHA_SITE_KEY = '6LdXoAITAAAAAAniBwAnUMHudBTYwA-p7acuNuCa'
+NORECAPTCHA_SECRET_KEY = '6LdXoAITAAAAAHs3RvuFN5MokpBsVsvFxLZC8qUF'
+
+
+# django crispy_forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

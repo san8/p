@@ -1,13 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-
 from paypal.standard.ipn.models import PayPalIPN
-from paypal.standard.ipn.signals import (payment_was_successful,
-                                         payment_was_flagged)
-
-#listener must be invoked before sending a signal
-from .signals import user_registered_callback
+from paypal.standard.ipn.signals import payment_was_successful
 
 
 class Customer(models.Model):
@@ -15,14 +10,14 @@ class Customer(models.Model):
     Store customer details.
     """
     user = models.ForeignKey(User, related_name='customer_to_user')
-    name = models.CharField(max_length=50, blank=True)
+    salutation = models.CharField(max_length=10, blank=True)
     company = models.CharField(max_length=50, blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
     timezone = models.CharField(max_length=50, default='', blank=True)
     balance = models.FloatField(default=0.0)
 
     def __unicode__(self):
-        return self.name # pragma: no cover
+        return self.user.email  # pragma: no cover
 
 
 class Payment(models.Model):
@@ -51,5 +46,5 @@ class Discount(models.Model):
     fastq = models.FloatField(default=0.0)
     vcf = models.FloatField(default=0.0)
 
-    def __str__(self):
-        return self.user.username
+    def __unicode__(self):
+        return self.user.username  # pragma: no cover

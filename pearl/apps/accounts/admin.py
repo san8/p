@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Customer, Payment, Discount
+
+from . import models
 
 
-admin.site.register(Customer)
-admin.site.register(Payment)
-admin.site.register(Discount)
+admin.site.register(models.Customer)
+admin.site.register(models.Payment)
+admin.site.register(models.Discount)
