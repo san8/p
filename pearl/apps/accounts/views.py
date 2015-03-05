@@ -1,32 +1,38 @@
-import pytz
-
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.shortcuts import render, redirect
-from django.views.generic.base import View
+from django.shortcuts import redirect, render
 from django.template.response import TemplateResponse
+from django.views.decorators.http import require_http_methods
+from pytz import common_timezones
 
 from .models import Customer
 
 
-class ProfileView(View):
-    def get(self, request):
+@login_required
+@require_http_methods(['GET', 'POST'])
+def account_profile(request):
+    """
+    profile view for users.
+    """
+    if request.method == 'GET':
         customer_id = request.user.id
         user = Customer.objects.get(user_id=customer_id)
         return render(request, 'accounts/profile.html',
-                      {'timezones': pytz.common_timezones,
+                      {'timezones': common_timezones,
                        'user_timezone': user.timezone,
-                       'balance': "{0:.2f}".format(user.balance),})
+                       'balance': "{0:.2f}".format(user.balance)})
 
-    def post(self, request):
+    if request.method == 'POST':
         customer_id = request.user.id
         instance = Customer.objects.get(user_id=customer_id)
         instance.timezone = request.POST['timezone']
         instance.save()
         request.session['django_timezone'] = request.POST['timezone']
-        return redirect(reverse("account:account_profile"))
+        return redirect(reverse("account_profile"))
 
 
-def PaymentSuccessView(request):
+@login_required
+def payment_success_view(request):
     """
     View to show that payment is successful.
     """
@@ -34,7 +40,8 @@ def PaymentSuccessView(request):
     return TemplateResponse(request, template_name)
 
 
-def PaymentCancelView(request):
+@login_required
+def payment_cancel_view(request):
     """
     View to show that payment is cancelled.
     """
@@ -42,7 +49,8 @@ def PaymentCancelView(request):
     return TemplateResponse(request, template_name)
 
 
-def InsufficientBalanceView(request):
+@login_required
+def insufficient_balance_view(request):
     """
     View to show insufficient balance.
     """

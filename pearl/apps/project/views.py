@@ -1,15 +1,16 @@
 import json
-from os.path import join
+import os
 
-from .forms import NewProjectForm, StartProcessingForm
-from .models import MeshDiseases, MeshTissues, NewProject, STATUS_CODES
-
-from apps.accounts.models import Customer, Discount
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import HttpResponse, redirect
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
+
+
+from .forms import NewProjectForm, StartProcessingForm
+from .models import MeshDiseases, MeshTissues, NewProject, STATUS_CODES
+from apps.accounts.models import Customer, Discount
 from pearl.settings.base import NEW_PROJECT_URL
 
 
@@ -28,7 +29,7 @@ class NewProjectFormView(FormView):
         file_type = form.cleaned_data['file_type']
         if deduct_balance(user.id, file_type):
             instance.save()
-            project_started(user.username, form.cleaned_data['name'])
+            # project_started(user.username, form.cleaned_data['name'])
             return super(NewProjectFormView, self).form_valid(form)
         else:
             return redirect("/account/insufficient-balance/")
@@ -129,9 +130,9 @@ class QcReportView(FormView):
             from .tasks import fastq_qc_plus
             context['qc_data'] = (fastq_qc_plus(project_id))
             vcf = 'ctog' + str(project_id).zfill(6) + '.vcf'
-            context['vcf_link'] = join(NEW_PROJECT_URL, str(project_id), vcf)
+            context['vcf_link'] = os.path.join(NEW_PROJECT_URL, str(project_id), vcf)
             csv = 'ctog' + str(project_id).zfill(6) + '_report' + '.csv'
-            context['csv_link'] = join(NEW_PROJECT_URL, str(project_id), csv)
+            context['csv_link'] = os.path.join(NEW_PROJECT_URL, str(project_id), csv)
 
         return context
 
@@ -149,9 +150,6 @@ def api(request, item, query):
     """
     Auto complete function for mesh tissues, diseases.
     """
-    response_data = {}
-    response_data['item'] = item
-    response_data['query'] = query
     databases = {'tissues': MeshTissues, 'diseases': MeshDiseases}
     results = databases[item].objects.filter(
         descriptornamestring__icontains=query)[:10]
