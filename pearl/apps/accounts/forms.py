@@ -1,4 +1,4 @@
- # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
 # third party packages
@@ -28,7 +28,6 @@ class SignupForm(forms.Form):
                                   widget=forms.TextInput(
                                       attrs={'placeholder': 'Institution'}))
     captcha = NoReCaptchaField(gtag_attrs={'data-theme': 'light'})
-
 
     def signup(self, request, user):
         user.first_name = self.cleaned_data['first_name']

@@ -14,6 +14,7 @@ pay_pal = get_integration("pay_pal")
 urlpatterns = patterns(
     '',
 
+    url(r'^500/$', 'django.views.defaults.server_error'),
     url(r'^paypal-ipn-handler/', include(pay_pal.urls)),
     url(r'^home/', include('apps.home.urls', namespace='home')),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',

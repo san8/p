@@ -28,9 +28,9 @@ def processing(project_id, file_type):
     Route tasks according to their file type.
     """
     if file_type == 'fastq':
-        fastq_processing.apply_async(args=[project_id,], queue='proc_fastq')
+        fastq_processing.apply_async(args=[project_id], queue='proc_fastq')
     elif file_type == 'vcf':
-        vcf_processing.apply_async(args=[project_id,], queue='proc_vcf')
+        vcf_processing.apply_async(args=[project_id], queue='proc_vcf')
     return True
 
 
@@ -43,10 +43,10 @@ def fastq_processing(project_id):
     project_dir = os.path.join(NEW_PROJECT_DIR, str(project_id))
     file_name = str(project_id)
     fq_files = [os.path.join(project_dir, f) for f in os.listdir(project_dir)
-                 if f[-6:] == '.fastq']
+                if f[-6:] == '.fastq']
     if len(fq_files) == 2:
         command = "workflow.pl -1 " + fq_files[0] + " -2 " + fq_files[1] + \
-                   " -o " +  project_dir + " -p " + file_name + " -t " + time_zone
+                  " -o " + project_dir + " -p " + file_name + " -t " + time_zone
     if len(fq_files) == 1:
         command = "workflow.pl -u " + fq_files[0] + " -o " + project_dir + \
                   " -p " + file_name + " -t " + time_zone
@@ -64,7 +64,7 @@ def vcf_processing(project_id):
     file_name = str(project_id)
     project_dir = os.path.join(NEW_PROJECT_DIR, str(project_id))
     vcf_file = [os.path.join(project_dir, f) for f in os.listdir(project_dir)
-                  if f[-4:] == '.vcf']
+                if f[-4:] == '.vcf']
     command = "workflow.pl -v " + vcf_file[0] + ' -o ' + project_dir + \
               " -p " + file_name + " -t " + time_zone
     subprocess.call(command, shell=True)

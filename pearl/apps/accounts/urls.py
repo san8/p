@@ -17,6 +17,4 @@ urlpatterns = patterns(
         name='payment-cancel'),
     url(r'^insufficient-balance/$', views.insufficient_balance_view,
         name='insufficient_balance'),
-    url(r'^validate_recaptcha/(?P<response_token>\w+)', views.validate_recaptcha,
-        name='validate_recaptcha')
 )

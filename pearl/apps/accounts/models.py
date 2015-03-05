@@ -4,6 +4,8 @@ from django.dispatch import receiver
 from paypal.standard.ipn.models import PayPalIPN
 from paypal.standard.ipn.signals import payment_was_successful
 
+from .signals import send_notification_mail
+
 
 class Customer(models.Model):
     """

@@ -14,6 +14,7 @@ STATICFILES_DIRS = (
 )
 
 TEMPLATE_DIRS = (
+    join(BASE_DIR, 'templates/'),
     join(BASE_DIR, 'apps/home/templates/'),
     join(BASE_DIR, 'apps/accounts/templates/'),
     join(BASE_DIR, 'apps/accounts/templates/registration'),
@@ -42,12 +43,9 @@ INSTALLED_APPS = (
 
     'apps.accounts',
 
-    # django packages
-    # 'sslserver',
     'south',
     'allauth',
     'allauth.account',
-    'captcha',
     'kombu.transport.django',
     'bootstrapform',
     'bootstrap3',
@@ -57,15 +55,15 @@ INSTALLED_APPS = (
     'paypal.standard.pdt',
     'paypal.standard.ipn',
 
-
-    #apps
+    # apps
+    'apps.base',
     'apps.home',
     'apps.project',
     'apps.processing',
 )
 
 
-#login session expiry
+# login session expiry
 SESSION_COOKIE_AGE = 15 * 60
 
 SITE_ID = 1
@@ -155,55 +153,6 @@ ADMINS = (
 # payment settings
 VCF_COST = 25.00
 FASTQ_COST = 150.00
-
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
-        },
-        'temp': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'temp.log',
-        }
-
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins', ],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['file', ],
-        },
-        'apps': {
-            'level': 'DEBUG',
-            'handlers': ['temp', ],
-        }
-    }
-}
 
 
 # django recaptcha
