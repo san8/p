@@ -4,7 +4,7 @@ Additional settings for Production Environment.
 
 import os
 
-from .base import *
+from .base import *  # noqa
 
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
@@ -12,7 +12,7 @@ DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['0.0.0.0',]
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 DATABASES = {

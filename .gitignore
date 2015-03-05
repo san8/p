@@ -80,3 +80,8 @@ docs/_build/
 # PyBuilder
 target/
 
+pearl/fabfile.py
+*.patch
+queries.sql
+reports/
+supervisord.conf

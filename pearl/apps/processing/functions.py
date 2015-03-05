@@ -14,6 +14,7 @@ def cd(path):
     """
     old_dir = getcwd()
     chdir(path)
-    try: yield
-    finally: chdir(old_dir)
- 
+    try:
+        yield
+    finally:
+        chdir(old_dir)

@@ -77,7 +77,7 @@ class MeshTissues(models.Model):
     descriptornamestring = models.CharField(max_length=41, blank=True)
 
     class Meta:
-       managed = False
+        managed = False
 
     def __unicode__(self):
         return self.descriptornamestring
@@ -91,7 +91,7 @@ class MeshDiseases(models.Model):
     descriptornamestring = models.CharField(max_length=100, blank=True)
 
     class Meta:
-       managed = False
+        managed = False
 
     def __unicode__(self):
         return self.descriptornamestring

@@ -1,0 +1,83 @@
+{% extends "home/base.html" %}
+{% load bootstrap %}
+{% load bootstrap3 %}
+
+{% block js_files %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+  <form action="" method="post" class="form">
+    {% csrf_token %}
+    {{form|bootstrap}}
+
+
+    <div class="g-recaptcha" data-sitekey="6LdXoAITAAAAAAniBwAnUMHudBTYwA-p7acuNuCa"></div>
+    <div id="captcha-status"></div>
+
+    {% buttons %}
+     <button class="btn btn-primary" type="submit">
+      Submit
+    </button>
+    {% endbuttons %}
+  </form>
+
+
+{% endblock %}
+
+
+{% block css %}
+
+  <style type="text/css">
+
+   label.control-label:after {
+     content: ": ";
+   }
+
+   .g-recaptcha {
+     width: 250px;
+   }
+
+  </style>
+{% endblock %}
+
+
+{% block js %}
+  <script type="text/javascript">
+   /*    $("label[for='id_captcha']").hide(); */
+
+   /* $('form').submit(function(e) {
+      e.preventDefault();
+      console.log('validate_recaptcha');
+      validateCaptcha();
+
+      });
+
+      function validateCaptcha() {
+      //var token = $('input#id_email').val();
+      //var token = $('input#recaptcha-token').val();
+      var token = $('iframe').contents().find('input');
+      console.log('token is: ');
+      console.log(token);
+
+      $.ajax({
+      url: "http://127.0.0.1:8000/account/validate_recaptcha/" + token,
+      type: "GET",
+      success: function(data) {
+      if(data=='success') {
+      console.log('correct captcha');
+      } else {
+      console.log(data);
+      // $("#captcha-status").text("<p class="red bold">The security code you entered did not match. Please try again.</p>");
+      $("#captcha-status").text("The security code you entered did not match. Please try again.");
+      }
+      }
+      });
+      }
+    */
+
+  </script>
+{% endblock %}
