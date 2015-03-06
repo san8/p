@@ -1,10 +1,10 @@
 from django import forms
 
-from .models import (NewProject, VCF_UPLOAD_CHOICES, FILE_TYPE_CHOICES,
+from .models import (Project, VCF_UPLOAD_CHOICES, FILE_TYPE_CHOICES,
                      NUMBER_OF_FASTQ, PROCESSING_CHOICES)
 
 
-class NewProjectForm(forms.ModelForm):
+class ProjectForm(forms.ModelForm):
 
     file_type = forms.ChoiceField(choices=FILE_TYPE_CHOICES,
                                   widget=forms.RadioSelect,)
@@ -17,7 +17,7 @@ class NewProjectForm(forms.ModelForm):
     vcf_file = forms.FileField(required=False)
 
     class Meta:
-        model = NewProject
+        model = Project
         fields = ['name', 'description', 'file_type',
                   'total_fastq_files', 'fastq_file1',
                   'fastq_file2', 'vcf_upload_type', 'vcf_file',
@@ -26,7 +26,7 @@ class NewProjectForm(forms.ModelForm):
     def clean_disease(self):
         disease = self.cleaned_data['disease']
         from .models import MeshDiseases
-        if not MeshDiseases.objects.filter(
+        if disease and not MeshDiseases.objects.filter(
                 descriptornamestring=disease).exists():
             raise forms.ValidationError(
                 "Please select standard disease from MeSH drop down.")
@@ -39,5 +39,5 @@ class StartProcessingForm(forms.ModelForm):
         widget=forms.RadioSelect, coerce=int, required=True,)
 
     class Meta:
-        model = NewProject
+        model = Project
         fields = ['start_processing']

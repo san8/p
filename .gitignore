@@ -85,3 +85,4 @@ pearl/fabfile.py
 queries.sql
 reports/
 supervisord.conf
+*.sql

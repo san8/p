@@ -17,7 +17,7 @@ from django.db import connection
 
 from apps.processing.tasks import processing
 from pearl.celery_conf import app as celery_app
-from pearl.settings.base import BASE_DIR, NEW_PROJECT_DIR
+from pearl.settings.base import BASE_DIR, PROJECTS_DIR
 
 
 logger = logging.getLogger(__name__)
@@ -51,13 +51,13 @@ def ftp_qc(project_id):
     """
     Fectch project files, do_qc  & update project status.
     """
-    from .models import NewProject
+    from .models import Project
     connection.close()
-    project = NewProject.objects.get(id=project_id)
+    project = Project.objects.get(id=project_id)
     url_list = filter(None, [project.fastq_file1, project.fastq_file2,
                              project.vcf_file1])
     print(url_list)
-    local_dir = join(NEW_PROJECT_DIR, str(project_id))
+    local_dir = join(PROJECTS_DIR, str(project_id))
     os.mkdir(local_dir)
     os.chmod(local_dir, 0777)
     try:
@@ -109,18 +109,18 @@ def update_status(project_id, status):
     """
     Change status of given project.
     """
-    from apps.project.models import NewProject
+    from apps.project.models import Project
     connection.close()
-    project = NewProject.objects.get(id=project_id)
+    project = Project.objects.get(id=project_id)
     project.status = status
     project.save()
     return status
 
 
 def status(project_id):
-    from apps.project.models import NewProject
+    from apps.project.models import Project
     connection.close()
-    project = NewProject.objects.get(id=project_id)
+    project = Project.objects.get(id=project_id)
     return project.status
 
 
@@ -163,7 +163,7 @@ def do_qc(project_id, file_type):
     """
     Uzip user files and start quality control.
     """
-    project_dir = join(NEW_PROJECT_DIR, str(project_id))
+    project_dir = join(PROJECTS_DIR, str(project_id))
     if file_type == 'fastq':
         fastq_qc(project_dir)
         fastq_qc_plus(project_dir)
@@ -204,7 +204,7 @@ def fastq_qc_plus(project_id):
     Parse FASTQC results & get base statistics, sequence quality,
     length distribution, adapter content
     """
-    project_dir = join(NEW_PROJECT_DIR, str(project_id))
+    project_dir = join(PROJECTS_DIR, str(project_id))
     with cd(project_dir):
         qc_data = []
         for root, dirs, files in os.walk(project_dir):

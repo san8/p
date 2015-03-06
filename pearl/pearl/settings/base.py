@@ -27,8 +27,9 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-NEW_PROJECT_DIR = join(MEDIA_ROOT, 'NewProject/')
-NEW_PROJECT_URL = join(MEDIA_URL, 'NewProject/')
+PROJECTS_PATH = 'projects/'
+PROJECTS_DIR = join(MEDIA_ROOT, 'projects/')
+PROJECTS_URL = join(MEDIA_URL, PROJECTS_PATH)
 
 
 # Application definition
@@ -43,10 +44,8 @@ INSTALLED_APPS = (
 
     'apps.accounts',
 
-    'south',
     'allauth',
     'allauth.account',
-    'kombu.transport.django',
     'bootstrapform',
     'bootstrap3',
     'billing',
@@ -123,29 +122,29 @@ ANONYMOUS_USER_ID = -1
 
 
 # django-paypal
-PAYPAL_WPP_USER = os.environ.get('PAYPAL_WPP_USER')
-PAYPAL_WPP_PASSWORD = os.environ.get('PAYPAL_WPP_PASSWORD')
-PAYPAL_WPP_SIGNATURE = os.environ.get('PAYPAL_WPP_SIGNATURE')
-PAYPAL_RECEIVER_EMAIL = os.environ.get('PAYPAL_RECEIVER_EMAIL')
+PAYPAL_WPP_USER = os.environ.get('PAYPAL_WPP_USER', None)
+PAYPAL_WPP_PASSWORD = os.environ.get('PAYPAL_WPP_PASSWORD', None)
+PAYPAL_WPP_SIGNATURE = os.environ.get('PAYPAL_WPP_SIGNATURE', None)
+PAYPAL_RECEIVER_EMAIL = os.environ.get('PAYPAL_RECEIVER_EMAIL', None)
 
 
 # django merchant
-MERCHANT_TEST_MODE = os.environ.get('MERCHANT_TEST_MODE')
+MERCHANT_TEST_MODE = os.environ.get('MERCHANT_TEST_MODE', None)
 PAYPAL_TEST = MERCHANT_TEST_MODE
 MERCHANT_SETTINGS = {
     "pay_pal": {
-        'WPP_USER': os.environ.get('WPP_USER'),
-        'WPP_PASSWORD': os.environ.get('WPP_PASSWORD'),
-        'WPP_SIGNATURE': os.environ.get('WPP_SIGNATURE'),
-        'RECEIVER_EMAIL': os.environ.get('RECEIVER_EMAIL'),
+        'WPP_USER': os.environ.get('WPP_USER', None),
+        'WPP_PASSWORD': os.environ.get('WPP_PASSWORD', None),
+        'WPP_SIGNATURE': os.environ.get('WPP_SIGNATURE', None),
+        'RECEIVER_EMAIL': os.environ.get('RECEIVER_EMAIL', None),
     }
 }
-PAYPAL_IDENTITY_TOKEN = os.environ.get('PAYPAL_IDENTITY_TOKEN')
+PAYPAL_IDENTITY_TOKEN = os.environ.get('PAYPAL_IDENTITY_TOKEN', None)
 
 
 # admins
 ADMINS = (
-    (os.environ.get('ADMIN_NAME'), os.environ.get('ADMIN_EMAIL'))
+    (os.environ.get('ADMIN_NAME', None), os.environ.get('ADMIN_EMAIL', None)),
 )
 
 

@@ -59,13 +59,13 @@
             {% if user.is_authenticated %}
               <ul class="nav navbar-nav">
                 <li><a href="{% url 'project:project_dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'project:project_new' %}">New Project</a></li>
+                <li><a href="{% url 'project:project_new' %}">Create Project</a></li>
               </ul>
             {% endif %}
 
             <ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
-                <li><a href="{% url 'account_profile' %}">Hi, {{ user.username | capfirst }}</a></li>
+                <li><a href="{% url 'account_profile' %}">Hi, {{ user.first_name | capfirst }}</a></li>
                 <!-- <li><a href="{% url 'home:home_faq' %}">FAQ</a></li>  -->
                 <li><a href="/accounts/logout/">Sign Out</a></li>
               {% else %}

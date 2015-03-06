@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h3>Welcome, {{ user | title }}</h3>
+<h3>Welcome, {{ user.first_name | title }}</h3>
 <br />
 {% if user_timezone %}
 Your time zone is <span class="text-primary"> {{ user_timezone }} </span>

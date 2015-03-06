@@ -4,19 +4,12 @@
 
 {% block title %} Review Quality {% endblock title %}
 
-{% block js %}
-<script>
-  (function(){
-    $('.radio').css('display', 'inline-block');
-  })();
-</script>
-{% endblock js %}
-
 
 {% block content %}
 
 {% if project.status == 5 %}
   <h4>Uploading files. Please wait...</h4>
+
 {% elif project.status == -6 %}
   <h4>Unable to upload files </h4>
 
@@ -39,14 +32,23 @@
   <h4>Unable to process files.</h4>
 
 {% elif project.status == 25 %}
+
   <h3>Report</h3>
   <a href="{{ csv_link }}">Download Variant Annotation File.</a><br />
   {% if project.file_type == 'fastq' %}
     <a href="{{ vcf_link }}">Download Variant Calling File.</a><br />
-  {% if project.file_type == 'fastq' %}
     {% include 'project/2.html' %}
   {% endif %}
 
 {% endif %}
 
-{% endblock content %}
+{% endblock %}
+
+
+{% block js %}
+<script>
+  (function(){
+    $('.radio').css('display', 'inline-block');
+  })();
+</script>
+{% endblock js %}

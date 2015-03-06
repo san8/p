@@ -7,7 +7,7 @@ from . import views
 urlpatterns = patterns(
     '',
 
-    url(r'^new/$', login_required(views.NewProjectFormView.as_view()),
+    url(r'^new/$', login_required(views.ProjectFormView.as_view()),
         name='project_new'),
     url(r'^dashboard/$', login_required(views.DashboardView.as_view()),
         name='project_dashboard'),

@@ -36,8 +36,5 @@ class SignupForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
-
-        current_order = self.fields.keyOrder
-        self.fields.keyOrder = ['email', 'password1', 'password2'] + \
-                               [field for field in current_order
-                                if field not in ('email', 'password1', 'password2')]
+        captcha_field = self.fields.pop('captcha')
+        self.fields['captcha'] = captcha_field

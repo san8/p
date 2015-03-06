@@ -14,5 +14,5 @@ class TestServices(TestCase):
         message = 'message'
         from_mail = settings.DEFAULT_FROM_EMAIL
         to_mails = settings.DEFAULT_TO_EMAIL
-        send_mail(subject, message, from_mail, [to_mails])
+        send_mail(subject, message, from_mail, to_mails)
         self.assertEqual(subject, mail.outbox[0].subject)

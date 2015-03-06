@@ -4,6 +4,7 @@ Models for Project App.
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.conf import settings
 
 
 STATUS_CODES = ((5, 'Uploading Files.'),
@@ -28,24 +29,24 @@ PROCESSING_CHOICES = ((1, 'Yes'),
                       (0, 'No'))
 
 
-class NewProject(models.Model):
-    customer = models.ForeignKey(User, related_name='original_customer_id')
+class Project(models.Model):
+    user = models.ForeignKey(User, related_name='projects')
     name = models.CharField(max_length=100, verbose_name='Project Name')
-    description = models.CharField(max_length=100, blank=True,
+    description = models.CharField(max_length=100, blank=True, null=True,
                                    verbose_name="Project Description")
     file_type = models.CharField(max_length=10)
     total_fastq_files = models.SmallIntegerField(default=1,
-                                                 blank=True,)
-    fastq_file1 = models.CharField(max_length=200, blank=True)
-    fastq_file2 = models.CharField(max_length=200, blank=True)
+                                                 blank=True)
+    fastq_file1 = models.CharField(max_length=200, blank=True, null=True)
+    fastq_file2 = models.CharField(max_length=200, blank=True, null=True)
     vcf_upload_type = models.SmallIntegerField(blank=True, default=3)
     vcf_file1 = models.CharField(max_length=200, blank=True)
-    vcf_file = models.FileField(upload_to='NewProject/',
-                                default='')
-    paired_end_distance = models.IntegerField(blank=True, null=True)
-    tissue = models.CharField(max_length=100, default='', blank=True,
+    vcf_file = models.FileField(upload_to=settings.PROJECTS_PATH,
+                                blank=True)
+    paired_end_distance = models.IntegerField(blank=True, default=0)
+    tissue = models.CharField(max_length=100, blank=True, null=True,
                               verbose_name='Tissue (Coming Soon)')
-    disease = models.CharField(max_length=100, default='', blank=True,
+    disease = models.CharField(max_length=100, blank=True, null=True,
                                verbose_name='Disease',
                                help_text='''
     <a href="http://www.nlm.nih.gov/mesh/MBrowser.html" target="_blank">
@@ -64,7 +65,7 @@ class NewProject(models.Model):
         get_latest_by = "id"
 
     def save(self, *args, **kwargs):
-        super(NewProject, self).save(*args, **kwargs)
+        super(Project, self).save(*args, **kwargs)
         from apps.project.tasks import project_queue
         project_queue.apply_async(args=[self.pk, self.status, self.file_type],)
 

@@ -1,14 +1,14 @@
 from django.test import TestCase
 from factory import Factory
 
-from ..models import NewProject
+from ..models import Project
 
 
 class NewProjectFactory(Factory):
     class Meta:
-        model = NewProject
+        model = Project
 
-    customer_id = 64
+    user_id = 64
     name = 'test project'
     description = 'asdf asdfjlas dflas dflas df'
     file_type = 'fastq'
@@ -21,5 +21,5 @@ class ProjectModelsTestCase(TestCase):
 
     def test_NewProject_creation(self):
         n = NewProjectFactory()
-        self.assertTrue(isinstance(n, NewProject))
+        self.assertTrue(isinstance(n, Project))
         self.assertEqual(n.__unicode__(), n.name)

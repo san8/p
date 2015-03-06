@@ -15,16 +15,16 @@ def account_profile(request):
     profile view for users.
     """
     if request.method == 'GET':
-        customer_id = request.user.id
-        user = Customer.objects.get(user_id=customer_id)
+        user = request.user
+        customer = Customer.objects.get(user=user)
         return render(request, 'accounts/profile.html',
                       {'timezones': common_timezones,
-                       'user_timezone': user.timezone,
-                       'balance': "{0:.2f}".format(user.balance)})
+                       'user_timezone': customer.timezone,
+                       'balance': "{0:.2f}".format(customer.balance)})
 
     if request.method == 'POST':
-        customer_id = request.user.id
-        instance = Customer.objects.get(user_id=customer_id)
+        user = request.user
+        instance = Customer.objects.get(user=user)
         instance.timezone = request.POST['timezone']
         instance.save()
         request.session['django_timezone'] = request.POST['timezone']

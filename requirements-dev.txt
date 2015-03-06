@@ -9,7 +9,7 @@ django-extensions==1.5.0
 django-debug-toolbar==1.2.1
 django-jenkins==0.16.4
 django-production-ready==0.0.2a0
-
+ipython==3.0.0
 
 
 # testing
@@ -25,11 +25,8 @@ factory-boy==2.4.1
 mock==1.0.1
 
 
-
 # ide - emacs
 importmagic==0.1.3
 jedi==0.8.1-final0
 pep8==1.5.7
 rope==0.10.2
-
-
