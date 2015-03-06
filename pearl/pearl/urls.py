@@ -4,13 +4,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 
+from pearl.settings.base import MEDIA_URL, MEDIA_ROOT
+from apps.home.views import HomeView, ErrorView
 from apps.accounts.views import account_profile
-from apps.home.views import HomeView
-from pearl.settings.base import MEDIA_ROOT, MEDIA_URL
 
 
 admin.autodiscover()
 pay_pal = get_integration("pay_pal")
+
 urlpatterns = patterns(
     '',
 
@@ -26,5 +27,4 @@ urlpatterns = patterns(
     url(r'^project/', (include('apps.project.urls', namespace='project'))),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', HomeView.as_view()),
-
 ) + static(MEDIA_URL, document_root=MEDIA_ROOT)
