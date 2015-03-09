@@ -93,7 +93,7 @@ def get_timezone(project_id):
     from apps.project.models import Project
     from apps.accounts.models import Customer
     connection.close()
-    user_id = Project.objects.get(id=project_id).customer_id
+    user_id = Project.objects.get(id=project_id).user_id
     time_zone = Customer.objects.get(user_id=user_id).timezone
     if not time_zone:
         return 'UTC'
