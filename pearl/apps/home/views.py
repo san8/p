@@ -7,7 +7,3 @@ class HomeView(TemplateView):
 
 class FAQView(TemplateView):
     template_name = 'home/faq.html'
-
-
-class ErrorView(TemplateView):
-    template_name = 'home/500.html'

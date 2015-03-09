@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 
 from pearl.settings.base import MEDIA_URL, MEDIA_ROOT
-from apps.home.views import HomeView, ErrorView
+from apps.home.views import HomeView
 from apps.accounts.views import account_profile
 
 
