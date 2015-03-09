@@ -1,6 +1,7 @@
 """
 Models for Project App.
 """
+import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -54,8 +55,10 @@ class Project(models.Model):
     </a>''')
     status = models.IntegerField(choices=STATUS_CODES, default=5)
     start_processing = models.BooleanField(default=False, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      default=datetime.datetime.now)
+    updated_at = models.DateTimeField(auto_now=True,
+                                      default=datetime.datetime.now)
 
     def __unicode__(self):
         return self.name    # pragma: no cover
