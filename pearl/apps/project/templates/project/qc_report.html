@@ -31,8 +31,13 @@
   {% endif %}
   <h4>Unable to process files.</h4>
 
-{% elif project.status == 25 %}
+{% elif project.status == 22 %}
+  {% if project.file_type == 'fastq' %}
+    {% include 'project/2.html' %}
+  {% endif %}
+  <h4>Processing Validation.</h4>
 
+{% elif project.status == 25 %}
   <h3>Report</h3>
   <a href="{{ csv_link }}">Download Variant Annotation File.</a><br />
   {% if project.file_type == 'fastq' %}

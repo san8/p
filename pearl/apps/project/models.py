@@ -15,6 +15,7 @@ STATUS_CODES = ((5, 'Uploading Files.'),
                 (15, 'Review Quality.'),
                 (20, 'Processing the files.'),
                 (-21, 'Unable to process files.'),
+                (22, 'Processing Validation.'),
                 (25, 'Read Report.'),)
 
 FILE_TYPE_CHOICES = (('fastq', 'FASTQ'),
