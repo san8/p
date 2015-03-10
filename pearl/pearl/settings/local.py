@@ -18,19 +18,39 @@ INSTALLED_APPS += (
     'debug_toolbar',
     'django_extensions',
     'django_jenkins',
+    'djcelery_email',
 )
 
 
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+CELERY_EMAIL_TASK_CONFIG = {
+    'queue' : 'email',
+    'rate_limit' : '50/m',
+    'ignore_result': True,
+}
+
 # Database
 DATABASES = {
+
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pearl',
-        'USER': os.environ.get('DB_USER', ''),
-        'PASSWORD': os.environ.get('DB_PASS', ''),
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'USER': os.environ.get('DB_USER', None),
+        'PASSWORD': os.environ.get('DB_PASS', None),
+        'HOST':  os.environ.get('DB_HOST', None),
+        'PORT':  os.environ.get('DB_PORT', None),
+    },
+
+    'reports': {
+        'NAME': 'project_reports',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': os.environ.get('REPORTS_DB_USER', None),
+        'PASSWORD': os.environ.get('REPORTS_DB_PASS', None),
+        'HOST':  os.environ.get('REPORTS_DB_HOST', None),
+        'PORT':  os.environ.get('REPORTS_DB_PORT', None),
     }
+
 }
 
 EMAIL_HOST = os.environ.get('EMAIL_HOST', None)
