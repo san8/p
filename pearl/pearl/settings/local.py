@@ -14,21 +14,13 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
+
 INSTALLED_APPS += (
     'debug_toolbar',
     'django_extensions',
     'django_jenkins',
-    'djcelery_email',
 )
 
-
-EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
-
-CELERY_EMAIL_TASK_CONFIG = {
-    'queue' : 'email',
-    'rate_limit' : '50/m',
-    'ignore_result': True,
-}
 
 # Database
 DATABASES = {

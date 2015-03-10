@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'paypal.pro',
     'paypal.standard.pdt',
     'paypal.standard.ipn',
+    'djcelery_email',
 
     # apps
     'apps.base',
@@ -62,11 +63,19 @@ INSTALLED_APPS = (
 )
 
 
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+CELERY_EMAIL_TASK_CONFIG = {
+    'queue' : 'email',
+    'rate_limit' : '50/m',
+    'ignore_result': True,
+}
+
+
 # login session expiry
 SESSION_COOKIE_AGE = 15 * 60
 
 SITE_ID = 1
-
 
 # allauth
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -108,7 +117,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'pearl.urls'
 
 WSGI_APPLICATION = 'pearl.wsgi.application'
-
 
 LANGUAGE_CODE = 'en-us'
 
