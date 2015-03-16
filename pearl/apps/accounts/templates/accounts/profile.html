@@ -32,7 +32,7 @@ Your time zone is <span class="text-primary"> {{ user_timezone }} </span>
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
   <input type="hidden" name="business" value="accounts@leucinerichbio.com" id="id_business" />
   <input class="form-control" name="amount" id="id_amount" />
-  <input type="hidden" name="item_name" value="CtoG Reports" id="id_item_name" />
+  <input type="hidden" name="item_name" value="{{SITE_INFO.site_name}} Reports" id="id_item_name" />
   <input type="hidden" name="notify_url" value="http://ctog.leucinerichbio.com/paypal-ipn-handler/" id="id_notify_url" />
   <input type="hidden" name="cancel_return" value="http://ctog.leucinerichbio.com/payment-cancel/" id="id_cancel_return" />
   <input type="hidden" name="return" value="http://ctog.leucinerichbio.com/account/payment-success/" id="id_return_url" />

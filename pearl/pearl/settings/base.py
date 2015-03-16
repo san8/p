@@ -6,6 +6,18 @@ import os
 from os.path import join
 
 
+# Absolute Url of hosted site.
+# Used to render the urls in templattes, static and media files appropriately.
+SITE_URL = os.environ.get('SITE_URL', '').rstrip('/')
+
+# General project information
+# These are available in the template as SITE_INFO.<title>
+SITE_VARIABLES = {
+    'site_name': os.environ.get('SITE_NAME', ''),
+    'site_url': SITE_URL,
+}
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 # Static and media
@@ -86,6 +98,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     # allauth specific context processors
     "allauth.account.context_processors.account",
+    # custom context processor
+    "apps.base.context_processors.site_info",
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -99,7 +113,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "[AGIS] "
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[{}] ".format(SITE_VARIABLES['site_name'])
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ACCOUNT_SIGNUP_FORM_CLASS = 'apps.accounts.forms.SignupForm'
