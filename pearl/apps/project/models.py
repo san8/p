@@ -8,15 +8,26 @@ from django.db import models
 from django.conf import settings
 
 
-STATUS_CODES = ((5, 'Uploading Files.'),
-                (-6, 'Unable to upload files.'),
-                (-7, 'Failed at Unicode check.'),
-                (-11, 'Error at Quality check.'),
-                (15, 'Review Quality.'),
-                (20, 'Processing the files.'),
-                (-21, 'Unable to process files.'),
-                (22, 'Processing Validation.'),
-                (25, 'Read Report.'),)
+STATUS_CODES = (
+    (5, 'Processing the files.'),
+    (-6, 'Processing the files.'),
+    (-7, 'Processing the files.'),
+    (-11, 'Processing the files.'),
+    (15, 'Processing the files.'),
+    (20, 'Processing the files.'),
+    (22, 'Processing the files.'),
+    (25, 'Processing the files.'),
+)
+
+# STATUS_CODES = ((5, 'Uploading Files.'),
+#                 (-6, 'Unable to upload files.'),
+#                 (-7, 'Failed at Unicode check.'),
+#                 (-11, 'Error at Quality check.'),
+#                 (15, 'Review Quality.'),
+#                 (20, 'Processing the files.'),
+#                 (-21, 'Unable to process files.'),
+#                 (22, 'Processing Validation.'),
+#                 (25, 'Read Report.'),)
 
 FILE_TYPE_CHOICES = (('fastq', 'FASTQ'),
                      ('vcf', 'VCF'),)
