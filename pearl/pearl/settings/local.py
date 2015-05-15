@@ -52,7 +52,8 @@ SECURITY_EMAIL_SENDER = os.environ.get('SECURITY_EMAIL_SENDER', None)
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', None)
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', None)
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', None)
-DEFAULT_TO_EMAIL = [os.environ.get('DEFAULT_TO_EMAIL', None)]
+DEFAULT_TO_EMAIL = os.environ.get('DEFAULT_TO_EMAIL', None)
+ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', None)
 
 
 # jenkins

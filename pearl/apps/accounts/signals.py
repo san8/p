@@ -15,4 +15,4 @@ def send_notification_mail(request, user, **kwargs):
     """.format(user.username, user.email)
     send_mail(subject, message,
               settings.DEFAULT_FROM_EMAIL,
-              settings.DEFAULT_TO_EMAIL)
+              [settings.DEFAULT_TO_EMAIL, settings.ADMIN_EMAIL])
